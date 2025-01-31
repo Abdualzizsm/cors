@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Timer Bar -->
+<div class="timer-bar bg-danger text-white text-center py-2 sticky-top">
+    <div class="container">
+        <p class="mb-0">
+            <i class="fas fa-clock me-2"></i>
+            العرض ينتهي خلال: <span id="countdown" class="fw-bold">23:59:59</span>
+        </p>
+    </div>
+</div>
+
+<!-- Hero Section -->
+<section class="hero bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <span class="badge bg-danger mb-3">عرض خاص محدود!</span>
+                <h1 class="display-4 fw-bold mb-4">تعلّم البرمجة بالذكاء الاصطناعي من الصفر – بدون خبرة مسبقة!</h1>
+                <p class="lead mb-4">صمم موقعك، تطبيقك، أو بوت التلغرام بنفسك خلال وقت قياسي 🚀</p>
+                <div class="price-box bg-white text-dark p-4 rounded mb-4">
+                    <p class="text-muted mb-1"><del>السعر الأصلي: 999 ريال</del></p>
+                    <h2 class="text-primary mb-2">العرض الحالي: 499 ريال فقط!</h2>
+                    <p class="text-success mb-0">وفر 500 ريال (خصم 50%)</p>
+                </div>
+                <div class="cta-buttons">
+                    <a href="https://api.whatsapp.com/send?phone=966599514675&text=مرحباً، أريد الاستفسار عن دورة البرمجة" 
+                       class="btn btn-light btn-lg px-4 me-2 pulse-button">
+                        احجز مقعدك الآن
+                        <small class="d-block">قبل انتهاء العرض!</small>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <img src="{{ url_for('static', filename='images/logo.svg') }}" 
+                     alt="AI Programming Logo" 
+                     class="img-fluid hero-logo animated fadeIn">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Social Proof Section -->
+<section class="social-proof py-4 bg-light">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-4 mb-3">
+                <i class="fas fa-users fa-2x text-primary mb-2"></i>
+                <h4>+500 متدرب</h4>
+                <p class="text-muted">انضموا للدورة</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <i class="fas fa-star fa-2x text-warning mb-2"></i>
+                <h4>4.9/5 تقييم</h4>
+                <p class="text-muted">من المتدربين السابقين</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <i class="fas fa-project-diagram fa-2x text-success mb-2"></i>
+                <h4>+100 مشروع</h4>
+                <p class="text-muted">تم إنجازها</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Urgency Section -->
+<section class="urgency py-4 bg-warning text-dark">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-md-6">
+                <h3 class="mb-3">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    تحذير: المقاعد محدودة جداً!
+                </h3>
+                <div class="progress mb-2">
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: 85%">
+                        <span>85% من المقاعد محجوزة</span>
+                    </div>
+                </div>
+                <p class="text-danger mb-0">متبقي 5 مقاعد فقط!</p>
+            </div>
+            <div class="col-md-6">
+                <div class="last-registration">
+                    <p class="mb-2">
+                        <i class="fas fa-user-check me-2"></i>
+                        آخر تسجيل: قبل 3 دقائق
+                    </p>
+                    <p class="mb-0">
+                        <i class="fas fa-eye me-2"></i>
+                        15 شخص يشاهدون هذه الصفحة الآن
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">مميزات الدورة</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-brain fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">تعلم ذكي</h5>
+                        <p class="card-text">استخدام أحدث تقنيات الذكاء الاصطناعي في التعلم</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-project-diagram fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">مشاريع عملية</h5>
+                        <p class="card-text">تطبيق مباشر على مشاريع حقيقية</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-headset fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">دعم فني</h5>
+                        <p class="card-text">احصل على دعم فني لمدة شهر</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">الأسئلة الشائعة</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                هل أحتاج خبرة سابقة في البرمجة؟
+                            </button>
+                        </h3>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                لا، الدورة مصممة للمبتدئين تماماً. نبدأ من الصفر ونتدرج معك خطوة بخطوة.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
