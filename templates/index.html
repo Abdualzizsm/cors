@@ -13,51 +13,110 @@
         font-size: 1.2rem;
         line-height: 1.6;
     }
-    
-    /* تنسيقات للشاشات المتوسطة */
-    @media (max-width: 991px) {
-        .hero h1 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
+
+    /* تنسيقات خاصة للآيفون */
+    @supports (-webkit-touch-callout: none) {
+        /* تحسين التمرير والحركة */
+        .smooth-scroll {
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
         }
-        
+
+        /* تحسين عرض الأزرار للمس */
+        .btn {
+            min-height: 44px; /* الحد الأدنى الموصى به من Apple */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+        }
+
+        /* منع تحديد النص عند النقر */
+        .no-select {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        /* تحسين قراءة النصوص */
+        .hero h1 {
+            font-size: 1.8rem;
+            letter-spacing: -0.02em;
+        }
+
         .hero .lead {
             font-size: 1.1rem;
+            letter-spacing: -0.01em;
         }
-        
+
+        /* تحسين شكل صندوق السعر */
         .price-box {
-            padding: 1rem !important;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-    }
-    
-    /* تنسيقات للشاشات الصغيرة */
-    @media (max-width: 576px) {
-        .hero h1 {
-            font-size: 1.5rem;
-            margin-bottom: 0.8rem;
+
+        /* تحسين أزرار CTA */
+        .cta-buttons .btn {
+            width: 100%;
+            margin-bottom: 0.5rem;
+            border-radius: 10px;
+            padding: 0.8rem;
         }
-        
-        .hero .lead {
-            font-size: 1rem;
+
+        /* تحسين المسافات للشاشات الصغيرة */
+        @media (max-width: 428px) { /* حجم شاشة iPhone 13 Pro Max */
+            .container {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+
+            .hero {
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
+
+            .section {
+                padding-top: 2.5rem;
+                padding-bottom: 2.5rem;
+            }
+
+            /* تحسين حجم الخط في Timer Bar */
+            .timer-bar {
+                font-size: 0.9rem;
+                padding: 0.5rem 0;
+            }
+
+            /* تحسين العرض في الصفحة الرئيسية */
+            .features .card {
+                margin-bottom: 1rem;
+                border-radius: 12px;
+            }
+
+            .testimonials .card {
+                margin-bottom: 1rem;
+                border-radius: 12px;
+            }
         }
-        
-        .hero .btn-lg {
-            font-size: 0.9rem;
-            padding: 0.5rem 1rem !important;
-        }
-        
-        .price-box {
-            padding: 0.8rem !important;
-        }
-        
-        .price-box h2 {
-            font-size: 1.5rem;
+
+        /* تحسينات خاصة للـ iPhone Pro */
+        @media (max-width: 390px) { /* حجم شاشة iPhone 13/14 Pro */
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+
+            .hero .lead {
+                font-size: 1rem;
+            }
+
+            .price-box h2 {
+                font-size: 1.4rem;
+            }
         }
     }
 </style>
 
 <!-- Timer Bar -->
-<div class="timer-bar bg-danger text-white text-center py-2 sticky-top">
+<div class="timer-bar bg-danger text-white text-center py-2 sticky-top no-select">
     <div class="container">
         <p class="mb-0">
             <i class="fas fa-clock me-2"></i>
@@ -67,7 +126,7 @@
 </div>
 
 <!-- Hero Section -->
-<section class="hero bg-primary text-white py-4 py-lg-5">
+<section class="hero bg-primary text-white py-4 py-lg-5 no-select">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">
@@ -79,17 +138,12 @@
                     <h2 class="text-primary mb-2">العرض الحالي: 499 ريال فقط!</h2>
                     <p class="text-success mb-0">وفر 500 ريال! عرض محدود</p>
                 </div>
-                <div class="cta-buttons">
-                    <a href="#contact" class="btn btn-light btn-lg px-3 px-lg-4 me-2 pulse-button">
+                <div class="cta-buttons d-grid gap-2">
+                    <a href="#contact" class="btn btn-light btn-lg pulse-button">
                         <i class="fab fa-whatsapp text-success me-2"></i>
                         احجز مقعدك الآن
                         <small class="d-block">قبل انتهاء العرض!</small>
                     </a>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="hero-image-placeholder">
-                    <!-- تم إزالة اللوقو -->
                 </div>
             </div>
         </div>
@@ -97,31 +151,31 @@
 </section>
 
 <!-- Features Section -->
-<section class="features py-5">
+<section class="features py-4 py-lg-5 section no-select">
     <div class="container">
-        <h2 class="text-center mb-5">مميزات الكورس</h2>
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body text-center">
+        <h2 class="text-center mb-4">مميزات الكورس</h2>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
                         <i class="fas fa-brain fa-3x text-primary mb-3"></i>
                         <h5 class="card-title">تعلم ذكي</h5>
                         <p class="card-text">استخدام أحدث تقنيات الذكاء الاصطناعي في التعلم</p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body text-center">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
                         <i class="fas fa-project-diagram fa-3x text-primary mb-3"></i>
                         <h5 class="card-title">مشاريع عملية</h5>
                         <p class="card-text">تطبيق عملي على مشاريع حقيقية خلال الكورس</p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body text-center">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
                         <i class="fas fa-headset fa-3x text-primary mb-3"></i>
                         <h5 class="card-title">دعم فني</h5>
                         <p class="card-text">احصل على دعم فني لمدة شهر</p>
