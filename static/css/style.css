@@ -168,3 +168,36 @@ body {
         margin-top: 2rem;
     }
 }
+
+/* Navbar Brand Styles */
+.navbar-brand {
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.05);
+}
+
+.brand-text {
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.brand-separator {
+    color: #ffc107;
+    margin: 0 0.5rem;
+    font-weight: 300;
+}
+
+/* تأثير حركي للشعار */
+@keyframes glowEffect {
+    0% { text-shadow: 0 0 5px rgba(255,193,7,0.1); }
+    50% { text-shadow: 0 0 20px rgba(255,193,7,0.3); }
+    100% { text-shadow: 0 0 5px rgba(255,193,7,0.1); }
+}
+
+.navbar-brand:hover .brand-text {
+    animation: glowEffect 2s infinite;
+    color: #ffc107;
+}

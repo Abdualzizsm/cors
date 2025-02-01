@@ -127,6 +127,35 @@ function updateAvailableSeats() {
     }, 30000);
 }
 
+// Contact Form Handler
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            
+            // التحقق من صحة رقم الهاتف
+            if (!phone.match(/^05[0-9]{8}$/)) {
+                alert('الرجاء إدخال رقم جوال صحيح يبدأ بـ 05');
+                return;
+            }
+            
+            // تنسيق رقم الهاتف للواتساب
+            const formattedPhone = '966' + phone.substring(1);
+            
+            // إنشاء رسالة الواتساب
+            const message = `مرحباً، أنا ${name} وأرغب في الاستفسار عن كورس البرمجة`;
+            const whatsappUrl = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(message)}`;
+            
+            // فتح الواتساب
+            window.open(whatsappUrl, '_blank');
+        });
+    }
+});
+
 // Initialize all functions
 document.addEventListener('DOMContentLoaded', () => {
     startCountdown();
