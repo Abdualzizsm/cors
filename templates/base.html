@@ -23,6 +23,34 @@
                 <span class="brand-separator">|</span>
                 <span class="brand-text ms-2" style="font-family: 'Poppins', sans-serif;">Shifra</span>
             </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item me-2">
+                        <a class="nav-link btn btn-outline-warning text-warning px-3 rounded-pill position-relative" href="{{ url_for('services') }}">
+                            <i class="fas fa-briefcase me-1"></i>
+                            إدارة الأعمال
+                            <i class="fas fa-feather-alt text-warning position-absolute" style="font-size: 0.7rem; top: 0; right: 5px; transform: rotate(45deg);"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        {% if session.get('logged_in') %}
+                            <a class="nav-link btn btn-outline-warning text-warning px-3 rounded-pill" href="{{ url_for('logout') }}">
+                                <i class="fas fa-sign-out-alt me-1"></i>
+                                خروج
+                            </a>
+                        {% else %}
+                            <a class="nav-link btn btn-outline-warning text-warning px-3 rounded-pill position-relative" href="{{ url_for('login') }}">
+                                <i class="fas fa-sign-in-alt me-1"></i>
+                                دخول
+                                <i class="fas fa-feather-alt text-warning position-absolute" style="font-size: 0.7rem; top: 0; right: 5px; transform: rotate(45deg);"></i>
+                            </a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 
