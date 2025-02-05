@@ -5,20 +5,26 @@
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <div class="text-center mb-5">
-                <h1 class="display-5 fw-bold mb-4">من نحن؟</h1>
-                <div class="divider mx-auto mb-4"></div>
+                <h1 class="display-4 fw-bold mb-4">من نحن؟</h1>
+                <div class="divider mx-auto"></div>
             </div>
 
             <div class="about-content">
-                <p class="lead mb-4">مرحباً بكم في رحلتكم التعليمية معنا. نحن نؤمن بأن التعليم هو حق للجميع، وأن كل شخص يستحق الحصول على فرصة لتعلم البرمجة بشكل ميسر وفعال.</p>
+                <p class="lead mb-4">
+                    مرحباً بك في هذه الرحلة المثيرة! من الرائع أنك هنا، فهذا يعني أنك مهتم بالتعلم والتطور، وهذه بداية كل نجاح.
 
-                <p class="mb-4">بدأت رحلتي في عالم البرمجة منذ سنوات، وخلال هذه الرحلة أدركت أن الكثير من الشباب السعودي لديهم شغف كبير لتعلم البرمجة، لكنهم يحتاجون إلى من يوجههم ويدعمهم في هذا المجال.</p>
+                    لطالما آمنت أن المعرفة يجب أن تكون متاحة للجميع، بغض النظر عن خلفيتهم التقنية. ومع تطور الذكاء الاصطناعي، أصبح هذا الحلم حقيقة. لم يعد الأمر متعلقاً بامتلاك خبرة سابقة في البرمجة أو دراسة التقنية، بل بشغفك لاستكشاف الجديد ورغبتك في التطور.
 
-                <p class="mb-5">من هنا كانت البداية، حيث قررت تسخير خبرتي في مجال البرمجة لمساعدة الشباب على تحقيق أحلامهم في هذا المجال. أؤمن بأن التعليم الجيد يجب أن يكون عملياً ومبنياً على الممارسة الفعلية، وليس مجرد معلومات نظرية.</p>
+                    التكنولوجيا اليوم تفتح لنا أبواباً لا حدود لها، والذكاء الاصطناعي لم يعد حكراً على الخبراء، بل أصبح أداة قوية يمكن لأي شخص استخدامها للإبداع والابتكار. هدفي هو أن أساعدك على فهم هذه التقنيات وتسخيرها لتحقيق أهدافك، سواء كانت تعليمية أو مهنية.
+
+                    تخيل أنك تمتلك مفتاحاً يفتح لك فرصاً غير محدودة... هل أنت مستعد لاكتشافه معي؟ معاً، سنستكشف إمكانيات الذكاء الاصطناعي، ونتغلب على التحديات، ونحول الأفكار إلى إنجازات.
+
+                    لنبدأ الآن، ونحوّل التحديات إلى فرص، والإبداع إلى نجاح!
+                </p>
 
                 <div class="vision-section text-center py-4 px-3 bg-light rounded-3">
                     <i class="fas fa-quote-right text-primary mb-3"></i>
-                    <p class="fs-5 text-muted mb-0">"أسعى لتقديم تجربة تعليمية فريدة تجمع بين المعرفة النظرية والتطبيق العملي، لتمكين كل متعلم من بناء مستقبله البرمجي"</p>
+                    <p class="fs-5 text-muted mb-0">"رؤيتي هي تمكين كل شخص من استثمار قوة الذكاء الاصطناعي في رحلته التعليمية والمهنية، وتحويل التحديات التقنية إلى فرص للإبداع والابتكار"</p>
                 </div>
             </div>
         </div>
@@ -27,18 +33,49 @@
 
 <style>
 .divider {
-    width: 60px;
-    height: 3px;
+    width: 80px;
+    height: 4px;
     background-color: var(--bs-primary);
+    margin: 2rem auto;
+}
+
+.about-content {
+    text-align: justify;
+    line-height: 1.8;
+}
+
+.about-content p {
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
 }
 
 .vision-section {
     background: linear-gradient(to bottom right, #f8f9fa, #ffffff);
     border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-top: 3rem;
+    padding: 2rem !important;
 }
 
 .vision-section i {
-    font-size: 1.5rem;
+    font-size: 2rem;
+    color: var(--bs-primary);
+    margin-bottom: 1.5rem;
+}
+
+.vision-section p {
+    font-size: 1.2rem !important;
+    line-height: 1.8;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .about-content p {
+        font-size: 1rem;
+    }
+    .vision-section p {
+        font-size: 1.1rem !important;
+    }
 }
 </style>
 {% endblock %}
