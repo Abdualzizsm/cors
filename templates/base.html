@@ -39,6 +39,7 @@
                             إدارة الأعمال
                         </a>
                     </li>
+
                     <li class="nav-item">
                         {% if session.get('logged_in') %}
                             <a class="nav-link btn btn-outline-warning text-warning px-3" href="{{ url_for('logout') }}">
@@ -73,26 +74,17 @@
     <footer class="bg-dark text-light py-4 mt-5">
         <div class="container">
             <div class="row">
-                <div class="col-md-4">
-                    <h5>تواصل معنا</h5>
-                    <p>
+                <div class="col-12 text-center">
+                    <a href="{{ url_for('about') }}" class="btn btn-outline-light mb-3">من نحن</a>
+                    <p class="mb-3">
                         <a href="https://api.whatsapp.com/send?phone=966599514675" class="text-light text-decoration-none">
                             <i class="fab fa-whatsapp me-2"></i>واتساب
                         </a>
                     </p>
-                </div>
-                <div class="col-md-4">
-                    <h5>روابط مهمة</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-light text-decoration-none">سياسة الخصوصية</a></li>
-                        <li><a href="#" class="text-light text-decoration-none">شروط الاستخدام</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <h5>حول الكورس</h5>
-                    <p class="small">دورة متخصصة في تعليم البرمجة باستخدام الذكاء الاصطناعي للمبتدئين</p>
+                    <p class="mb-0 small">جميع الحقوق محفوظة © 2024 شيفرة</p>
                 </div>
             </div>
+        </div>
         </div>
     </footer>
 

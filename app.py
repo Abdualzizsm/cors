@@ -52,6 +52,10 @@ def logout():
 def services():
     return render_template('services.html')
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 @app.route('/course-details')
 def course_details():
     return render_template('course_details.html')
