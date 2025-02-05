@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">كورس البرمجة المتكامل</h1>
+                <div class="d-flex align-items-center mb-4">
+                    <div class="me-4">
+                        <i class="fas fa-calendar-alt fa-2x"></i>
+                        <span class="ms-2">4 أيام</span>
+                    </div>
+                    <div class="me-4">
+                        <i class="fas fa-clock fa-2x"></i>
+                        <span class="ms-2">ساعة يومياً</span>
+                    </div>
+                    <div>
+                        <i class="fas fa-users fa-2x"></i>
+                        <span class="ms-2">15 متدرب</span>
+                    </div>
+                </div>
+                <a href="https://api.whatsapp.com/send?phone=966539631343&text=مرحباً،%20أرغب%20في%20الاستفسار%20عن%20كورس%20البرمجة" 
+                   class="btn btn-success btn-lg rounded-pill px-5" target="_blank">
+                    <i class="fab fa-whatsapp me-2"></i>احجز مقعدك الآن
+                </a>
+            </div>
+            <div class="col-lg-6 text-center">
+                <img src="{{ url_for('static', filename='images/programming.svg') }}" alt="Programming" class="img-fluid" style="max-height: 400px;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="container-fluid bg-light">
+    <!-- المميزات الرئيسية -->
+    <div class="container py-5">
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="feature-card bg-white p-4 rounded-3 h-100 shadow-sm border-top border-primary border-4">
+                    <div class="feature-icon text-primary mb-3">
+                        <i class="fas fa-graduation-cap fa-3x"></i>
+                    </div>
+                    <h3 class="h5 mb-3">تعلم عملي</h3>
+                    <p class="text-muted mb-0">تطبيق مباشر على مشاريع حقيقية</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="feature-card bg-white p-4 rounded-3 h-100 shadow-sm border-top border-primary border-4">
+                    <div class="feature-icon text-primary mb-3">
+                        <i class="fas fa-code fa-3x"></i>
+                    </div>
+                    <h3 class="h5 mb-3">مشروع متكامل</h3>
+                    <p class="text-muted mb-0">بناء مشروع كامل من الصفر حتى النشر</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="feature-card bg-white p-4 rounded-3 h-100 shadow-sm border-top border-primary border-4">
+                    <div class="feature-icon text-primary mb-3">
+                        <i class="fas fa-users fa-3x"></i>
+                    </div>
+                    <h3 class="h5 mb-3">مجموعات صغيرة</h3>
+                    <p class="text-muted mb-0">اهتمام فردي ومتابعة مستمرة</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="feature-card bg-white p-4 rounded-3 h-100 shadow-sm border-top border-primary border-4">
+                    <div class="feature-icon text-primary mb-3">
+                        <i class="fas fa-rocket fa-3x"></i>
+                    </div>
+                    <h3 class="h5 mb-3">مهارات عملية</h3>
+                    <p class="text-muted mb-0">تطوير مهارات مطلوبة في سوق العمل</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- الجدول الزمني -->
+    <div class="container py-5">
+        <div class="timeline">
+            <div class="row g-4">
+                <div class="col-md-6 offset-md-3">
+                    <h2 class="text-center mb-3">رحلة التعلم</h2>
+                    <p class="text-center text-muted mb-5">اختر مشروعك وابدأ رحلة التعلم معنا</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="day-card bg-white p-4 rounded-3 shadow-sm h-100 border-start border-primary border-4">
+                        <div class="day-number text-primary mb-3">اليوم الأول</div>
+                        <h4 class="h5 mb-3">التجهيز والإعداد</h4>
+                        <ul class="list-unstyled mb-0 text-muted">
+                            <li class="mb-2"><i class="fas fa-download text-success me-2"></i>تحميل البرامج والأدوات المطلوبة</li>
+                            <li class="mb-2"><i class="fas fa-cog text-success me-2"></i>تثبيت وإعداد بيئة العمل</li>
+                            <li><i class="fas fa-book text-success me-2"></i>شرح المتطلبات وخطة المشروع</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="day-card bg-white p-4 rounded-3 shadow-sm h-100 border-start border-warning border-4">
+                        <div class="day-number text-primary mb-3">اليوم الثاني</div>
+                        <h4 class="h5 mb-3">تطوير المشروع <span class="badge bg-warning text-dark">حسب اختيارك</span></h4>
+                        <ul class="list-unstyled mb-0 text-muted">
+                            <li class="mb-2"><i class="fas fa-robot text-warning me-2"></i>بوت تلقرام ذكي</li>
+                            <li class="mb-2"><i class="fas fa-globe text-warning me-2"></i>موقع ويب بسيط</li>
+                            <li><i class="fas fa-mobile-alt text-warning me-2"></i>تطبيق iOS أساسي</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="day-card bg-white p-4 rounded-3 shadow-sm h-100 border-start border-info border-4">
+                        <div class="day-number text-primary mb-3">اليوم الثالث</div>
+                        <h4 class="h5 mb-3">إدارة المشروع</h4>
+                        <ul class="list-unstyled mb-0 text-muted">
+                            <li class="mb-2"><i class="fab fa-github text-info me-2"></i>إنشاء حساب GitHub</li>
+                            <li class="mb-2"><i class="fas fa-code-branch text-info me-2"></i>رفع المشروع على Git</li>
+                            <li><i class="fas fa-terminal text-info me-2"></i>التعامل مع الأوامر الأساسية</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="day-card bg-white p-4 rounded-3 shadow-sm h-100 border-start border-success border-4">
+                        <div class="day-number text-primary mb-3">اليوم الرابع</div>
+                        <h4 class="h5 mb-3">إطلاق المشروع</h4>
+                        <ul class="list-unstyled mb-0 text-muted">
+                            <li class="mb-2"><i class="fas fa-bug text-success me-2"></i>اختبار وإصلاح الأخطاء</li>
+                            <li class="mb-2"><i class="fas fa-rocket text-success me-2"></i>نشر المشروع</li>
+                            <li><i class="fas fa-graduation-cap text-success me-2"></i>نصائح للتطوير المستقبلي</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- التواصل -->
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <div class="cta-card bg-success text-white p-5 rounded-3 shadow">
+                    <h2 class="mb-4">جاهز لبدء رحلتك البرمجية؟</h2>
+                    <p class="lead mb-4">تواصل معنا الآن لحجز مقعدك في الدورة القادمة</p>
+                    <a href="https://api.whatsapp.com/send?phone=966539631343&text=مرحباً،%20أرغب%20في%20الاستفسار%20عن%20كورس%20البرمجة" 
+                       class="btn btn-light btn-lg rounded-pill px-5" target="_blank">
+                        <i class="fab fa-whatsapp me-2"></i>تواصل معنا
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

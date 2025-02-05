@@ -1,0 +1,373 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    /* تنسيقات عامة */
+    .hero h1 {
+        font-size: 2.5rem;
+        line-height: 1.3;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero .lead {
+        font-size: 1.2rem;
+        line-height: 1.6;
+    }
+
+    /* تنسيقات خاصة للآيفون */
+    @supports (-webkit-touch-callout: none) {
+        /* تحسين التمرير والحركة */
+        .smooth-scroll {
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+        }
+
+        /* تحسين عرض الأزرار للمس */
+        .btn {
+            min-height: 44px; /* الحد الأدنى الموصى به من Apple */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+        }
+
+        /* منع تحديد النص عند النقر */
+        .no-select {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        /* تحسين قراءة النصوص */
+        .hero h1 {
+            font-size: 1.8rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero .lead {
+            font-size: 1.1rem;
+            letter-spacing: -0.01em;
+        }
+
+        /* تحسين شكل صندوق السعر */
+        .price-box {
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* تحسين أزرار CTA */
+        .cta-buttons .btn {
+            width: 100%;
+            margin-bottom: 0.5rem;
+            border-radius: 10px;
+            padding: 0.8rem;
+        }
+
+        /* تحسين المسافات للشاشات الصغيرة */
+        @media (max-width: 428px) { /* حجم شاشة iPhone 13 Pro Max */
+            .container {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+
+            .hero {
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
+
+            .section {
+                padding-top: 2.5rem;
+                padding-bottom: 2.5rem;
+            }
+
+            /* تحسين حجم الخط في Timer Bar */
+            .timer-bar {
+                font-size: 0.9rem;
+                padding: 0.5rem 0;
+            }
+
+            /* تحسين العرض في الصفحة الرئيسية */
+            .features .card {
+                margin-bottom: 1rem;
+                border-radius: 12px;
+            }
+
+            .testimonials .card {
+                margin-bottom: 1rem;
+                border-radius: 12px;
+            }
+        }
+
+        /* تحسينات خاصة للـ iPhone Pro */
+        @media (max-width: 390px) { /* حجم شاشة iPhone 13/14 Pro */
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+
+            .hero .lead {
+                font-size: 1rem;
+            }
+
+            .price-box h2 {
+                font-size: 1.4rem;
+            }
+        }
+    }
+</style>
+
+<!-- Timer Bar -->
+<div class="timer-bar bg-danger text-white text-center py-2 sticky-top no-select">
+    <div class="container">
+        <p class="mb-0">
+            <i class="fas fa-clock me-2"></i>
+            العرض ينتهي خلال: <span id="countdown" class="fw-bold">23:59:59</span>
+        </p>
+    </div>
+</div>
+
+<!-- Hero Section -->
+<section class="hero bg-primary text-white py-4 py-lg-5 no-select">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <span class="badge bg-danger mb-2 mb-lg-3">عرض خاص محدود!</span>
+                <h1 class="display-4 fw-bold mb-3 mb-lg-4">ابدأ الربح من البرمجة خلال 3 أيام فقط! تعلم برمجة اي تطبيق او موقعك الخاص مع الذكاء الاصطناعي من منزلك عن بعد - بدون خبرة مسبقة</h1>
+                <p class="lead mb-3 mb-lg-4">اكتشف أسرار الربح من البرمجة والذكاء الاصطناعي! احترف تصميم المواقع والتطبيقات الذكية من منزلك، في أي وقت. ابدأ رحلتك نحو الدخل الإضافي - بدون تعقيد أو خبرة سابقة.</p>
+                <div class="price-box bg-white text-dark p-3 p-lg-4 rounded mb-3 mb-lg-4">
+                    <p class="text-muted mb-1"><del>السعر الأصلي: 1999 ريال</del></p>
+                    <h2 class="text-primary mb-2">العرض الحالي: 999 ريال فقط!</h2>
+                    <p class="text-success mb-0">وفر 500 ريال! عرض محدود</p>
+                </div>
+                <div class="cta-buttons d-grid gap-2">
+                    <a href="https://api.whatsapp.com/send?phone=966539631343&text=مرحباً،%20أرغب%20في%20الاستفسار%20عن%20كورس%20البرمجة" target="_blank" class="btn btn-success btn-lg pulse-button">
+                        <i class="fab fa-whatsapp me-2"></i>
+                        احجز مقعدك الآن عبر الواتساب
+                        <small class="d-block">قبل انتهاء العرض!</small>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features py-4 py-lg-5 section no-select">
+    <div class="container">
+        <h2 class="text-center mb-4">مميزات الكورس</h2>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-brain fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">تعلم ذكي</h5>
+                        <p class="card-text">استخدام أحدث تقنيات الذكاء الاصطناعي في التعلم</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-project-diagram fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">مشاريع عملية</h5>
+                        <p class="card-text">تطبيق عملي على مشاريع حقيقية خلال الكورس</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-headset fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">دعم فني</h5>
+                        <p class="card-text">احصل على دعم فني لمدة شهر</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">تقييمات المشتركين</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=50&h=50&fit=crop" class="rounded-circle me-3" width="50" height="50" alt="صورة المتدرب">
+                            <div>
+                                <h5 class="card-title mb-0">فهد العتيبي</h5>
+                                <small class="text-muted">طالب جامعي</small>
+                            </div>
+                        </div>
+                        <p class="card-text">
+                            <i class="fas fa-quote-right text-primary me-2"></i>
+                            والله الكورس مرة حلو! ما توقعت اني بتعلم كذا بسرعة. المدرب شرحه واضح وما يقصر معنا في الدعم الفني.
+                        </p>
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=50&h=50&fit=crop" class="rounded-circle me-3" width="50" height="50" alt="صورة المتدربة">
+                            <div>
+                                <h5 class="card-title mb-0">نورة السبيعي</h5>
+                                <small class="text-muted">مصممة مواقع</small>
+                            </div>
+                        </div>
+                        <p class="card-text">
+                            <i class="fas fa-quote-right text-primary me-2"></i>
+                            الصراحة ما ندمت اني سجلت! المشاريع اللي سويناها خلتني اتعلم بشكل عملي وصرت الحين اقدر اسوي مواقع بنفسي.
+                        </p>
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50&h=50&fit=crop" class="rounded-circle me-3" width="50" height="50" alt="صورة المتدرب">
+                            <div>
+                                <h5 class="card-title mb-0">سلطان الدوسري</h5>
+                                <small class="text-muted">صاحب مشروع</small>
+                            </div>
+                        </div>
+                        <p class="card-text">
+                            <i class="fas fa-quote-right text-primary me-2"></i>
+                            كنت ابي اسوي موقع لمشروعي وما عندي خلفية. الكورس ساعدني اني افهم الأساسيات واطور موقعي بنفسي. توفير علي مبلغ كبير!
+                        </p>
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">الأسئلة الشائعة</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                هل أحتاج خبرة سابقة في البرمجة؟
+                            </button>
+                        </h3>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                لا، الكورس مصمم للمبتدئين تماماً. نبدأ من الصفر ونتدرج معك خطوة بخطوة.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                كم المدة الزمنية للكورس؟
+                            </button>
+                        </h3>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                مدة الكورس 3 أيام مكثفة، بواقع 3-4 ساعات يومياً. تم تصميم المحتوى بشكل مركز ليناسب جدول المتدرب.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                ما هي متطلبات حضور الكورس؟
+                            </button>
+                        </h3>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                تحتاج فقط إلى جهاز كمبيوتر متصل بالإنترنت وحماس للتعلم. سنقوم بإرشادك لتثبيت كل البرامج المطلوبة.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                كيف يمكنني الدفع وما هي طرق السداد المتاحة؟
+                            </button>
+                        </h3>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                نوفر طرق دفع متعددة تشمل: التحويل البنكي، مدى، فيزا، وماستركارد. يمكنك اختيار الطريقة المناسبة لك عند التسجيل.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                هل سأتمكن من بناء مشاريع حقيقية بعد الكورس؟
+                            </button>
+                        </h3>
+                        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                نعم! خلال الكورس ستقوم ببناء مشاريع عملية، وبنهاية الكورس ستكون قادراً على تطوير مواقع وتطبيقات ويب كاملة باستخدام أحدث التقنيات.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                                كيف يمكنني البدء في كسب المال بعد الكورس؟
+                            </button>
+                        </h3>
+                        <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                سنقدم لك خارطة طريق واضحة لبدء العمل الحر، بما في ذلك كيفية الحصول على العملاء وتسعير مشاريعك. كما سنرشدك لأفضل المنصات للعمل الحر في مجال البرمجة.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="contact py-5 bg-white">
+    <div class="container text-center">
+        <h2 class="mb-4">تواصل معنا</h2>
+        <a href="https://api.whatsapp.com/send?phone=966539631343&text=مرحباً،%20أرغب%20في%20الاستفسار%20عن%20كورس%20البرمجة" class="btn btn-success btn-lg shadow-sm" target="_blank">
+            <i class="fab fa-whatsapp me-2"></i>
+            تواصل معنا عبر الواتساب
+        </a>
+
+    </div>
+</section>
+</section>
+
+{% endblock %}

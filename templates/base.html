@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شيفرة | Shifra</title>
+    <!-- Bootstrap RTL -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <div class="position-relative me-2">
+                    <i class="fas fa-microchip text-warning" style="font-size: 1.5rem;"></i>
+                    <i class="fas fa-feather-alt text-warning" style="font-size: 0.8rem; position: absolute; top: -5px; right: -8px; transform: rotate(45deg);"></i>
+                </div>
+                <span class="brand-text me-2" style="font-family: 'Noto Kufi Arabic', sans-serif;">شيفرة</span>
+                <span class="brand-separator">|</span>
+                <span class="brand-text ms-2" style="font-family: 'Poppins', sans-serif;">Shifra</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item me-2">
+                        <a class="nav-link btn btn-outline-info text-info px-3 rounded-pill" href="{{ url_for('course_details') }}">
+                            <i class="fas fa-graduation-cap me-1"></i>
+                            تفاصيل الكورس
+                        </a>
+                    </li>
+                    <li class="nav-item me-2">
+                        <a class="nav-link btn btn-success text-white px-3 rounded-pill" href="https://api.whatsapp.com/send?phone=966539631343&text=مرحباً،%20أرغب%20في%20الاستفسار%20عن%20كورس%20البرمجة" target="_blank">
+                            <i class="fab fa-whatsapp me-1"></i>
+                            تواصل معنا
+                        </a>
+                    </li>
+                    <li class="nav-item me-2">
+                        <a class="nav-link btn btn-outline-warning text-warning px-3 rounded-pill position-relative" href="{{ url_for('services') }}">
+                            <i class="fas fa-briefcase me-1"></i>
+                            إدارة الأعمال
+                            <i class="fas fa-feather-alt text-warning position-absolute" style="font-size: 0.7rem; top: 0; right: 5px; transform: rotate(45deg);"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        {% if session.get('logged_in') %}
+                            <a class="nav-link btn btn-outline-warning text-warning px-3 rounded-pill" href="{{ url_for('logout') }}">
+                                <i class="fas fa-sign-out-alt me-1"></i>
+                                خروج
+                            </a>
+                        {% else %}
+                            <a class="nav-link btn btn-outline-warning text-warning px-3 rounded-pill position-relative" href="{{ url_for('login') }}">
+                                <i class="fas fa-sign-in-alt me-1"></i>
+                                دخول
+                                <i class="fas fa-feather-alt text-warning position-absolute" style="font-size: 0.7rem; top: 0; right: 5px; transform: rotate(45deg);"></i>
+                            </a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>تواصل معنا</h5>
+                    <p>
+                        <a href="https://api.whatsapp.com/send?phone=966599514675" class="text-light text-decoration-none">
+                            <i class="fab fa-whatsapp me-2"></i>واتساب
+                        </a>
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <h5>روابط مهمة</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">سياسة الخصوصية</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">شروط الاستخدام</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>حول الكورس</h5>
+                    <p class="small">دورة متخصصة في تعليم البرمجة باستخدام الذكاء الاصطناعي للمبتدئين</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
