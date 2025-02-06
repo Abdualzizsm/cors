@@ -73,18 +73,21 @@
 
     <footer class="bg-dark text-light py-4 mt-5">
         <div class="container">
+            <div class="row justify-content-center align-items-center mb-3">
+                <div class="col-auto">
+                    <a href="{{ url_for('about') }}" class="btn btn-outline-light">من نحن</a>
+                </div>
+                <div class="col-auto">
+                    <a href="https://api.whatsapp.com/send?phone=966539631343&text=مرحباً،%20أرغب%20في%20الاستفسار%20عن%20كورس%20البرمجة" class="btn btn-outline-light">
+                        <i class="fab fa-whatsapp me-2"></i>واتساب
+                    </a>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-12 text-center">
-                    <a href="{{ url_for('about') }}" class="btn btn-outline-light mb-3">من نحن</a>
-                    <p class="mb-3">
-                        <a href="https://api.whatsapp.com/send?phone=966599514675" class="text-light text-decoration-none">
-                            <i class="fab fa-whatsapp me-2"></i>واتساب
-                        </a>
-                    </p>
                     <p class="mb-0 small">جميع الحقوق محفوظة © 2024 شيفرة</p>
                 </div>
             </div>
-        </div>
         </div>
     </footer>
 
