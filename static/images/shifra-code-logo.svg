@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800px" height="600px" viewBox="0 0 800 600" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#0d6efd;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#0099ff;stop-opacity:1" />
+        </linearGradient>
+        <!-- إضافة توهج للعناصر -->
+        <filter id="glow">
+            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+            <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+    </defs>
+
+    <!-- المربع الخارجي -->
+    <g transform="translate(250,150)">
+        <!-- الإطار الخارجي -->
+        <rect x="0" y="0" width="300" height="300" 
+              fill="none" 
+              stroke="#0099ff" 
+              stroke-width="4"
+              rx="20"
+              ry="20">
+            <animate attributeName="stroke-opacity"
+                     values="0.3;0.8;0.3"
+                     dur="3s"
+                     repeatCount="indefinite"/>
+        </rect>
+
+        <!-- الخطوط الداخلية -->
+        <line x1="0" y1="150" x2="300" y2="150" 
+              stroke="#0099ff" 
+              stroke-width="2" 
+              stroke-opacity="0.3"/>
+        <line x1="150" y1="0" x2="150" y2="300" 
+              stroke="#0099ff" 
+              stroke-width="2" 
+              stroke-opacity="0.3"/>
+
+        <!-- الأرقام المتحركة -->
+        <g filter="url(#glow)">
+            <!-- الربع الأول -->
+            <text x="75" y="75" 
+                  font-family="monospace" 
+                  font-size="30" 
+                  fill="#0d6efd" 
+                  text-anchor="middle">
+                1 0
+                <animate attributeName="opacity"
+                         values="0.5;1;0.5"
+                         dur="2s"
+                         repeatCount="indefinite"/>
+            </text>
+            <text x="110" y="60" 
+                  font-family="Arial" 
+                  font-size="24" 
+                  fill="#0099ff" 
+                  text-anchor="middle">
+                ?
+                <animate attributeName="y"
+                         values="60;50;60"
+                         dur="1.5s"
+                         repeatCount="indefinite"/>
+            </text>
+
+            <!-- الربع الثاني -->
+            <text x="225" y="75" 
+                  font-family="monospace" 
+                  font-size="30" 
+                  fill="#0d6efd" 
+                  text-anchor="middle">
+                0 1
+                <animate attributeName="opacity"
+                         values="1;0.5;1"
+                         dur="2.5s"
+                         repeatCount="indefinite"/>
+            </text>
+            <text x="260" y="60" 
+                  font-family="Arial" 
+                  font-size="24" 
+                  fill="#0099ff" 
+                  text-anchor="middle">
+                ?
+                <animate attributeName="y"
+                         values="60;50;60"
+                         dur="2s"
+                         repeatCount="indefinite"/>
+            </text>
+
+            <!-- الربع الثالث -->
+            <text x="75" y="225" 
+                  font-family="monospace" 
+                  font-size="30" 
+                  fill="#0d6efd" 
+                  text-anchor="middle">
+                0 0
+                <animate attributeName="opacity"
+                         values="0.5;1;0.5"
+                         dur="3s"
+                         repeatCount="indefinite"/>
+            </text>
+            <text x="110" y="210" 
+                  font-family="Arial" 
+                  font-size="24" 
+                  fill="#0099ff" 
+                  text-anchor="middle">
+                ?
+                <animate attributeName="y"
+                         values="210;200;210"
+                         dur="1.8s"
+                         repeatCount="indefinite"/>
+            </text>
+
+            <!-- الربع الرابع -->
+            <text x="225" y="225" 
+                  font-family="monospace" 
+                  font-size="30" 
+                  fill="#0d6efd" 
+                  text-anchor="middle">
+                1 1
+                <animate attributeName="opacity"
+                         values="1;0.5;1"
+                         dur="2.2s"
+                         repeatCount="indefinite"/>
+            </text>
+            <text x="260" y="210" 
+                  font-family="Arial" 
+                  font-size="24" 
+                  fill="#0099ff" 
+                  text-anchor="middle">
+                ?
+                <animate attributeName="y"
+                         values="210;200;210"
+                         dur="1.6s"
+                         repeatCount="indefinite"/>
+            </text>
+        </g>
+
+        <!-- نقاط متحركة في الزوايا -->
+        <circle cx="0" cy="0" r="4" fill="#0d6efd">
+            <animate attributeName="r"
+                     values="4;6;4"
+                     dur="2s"
+                     repeatCount="indefinite"/>
+        </circle>
+        <circle cx="300" cy="0" r="4" fill="#0d6efd">
+            <animate attributeName="r"
+                     values="4;6;4"
+                     dur="2.2s"
+                     repeatCount="indefinite"/>
+        </circle>
+        <circle cx="0" cy="300" r="4" fill="#0d6efd">
+            <animate attributeName="r"
+                     values="4;6;4"
+                     dur="1.8s"
+                     repeatCount="indefinite"/>
+        </circle>
+        <circle cx="300" cy="300" r="4" fill="#0d6efd">
+            <animate attributeName="r"
+                     values="4;6;4"
+                     dur="2.4s"
+                     repeatCount="indefinite"/>
+        </circle>
+    </g>
+</svg>
