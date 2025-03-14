@@ -1,0 +1,803 @@
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Shifra | تعلم مهارات البرمجة المستقبلية مع الذكاء الاصطناعي</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="importmap">
+    {
+        "imports": {
+            "gsap": "https://cdn.jsdelivr.net/npm/gsap@3.12.2/+esm"
+        }
+    }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40">
+                    <circle cx="20" cy="20" r="19" fill="#e01e1e" stroke="#fff" stroke-width="2"></circle>
+                    <path d="M12,20 L28,20 M20,12 L20,28" stroke="#fff" stroke-width="3" stroke-linecap="round"></path>
+                </svg>
+                <h1>Shifra</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#hero">الرئيسية</a></li>
+                    <li><a href="#features">المميزات</a></li>
+                    <li><a href="#program">محتوى البرنامج</a></li>
+                    <li><a href="#testimonials">آراء المتدربين</a></li>
+                    <li><a href="#register" class="nav-cta">احجز مقعدك</a></li>
+                </ul>
+                <div class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section id="hero" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <span class="badge">ورشة عمل حصرية</span>
+                <h1>ضاعف إنتاجيتك البرمجية <span class="highlight">300%</span> مع تقنيات الذكاء الاصطناعي</h1>
+                <p>تدريب عملي مكثف لمدة 3 أيام مع المدرب عبدالعزيز يمنحك المهارات والأدوات التي يستخدمها كبار المطورين لإنشاء برمجيات متطورة بسرعة وكفاءة غير مسبوقة.</p>
+                <div class="hero-features">
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>تدريب عملي مكثف</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>30+ مشروع تطبيقي</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>توجيه شخصي</span>
+                    </div>
+                </div>
+                <div class="cta-group">
+                    <a href="#register" class="btn primary-btn">احجز مقعدك الآن <span class="arrow">&#8594;</span></a>
+                    <div class="price-tag">999 ريال <span>فقط</span></div>
+                </div>
+                <div class="participants">
+                    <div class="avatars">
+                        <div class="avatar-stack">
+                            <div class="avatar"></div>
+                            <div class="avatar"></div>
+                            <div class="avatar"></div>
+                            <div class="avatar"></div>
+                        </div>
+                    </div>
+                    <p>انضم إلى +500 متدرب نجحوا في مضاعفة إنتاجيتهم البرمجية</p>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div class="title">AI-Powered Coding</div>
+                    </div>
+                    <div class="window-body">
+                        <div class="code-line"><span class="code-comment">// Generate a React component with AI</span></div>
+                        <div class="code-line"><span class="code-keyword">function</span> <span class="code-function">ProductCard</span>({ product }) {</div>
+                        <div class="code-line typing">  <span class="code-keyword">return</span> (</div>
+                        <div class="code-line">    &lt;<span class="code-tag">div</span> <span class="code-attr">className</span>=<span class="code-string">"card"</span>&gt;</div>
+                        <div class="code-line">      &lt;<span class="code-tag">img</span> <span class="code-attr">src</span>=<span class="code-string">{product.image}</span> /&gt;</div>
+                        <div class="code-line">      &lt;<span class="code-tag">h3</span>&gt;{product.title}&lt;/<span class="code-tag">h3</span>&gt;</div>
+                        <div class="code-line">      &lt;<span class="code-tag">p</span>&gt;{product.price}&lt;/<span class="code-tag">p</span>&gt;</div>
+                        <div class="code-line">    &lt;/<span class="code-tag">div</span>&gt;</div>
+                        <div class="code-line">  );</div>
+                        <div class="code-line">}</div>
+                    </div>
+                </div>
+                <div class="ai-prompt">
+                    <div class="prompt-header">
+                        <div class="ai-icon">AI</div>
+                        <div class="prompt-title">AI Assistant</div>
+                    </div>
+                    <div class="prompt-body">
+                        <p>اكتب لي كومبوننت React لعرض منتج مع صورة وعنوان وسعر</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="stat-value">300%</div>
+                    <div class="stat-desc">زيادة في سرعة البرمجة</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <div class="stat-value">5x</div>
+                    <div class="stat-desc">تحسين في جودة الكود</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <div class="stat-value">70%</div>
+                    <div class="stat-desc">تقليل في وقت التطوير</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-value">500+</div>
+                    <div class="stat-desc">متدرب ناجح</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="why" class="why-section">
+        <div class="container">
+            <div class="section-header centered">
+                <h2>لماذا تحتاج إلى هذا البرنامج الآن؟</h2>
+                <p class="section-subtitle">عصر الذكاء الاصطناعي غيّر قواعد البرمجة للأبد</p>
+            </div>
+            <div class="content-with-image">
+                <div class="content-col">
+                    <div class="feature-point">
+                        <div class="point-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="point-content">
+                            <h3>المبرمجون التقليديون سيتخلفون عن الركب</h3>
+                            <p>يتقاضى المطورون المتمكنون من تقنيات الذكاء الاصطناعي رواتب أعلى بنسبة 50-70% من نظرائهم التقليديين. السوق يتغير بسرعة مذهلة.</p>
+                        </div>
+                    </div>
+                    <div class="feature-point">
+                        <div class="point-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="point-content">
+                            <h3>فرص عمل جديدة ومتطورة</h3>
+                            <p>مع ظهور تقنيات مثل ChatGPT وGitHub Copilot، أصبحت هناك فرص جديدة للمبرمجين الذين يتقنون استخدامها. ستضاعف هذه المهارات من قيمتك المهنية.</p>
+                        </div>
+                    </div>
+                    <div class="feature-point">
+                        <div class="point-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="point-content">
+                            <h3>وفر مئات الساعات من العمل</h3>
+                            <p>بتعلمك لهذه التقنيات، ستتمكن من إنجاز المهام البرمجية بسرعة تفوق الطرق التقليدية بعشرات المرات. مشاريع كانت تستغرق أسابيع يمكن إكمالها في أيام.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-col">
+                    <div class="comparison-card">
+                        <div class="comparison-header">
+                            <h3>بدون الذكاء الاصطناعي</h3>
+                        </div>
+                        <div class="comparison-body traditional">
+                            <div class="metric">
+                                <i class="fas fa-code"></i>
+                                <span>100 سطر كود/ساعة</span>
+                            </div>
+                            <div class="metric">
+                                <i class="fas fa-bug"></i>
+                                <span>15 خطأ/1000 سطر</span>
+                            </div>
+                            <div class="metric">
+                                <i class="fas fa-clock"></i>
+                                <span>40 ساعة/مشروع</span>
+                            </div>
+                        </div>
+                        <div class="comparison-header">
+                            <h3>مع تقنيات الذكاء الاصطناعي</h3>
+                        </div>
+                        <div class="comparison-body ai">
+                            <div class="metric">
+                                <i class="fas fa-code"></i>
+                                <span>350 سطر كود/ساعة</span>
+                            </div>
+                            <div class="metric">
+                                <i class="fas fa-bug"></i>
+                                <span>5 أخطاء/1000 سطر</span>
+                            </div>
+                            <div class="metric">
+                                <i class="fas fa-clock"></i>
+                                <span>12 ساعة/مشروع</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features-section">
+        <div class="container">
+            <div class="section-header centered">
+                <h2>ما الذي سوف تتعلمه في هذا البرنامج؟</h2>
+                <p class="section-subtitle">تدريب مكثف وعملي لمدة 3 أيام</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>تسخير قوة ChatGPT للبرمجة</h3>
+                    <p>تعلم كيفية صياغة الطلبات (Prompts) الذكية للحصول على أفضل النتائج البرمجية من ChatGPT.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>دمج GitHub Copilot في سير العمل</h3>
+                    <p>استخدم Copilot لإكمال الكود واقتراح حلول برمجية معقدة بسرعة وكفاءة عالية.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>تطوير واجهات متقدمة بالذكاء الاصطناعي</h3>
+                    <p>بناء واجهات برمجية تفاعلية متطورة بسرعة فائقة باستخدام تقنيات الذكاء الاصطناعي.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bug"></i>
+                    </div>
+                    <h3>إصلاح الأخطاء وتحسين الكود</h3>
+                    <p>استخدام أدوات الذكاء الاصطناعي لاكتشاف وإصلاح الأخطاء وتحسين جودة الكود.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>أتمتة المهام البرمجية المتكررة</h3>
+                    <p>تطبيق تقنيات الذكاء الاصطناعي لأتمتة المهام المتكررة وتوفير الوقت والجهد.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <h3>تنفيذ مشاريع متكاملة</h3>
+                    <p>بناء مشاريع برمجية كاملة من الصفر إلى الإطلاق باستخدام تقنيات الذكاء الاصطناعي.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="program" class="program-section">
+        <div class="container">
+            <div class="section-header centered">
+                <h2>جدول البرنامج التدريبي المكثف</h2>
+                <p class="section-subtitle">3 أيام من التدريب العملي المكثف</p>
+            </div>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="day-badge">اليوم الأول</div>
+                    <div class="timeline-content">
+                        <h3>أساسيات البرمجة مع الذكاء الاصطناعي</h3>
+                        <ul class="timeline-list">
+                            <li>مقدمة في أدوات الذكاء الاصطناعي للمبرمجين</li>
+                            <li>إعداد بيئة العمل المتكاملة مع أدوات الذكاء الاصطناعي</li>
+                            <li>تقنيات صياغة الطلبات الفعالة في ChatGPT للبرمجة</li>
+                            <li>استخدام GitHub Copilot لتسريع كتابة الكود</li>
+                            <li>تنفيذ 5 مشاريع عملية باستخدام التقنيات المتعلمة</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="day-badge">اليوم الثاني</div>
+                    <div class="timeline-content">
+                        <h3>تطوير تطبيقات متقدمة مع الذكاء الاصطناعي</h3>
+                        <ul class="timeline-list">
+                            <li>بناء واجهات برمجية معقدة باستخدام الذكاء الاصطناعي</li>
+                            <li>تطوير خوارزميات متقدمة بمساعدة الذكاء الاصطناعي</li>
+                            <li>دمج واجهات برمجة التطبيقات AI في مشاريعك</li>
+                            <li>اختبار وتحسين أداء التطبيقات</li>
+                            <li>تنفيذ 10 مشاريع متوسطة إلى متقدمة</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="day-badge">اليوم الثالث</div>
+                    <div class="timeline-content">
+                        <h3>مشاريع متكاملة وتطبيقات عملية</h3>
+                        <ul class="timeline-list">
+                            <li>بناء مشروع متكامل من الصفر باستخدام تقنيات الذكاء الاصطناعي</li>
+                            <li>استراتيجيات تحسين الإنتاجية في مشاريع حقيقية</li>
+                            <li>تقنيات متقدمة في هندسة الطلبات (Prompt Engineering)</li>
+                            <li>دمج الذكاء الاصطناعي في مسار العمل اليومي</li>
+                            <li>إكمال 15 مشروعًا متقدمًا وإضافتها إلى محفظتك</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="tools-section">
+        <div class="container">
+            <div class="section-header centered">
+                <h2>الأدوات التي ستتقنها</h2>
+                <p class="section-subtitle">تعلم استخدام أحدث تقنيات الذكاء الاصطناعي في البرمجة</p>
+            </div>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <svg viewBox="0 0 24 24" width="60" height="60">
+                            <rect width="24" height="24" rx="4" fill="#10a37f" />
+                            <path d="M5,12 C5,8 19,8 19,12 C19,16 5,16 5,12 Z" fill="white" />
+                        </svg>
+                    </div>
+                    <h3>ChatGPT</h3>
+                    <p>نموذج لغوي متقدم لتوليد الكود وشرح المفاهيم وتصحيح الأخطاء</p>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <svg viewBox="0 0 24 24" width="60" height="60">
+                            <rect width="24" height="24" rx="4" fill="#121212" />
+                            <path d="M12,5 L18,12 L12,19 L6,12 Z" fill="#8a5cf5" />
+                        </svg>
+                    </div>
+                    <h3>GitHub Copilot</h3>
+                    <p>أداة تعتمد على الذكاء الاصطناعي لاقتراح واستكمال الكود أثناء الكتابة</p>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <svg viewBox="0 0 24 24" width="60" height="60">
+                            <rect width="24" height="24" rx="4" fill="#f26207" />
+                            <path d="M6,8 L18,8 L18,16 L6,16 Z" fill="white" />
+                            <circle cx="9" cy="12" r="2" fill="#f26207" />
+                            <circle cx="15" cy="12" r="2" fill="#f26207" />
+                        </svg>
+                    </div>
+                    <h3>Hugging Face</h3>
+                    <p>منصة للوصول إلى نماذج الذكاء الاصطناعي المختلفة ودمجها في تطبيقاتك</p>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <svg viewBox="0 0 24 24" width="60" height="60">
+                            <rect width="24" height="24" rx="4" fill="#ff4b4b" />
+                            <path d="M7,7 L17,7 L17,17 L7,17 Z" fill="white" stroke="#ff4b4b" stroke-width="1" />
+                            <path d="M10,12 L14,12 M12,10 L12,14" stroke="#ff4b4b" stroke-width="2" />
+                        </svg>
+                    </div>
+                    <h3>Replit AI</h3>
+                    <p>بيئة تطوير متكاملة مع قدرات ذكاء اصطناعي لتسريع تطوير البرمجيات</p>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-logo">
+                        <svg viewBox="0 0 24 24" width="60" height="60">
+                            <rect width="24" height="24" rx="4" fill="#4a154b" />
+                            <path d="M9,8.5 L15,8.5 L15,15.5 L9,15.5 Z" fill="white" stroke="#4a154b" stroke-width="0.5" />
+                            <path d="M12,6 L12,18" stroke="white" stroke-width="2" />
+                            <path d="M6,12 L18,12" stroke="white" stroke-width="2" />
+                        </svg>
+                    </div>
+                    <h3>Tabnine</h3>
+                    <p>مساعد برمجة يتنبأ بالكود المحتمل ويقدم اقتراحات ذكية أثناء الكتابة</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials" class="testimonials-section">
+        <div class="container">
+            <div class="section-header centered">
+                <h2>ماذا يقول المتدربون السابقون؟</h2>
+                <p class="section-subtitle">تجارب حقيقية من متدربين سابقين</p>
+            </div>
+            
+            <div class="testimonials-slider">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">
+                            <i class="fas fa-quote-right"></i>
+                        </div>
+                        <p class="testimonial-text">كانت تجربة تحويلية بالنسبة لي. قبل هذا البرنامج، كنت أقضي ساعات في كتابة الكود، أما الآن فأستطيع إنجاز مشاريع كاملة في أيام قليلة. الاستثمار في هذا التدريب كان أفضل قرار مهني اتخذته.</p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <svg width="50" height="50" viewBox="0 0 50 50">
+                                <circle cx="25" cy="25" r="25" fill="#e0e0e0" />
+                                <circle cx="25" cy="20" r="8" fill="#a0a0a0" />
+                                <path d="M10,40 C10,30 40,30 40,40" fill="#a0a0a0" />
+                            </svg>
+                        </div>
+                        <div class="author-info">
+                            <h4>أحمد عبدالله</h4>
+                            <p>مطور ويب - الرياض</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">
+                            <i class="fas fa-quote-right"></i>
+                        </div>
+                        <p class="testimonial-text">هذا البرنامج حرفياً غيّر مسار حياتي المهنية. تمكنت من الانتقال من وظيفة براتب متوسط إلى العمل كمستشار برمجة مستقل بدخل أعلى بثلاث مرات. أسلوب عبدالعزيز في الشرح ممتاز ويجعل المفاهيم المعقدة سهلة الفهم.</p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <svg width="50" height="50" viewBox="0 0 50 50">
+                                <circle cx="25" cy="25" r="25" fill="#e0e0e0" />
+                                <circle cx="25" cy="20" r="8" fill="#a0a0a0" />
+                                <path d="M10,40 C10,30 40,30 40,40" fill="#a0a0a0" />
+                            </svg>
+                        </div>
+                        <div class="author-info">
+                            <h4>نوره الحمد</h4>
+                            <p>مطورة تطبيقات - جدة</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">
+                            <i class="fas fa-quote-right"></i>
+                        </div>
+                        <p class="testimonial-text">كنت متشككاً في البداية حول جدوى التدريب، لكن بعد ثلاثة أيام فقط، تمكنت من إنجاز مشروع كامل كان من المفترض أن يستغرق أسبوعين. الأدوات والتقنيات التي تعلمتها قيّمة للغاية وستظل معي طوال مسيرتي المهنية.</p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <svg width="50" height="50" viewBox="0 0 50 50">
+                                <circle cx="25" cy="25" r="25" fill="#e0e0e0" />
+                                <circle cx="25" cy="20" r="8" fill="#a0a0a0" />
+                                <path d="M10,40 C10,30 40,30 40,40" fill="#a0a0a0" />
+                            </svg>
+                        </div>
+                        <div class="author-info">
+                            <h4>محمد العتيبي</h4>
+                            <p>مهندس برمجيات - الدمام</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-nav">
+                <button id="prevBtn" class="testimonial-nav-btn">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <button id="nextBtn" class="testimonial-nav-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="instructor" class="instructor-section">
+        <div class="container">
+            <div class="instructor-card">
+                <div class="instructor-image">
+                    <svg width="200" height="200" viewBox="0 0 200 200">
+                        <circle cx="100" cy="100" r="100" fill="#e0e0e0" />
+                        <circle cx="100" cy="80" r="30" fill="#a0a0a0" />
+                        <path d="M40,160 C40,120 160,120 160,160" fill="#a0a0a0" />
+                    </svg>
+                </div>
+                <div class="instructor-details">
+                    <h2>تدريب شخصي مع الخبير عبدالعزيز</h2>
+                    <p class="instructor-title">خبير برمجة وذكاء اصطناعي بخبرة 10+ سنوات</p>
+                    <p class="instructor-bio">المهندس عبدالعزيز خبير متخصص في دمج تقنيات الذكاء الاصطناعي مع البرمجة، عمل سابقاً مع كبرى الشركات التقنية محلياً وعالمياً. طور أكثر من 50 مشروعاً باستخدام تقنيات الذكاء الاصطناعي وساعد مئات المبرمجين على تطوير مهاراتهم.</p>
+                    
+                    <div class="instructor-credentials">
+                        <div class="credential">
+                            <i class="fas fa-briefcase"></i>
+                            <span>10+ سنوات خبرة</span>
+                        </div>
+                        <div class="credential">
+                            <i class="fas fa-project-diagram"></i>
+                            <span>50+ مشروع ناجح</span>
+                        </div>
+                        <div class="credential">
+                            <i class="fas fa-users"></i>
+                            <span>500+ متدرب</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="faq-section">
+        <div class="container">
+            <div class="section-header centered">
+                <h2>الأسئلة الشائعة</h2>
+                <p class="section-subtitle">إجابات عن الاستفسارات الأكثر شيوعاً</p>
+            </div>
+            
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>هل أحتاج إلى خبرة برمجية مسبقة للالتحاق بالبرنامج؟</h3>
+                        <div class="toggle-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>يفضل أن يكون لديك معرفة أساسية بالبرمجة، لكن البرنامج مصمم ليناسب مختلف المستويات. إذا كنت مبتدئاً تماماً، قد تحتاج لبذل جهد إضافي لمتابعة المحتوى.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>ما هي المتطلبات التقنية للمشاركة في البرنامج؟</h3>
+                        <div class="toggle-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>تحتاج إلى جهاز كمبيوتر متصل بالإنترنت، ويفضل أن يكون لديك حساب في منصات الذكاء الاصطناعي المختلفة مثل OpenAI. سنرسل لك قائمة بالإعدادات المطلوبة قبل بدء البرنامج.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>هل سأحصل على شهادة بعد إكمال البرنامج؟</h3>
+                        <div class="toggle-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>نعم، ستحصل على شهادة إتمام البرنامج التدريبي، لكنها ليست شهادة معتمدة. القيمة الحقيقية تكمن في المهارات العملية التي ستكتسبها والتي يمكنك إظهارها من خلال المشاريع التي ستنفذها خلال البرنامج.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>ما هي سياسة استرداد المبلغ؟</h3>
+                        <div class="toggle-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>نقدم ضمان استرداد كامل المبلغ خلال 14 يوماً من تاريخ الشراء إذا لم تكن راضياً عن جودة البرنامج. ملاحظة: الاسترداد غير متاح بعد حضور اليوم الأول من البرنامج التدريبي.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>هل سيتم تسجيل جلسات التدريب؟</h3>
+                        <div class="toggle-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>نعم، سيتم تسجيل كافة الجلسات التدريبية وستتمكن من الوصول إليها لمدة 3 أشهر بعد انتهاء البرنامج، مما يتيح لك مراجعة المحتوى في أي وقت.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>كيف سيساعدني هذا البرنامج في تحسين فرصي المهنية؟</h3>
+                        <div class="toggle-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>بعد إكمال البرنامج، ستمتلك مهارات متقدمة في استخدام تقنيات الذكاء الاصطناعي في البرمجة، وهي مهارات ذات طلب مرتفع في سوق العمل حالياً. بالإضافة إلى ذلك، ستتمكن من إضافة المشاريع التي ستنفذها خلال البرنامج إلى محفظتك المهنية، مما يعزز فرصك في الحصول على وظائف أفضل أو عملاء جدد إذا كنت تعمل بشكل مستقل.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="register" class="register-section">
+        <div class="container">
+            <div class="register-card">
+                <div class="register-header">
+                    <h2>احجز مقعدك الآن</h2>
+                    <p>تدريب مكثف لمدة 3 أيام لتعلم البرمجة باستخدام الذكاء الاصطناعي</p>
+                </div>
+                
+                <div class="register-details">
+                    <div class="price-box">
+                        <div class="price">
+                            <span class="amount">999</span>
+                            <span class="currency">ريال</span>
+                        </div>
+                        <span class="price-note">دفعة واحدة</span>
+                    </div>
+                    
+                    <div class="register-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> تدريب مكثف لمدة 3 أيام</li>
+                            <li><i class="fas fa-check"></i> تدريب مباشر مع الخبير عبدالعزيز</li>
+                            <li><i class="fas fa-check"></i> 30+ مشروع عملي</li>
+                            <li><i class="fas fa-check"></i> دعم فني لمدة شهر بعد التدريب</li>
+                            <li><i class="fas fa-check"></i> الوصول إلى تسجيلات الجلسات لمدة 3 أشهر</li>
+                            <li><i class="fas fa-check"></i> شهادة إتمام البرنامج</li>
+                            <li><i class="fas fa-check"></i> ضمان استرداد المال خلال 14 يوم</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="register-form-container">
+                    <form id="paymentForm" class="register-form">
+                        <div class="form-group">
+                            <label for="fullName">الاسم الكامل</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">البريد الإلكتروني</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">رقم الهاتف</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="paymentMethod">طريقة الدفع</label>
+                            <select id="paymentMethod" name="paymentMethod" required>
+                                <option value="">اختر طريقة الدفع</option>
+                                <option value="rajhi">مصرف الراجحي</option>
+                                <option value="stcpay">STC Pay</option>
+                                <option value="credit">بطاقة ائتمانية</option>
+                                <option value="mada">مدى</option>
+                            </select>
+                        </div>
+                        
+                        <div class="credit-card-details">
+                            <div class="form-group">
+                                <label for="cardNumber">رقم البطاقة</label>
+                                <input type="text" id="cardNumber" name="cardNumber" placeholder="XXXX XXXX XXXX XXXX">
+                            </div>
+                            
+                            <div class="card-expiry-cvv">
+                                <div class="form-group">
+                                    <label for="expiryDate">تاريخ الانتهاء</label>
+                                    <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="cvv">رمز الحماية</label>
+                                    <input type="text" id="cvv" name="cvv" placeholder="123">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group terms-group">
+                            <input type="checkbox" id="terms" name="terms" required>
+                            <label for="terms">أوافق على <a href="#">الشروط والأحكام</a></label>
+                        </div>
+                        
+                        <button type="submit" class="btn primary-btn btn-block">تأكيد الحجز والدفع</button>
+                    </form>
+                </div>
+                
+                <div class="secure-payment">
+                    <i class="fas fa-lock"></i>
+                    <span>الدفع آمن ومشفر بنسبة 100%</span>
+                </div>
+                
+                <div class="payment-methods">
+                    <div class="payment-icons">
+                        <i class="fab fa-cc-visa"></i>
+                        <i class="fab fa-cc-mastercard"></i>
+                        <svg width="30" height="20" viewBox="0 0 30 20">
+                            <rect width="30" height="20" rx="3" fill="#1BA4DD" />
+                            <text x="15" y="14" font-family="Arial" font-size="8" fill="white" text-anchor="middle">MADA</text>
+                        </svg>
+                        <svg width="30" height="20" viewBox="0 0 30 20">
+                            <rect width="30" height="20" rx="3" fill="#651FFF" />
+                            <text x="15" y="14" font-family="Arial" font-size="6" fill="white" text-anchor="middle">STC PAY</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-logo">
+                    <svg width="40" height="40" viewBox="0 0 40 40">
+                        <circle cx="20" cy="20" r="19" fill="#e01e1e" stroke="#fff" stroke-width="2"></circle>
+                        <path d="M12,20 L28,20 M20,12 L20,28" stroke="#fff" stroke-width="3" stroke-linecap="round"></path>
+                    </svg>
+                    <h2>Shifra</h2>
+                </div>
+                <div class="footer-social">
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-content">
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h3>روابط سريعة</h3>
+                        <ul>
+                            <li><a href="#hero">الرئيسية</a></li>
+                            <li><a href="#features">المميزات</a></li>
+                            <li><a href="#program">البرنامج التدريبي</a></li>
+                            <li><a href="#register">التسجيل</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-col">
+                        <h3>معلومات قانونية</h3>
+                        <ul>
+                            <li><a href="#">سياسة الخصوصية</a></li>
+                            <li><a href="#">الشروط والأحكام</a></li>
+                            <li><a href="#">سياسة الاسترداد</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-col">
+                        <h3>تواصل معنا</h3>
+                        <ul class="contact-info">
+                            <li><i class="fas fa-envelope"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="147d7a727b54677c7d7266753a777b79">[email&#160;protected]</a></li>
+                            <li><i class="fas fa-phone"></i> +966 50 123 4567</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="newsletter">
+                    <h3>اشترك في نشرتنا البريدية</h3>
+                    <p>احصل على آخر الأخبار والتحديثات</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="أدخل بريدك الإلكتروني">
+                        <button type="submit" class="btn">اشترك</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 Shifra - جميع الحقوق محفوظة</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

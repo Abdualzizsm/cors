@@ -1,0 +1,245 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="bg-gradient-primary text-white py-5" style="background: linear-gradient(135deg, #0d6efd 0%, #0099ff 100%);">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">مركز المصادر البرمجية</h1>
+                <div class="d-flex flex-wrap align-items-center mb-4">
+                    <div class="me-4 mb-3">
+                        <i class="fab fa-github fa-2x"></i>
+                        <span class="ms-2">مستودعات برمجية</span>
+                    </div>
+                    <div class="me-4 mb-3">
+                        <i class="fas fa-code fa-2x"></i>
+                        <span class="ms-2">مشاريع تطبيقية</span>
+                    </div>
+                    <div class="mb-3">
+                        <i class="fas fa-tools fa-2x"></i>
+                        <span class="ms-2">أدوات مساعدة</span>
+                    </div>
+                </div>
+                <a href="https://github.com/topics/learning-resources" 
+                   class="btn btn-outline-light btn-lg px-4 me-3 mb-3" target="_blank">
+                    <i class="fas fa-external-link-alt me-2"></i>مصادر خارجية
+                </a>
+                <a href="#resources" 
+                   class="btn btn-light btn-lg px-4 mb-3">
+                    <i class="fas fa-arrow-down me-2"></i>استكشف المصادر
+                </a>
+            </div>
+            <div class="col-lg-6 text-center">
+                <img src="{{ url_for('static', filename='images/programming.svg') }}" alt="Resources" class="img-fluid animation-float" style="max-height: 400px;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="container-fluid bg-light">
+    <!-- المميزات الرئيسية -->
+    <div class="container py-5">
+        <div class="row g-4">
+            <div class="col-md-3">
+                <a href="https://github.com" target="_blank" class="text-decoration-none">
+                    <div class="feature-card bg-white p-4 rounded-3 h-100 shadow-sm border-top border-primary border-4 hover-card">
+                        <div class="feature-icon text-primary mb-3">
+                            <i class="fab fa-github fa-3x"></i>
+                        </div>
+                        <h3 class="h5 mb-3">منصة GitHub</h3>
+                        <p class="text-muted mb-0">تعلم إدارة المشاريع وحفظ الكود</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="https://render.com" target="_blank" class="text-decoration-none">
+                    <div class="feature-card bg-white p-4 rounded-3 h-100 shadow-sm border-top border-info border-4 hover-card">
+                        <div class="feature-icon text-info mb-3">
+                            <i class="fas fa-cloud fa-3x"></i>
+                        </div>
+                        <h3 class="h5 mb-3">خدمة Render</h3>
+                        <p class="text-muted mb-0">نشر تطبيقاتك مجاناً بسهولة</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="#projects" class="text-decoration-none">
+                    <div class="feature-card bg-white p-4 rounded-3 h-100 shadow-sm border-top border-warning border-4 hover-card">
+                        <div class="feature-icon text-warning mb-3">
+                            <i class="fas fa-code fa-3x"></i>
+                        </div>
+                        <h3 class="h5 mb-3">مشاريع تطبيقية</h3>
+                        <p class="text-muted mb-0">تحديات وتطبيقات عملية للتعلم</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="#ai-tools" class="text-decoration-none">
+                    <div class="feature-card bg-white p-4 rounded-3 h-100 shadow-sm border-top border-success border-4 hover-card">
+                        <div class="feature-icon text-success mb-3">
+                            <i class="fas fa-robot fa-3x"></i>
+                        </div>
+                        <h3 class="h5 mb-3">أدوات ذكية</h3>
+                        <p class="text-muted mb-0">استخدام الذكاء الاصطناعي في البرمجة</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- المصادر التعليمية -->
+    <div id="resources" class="container py-5">
+        <div class="timeline">
+            <div class="row g-4">
+                <div class="col-md-6 offset-md-3">
+                    <h2 class="text-center mb-3">المصادر المتاحة</h2>
+                    <p class="text-center text-muted mb-5">دليلك الشامل للأدوات والمنصات البرمجية</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="resource-card bg-white p-4 rounded-3 shadow-sm h-100 border-start border-primary border-4">
+                        <div class="resource-icon text-primary mb-3">GitHub منصة</div>
+                        <h4 class="h5 mb-3">التحكم بالمشاريع</h4>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-3">
+                                <a href="https://github.com/signup" target="_blank" class="text-decoration-none text-muted d-block p-2 rounded hover-link">
+                                    <i class="fas fa-angle-left me-2"></i>إنشاء حساب جديد
+                                </a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="https://docs.github.com" target="_blank" class="text-decoration-none text-muted d-block p-2 rounded hover-link">
+                                    <i class="fas fa-angle-left me-2"></i>دليل الاستخدام
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/features" target="_blank" class="text-decoration-none text-muted d-block p-2 rounded hover-link">
+                                    <i class="fas fa-angle-left me-2"></i>المميزات المتاحة
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="resource-card bg-white p-4 rounded-3 shadow-sm h-100 border-start border-info border-4">
+                        <div class="resource-icon text-info mb-3">Render منصة</div>
+                        <h4 class="h5 mb-3">نشر التطبيقات</h4>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-3">
+                                <a href="https://render.com/docs" target="_blank" class="text-decoration-none text-muted d-block p-2 rounded hover-link">
+                                    <i class="fas fa-angle-left me-2"></i>التوثيق الرسمي
+                                </a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="https://render.com/docs/deploy-flask" target="_blank" class="text-decoration-none text-muted d-block p-2 rounded hover-link">
+                                    <i class="fas fa-angle-left me-2"></i>نشر تطبيق Flask
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://render.com/pricing" target="_blank" class="text-decoration-none text-muted d-block p-2 rounded hover-link">
+                                    <i class="fas fa-angle-left me-2"></i>الخطط المجانية
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="projects" class="col-md-3">
+                    <div class="resource-card bg-white p-4 rounded-3 shadow-sm h-100 border-start border-warning border-4">
+                        <div class="resource-icon text-warning mb-3">مشاريع تطبيقية</div>
+                        <h4 class="h5 mb-3">تحديات برمجية</h4>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-3">
+                                <a href="https://www.freecodecamp.org/learn" target="_blank" class="text-decoration-none text-muted d-block p-2 rounded hover-link">
+                                    <i class="fas fa-angle-left me-2"></i>مشاريع تعليمية
+                                </a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="https://www.codewars.com" target="_blank" class="text-decoration-none text-muted d-block p-2 rounded hover-link">
+                                    <i class="fas fa-angle-left me-2"></i>تحديات برمجية
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/topics/sample-project" target="_blank" class="text-decoration-none text-muted d-block p-2 rounded hover-link">
+                                    <i class="fas fa-angle-left me-2"></i>نماذج مشاريع
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="ai-tools" class="col-md-3">
+                    <div class="resource-card bg-white p-4 rounded-3 shadow-sm h-100 border-start border-success border-4">
+                        <div class="resource-icon text-success mb-3">أدوات ذكية</div>
+                        <h4 class="h5 mb-3">الذكاء الاصطناعي</h4>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-3">
+                                <a href="https://chat.openai.com" target="_blank" class="text-decoration-none text-muted d-block p-2 rounded hover-link">
+                                    <i class="fas fa-angle-left me-2"></i>ChatGPT
+                                </a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="https://github.com/features/copilot" target="_blank" class="text-decoration-none text-muted d-block p-2 rounded hover-link">
+                                    <i class="fas fa-angle-left me-2"></i>GitHub Copilot
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.tabnine.com" target="_blank" class="text-decoration-none text-muted d-block p-2 rounded hover-link">
+                                    <i class="fas fa-angle-left me-2"></i>Tabnine
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom Styles -->
+<style>
+.animation-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
+}
+
+.hover-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.hover-link {
+    transition: all 0.3s ease;
+}
+
+.hover-link:hover {
+    background-color: rgba(0,0,0,0.05);
+    transform: translateX(-5px);
+}
+
+.resource-icon {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.bg-gradient-primary {
+    background-size: 200% 200%;
+    animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+</style>
+{% endblock %}
