@@ -6,6 +6,10 @@
     <title>Shifra - دورة الذكاء الاصطناعي مع المدرب عبد العزيز</title>
     <meta name="description" content="تعلم أساسيات الذكاء الاصطناعي وأدواته مع المدرب عبد العزيز في دورة مدتها ثلاثة أيام. سجل الآن!">
     
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.svg') }}" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/shifra-logo.svg') }}">
+    
     <!-- الخطوط -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,10 +28,7 @@
             <div class="header-wrapper">
                 <div class="logo">
                     <a href="/" aria-label="الصفحة الرئيسية">
-                        <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true">
-                            <rect width="40" height="40" rx="8" fill="#e01e1e" />
-                            <path d="M10,20 L30,20 M20,10 L20,30" stroke="white" stroke-width="4" stroke-linecap="round" />
-                        </svg>
+                        <img src="{{ url_for('static', filename='images/shifra-logo.svg') }}" alt="Shifra Logo" width="40" height="40">
                         <span>Shifra</span>
                     </a>
                 </div>
@@ -354,10 +355,7 @@
             <div class="footer-content">
                 <div class="footer-logo">
                     <a href="/" aria-label="الصفحة الرئيسية">
-                        <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true">
-                            <rect width="40" height="40" rx="8" fill="#e01e1e" />
-                            <path d="M10,20 L30,20 M20,10 L20,30" stroke="white" stroke-width="4" stroke-linecap="round" />
-                        </svg>
+                        <img src="{{ url_for('static', filename='images/shifra-logo.svg') }}" alt="Shifra Logo" width="40" height="40">
                         <span>Shifra</span>
                     </a>
                     <p>تعلم الذكاء الاصطناعي بطريقة عملية وممتعة</p>
