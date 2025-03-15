@@ -1,38 +1,61 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, jsonify, session, send_from_directory
-from urllib.parse import quote
+from flask import Flask, render_template, request, jsonify, send_from_directory
 import os
-import functools
+import logging
+from datetime import datetime
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = os.urandom(24)
-app.secret_key = 'your-secret-key-here'  # تغيير هذا المفتاح في الإنتاج
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
+app = Flask(__name__, 
+            static_folder='static',  # استخدام المجلد القياسي للملفات الاستاتيكية
+            template_folder='templates')  # استخدام المجلد القياسي للقوالب
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', os.urandom(24))
 
 @app.route('/')
 def home():
+    """Render the home page."""
     return render_template('index.html')
 
 @app.route('/register', methods=['POST'])
 def register():
+    """Handle registration form submissions."""
     if request.method == 'POST':
-        full_name = request.form.get('fullName')
-        email = request.form.get('email')
-        phone = request.form.get('phone')
-        payment_method = request.form.get('paymentMethod')
-        
-        # هنا يمكنك إضافة منطق لتخزين البيانات أو إرسال إشعارات
-        return jsonify({
-            'success': True,
-            'message': 'تم استلام طلبك بنجاح! سنتواصل معك قريباً'
-        })
+        try:
+            # Extract form data
+            data = request.get_json()
+            
+            # Log registration attempt
+            logger.info(f"Registration attempt: {data['email']}")
+            
+            # Here you would add logic to store data or send notifications
+            # For example, saving to a database or sending an email
+            
+            return jsonify({
+                'success': True,
+                'message': 'تم استلام طلبك بنجاح! سنتواصل معك قريباً'
+            })
+        except Exception as e:
+            logger.error(f"Registration error: {str(e)}")
+            return jsonify({
+                'success': False,
+                'message': 'حدث خطأ في معالجة الطلب'
+            }), 500
+    
     return jsonify({
         'success': False,
-        'message': 'حدث خطأ في معالجة الطلب'
-    })
+        'message': 'طريقة الطلب غير مدعومة'
+    }), 405
 
-# مسار خاص لملفات CSS و JavaScript
 @app.route('/static/<path:filename>')
 def custom_static(filename):
+    """Serve static files."""
     return send_from_directory('static', filename)
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5050)
+    port = int(os.environ.get('PORT', 5050))
+    debug = os.environ.get('FLASK_ENV') == 'development'
+    app.run(debug=debug, host='0.0.0.0', port=port)

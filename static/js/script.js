@@ -1,295 +1,192 @@
-import { gsap } from 'gsap';
-import { ScrollTrigger } from "https://cdn.jsdelivr.net/npm/gsap@3.12.2/ScrollTrigger.min.js";
+/**
+ * شفرة - موقع تعليم الذكاء الاصطناعي
+ * ملف JavaScript للوظائف التفاعلية
+ */
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Register ScrollTrigger plugin
-    gsap.registerPlugin(ScrollTrigger);
+// تهيئة التطبيق عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', () => {
+    // تهيئة العداد التنازلي
+    initCountdown();
     
-    // Initialize mobile menu
+    // تهيئة قائمة الجوال
     initMobileMenu();
     
-    // Initialize animations
-    initAnimations();
+    // تهيئة التمرير السلس
+    initSmoothScroll();
     
-    // Initialize testimonial slider
-    initTestimonialSlider();
-    
-    // Initialize FAQ accordion
-    initFaqAccordion();
-    
-    // Initialize payment method selection
-    initPaymentMethodSelector();
-    
-    // Initialize form submission
-    initFormSubmission();
+    // تهيئة تأثيرات التمرير
+    initScrollEffects();
 });
 
-function initMobileMenu() {
-    const menuToggle = document.getElementById('menuToggle');
-    const navMenu = document.querySelector('nav ul');
+/**
+ * تهيئة العداد التنازلي
+ */
+function initCountdown() {
+    // تاريخ انتهاء العرض (بعد 3 أيام من الآن)
+    const now = new Date();
+    const endDate = new Date(now);
+    endDate.setDate(now.getDate() + 3);
+    endDate.setHours(23, 59, 59, 0);
     
-    if (menuToggle) {
+    // عناصر العداد التنازلي
+    const daysElement = document.getElementById('days');
+    const hoursElement = document.getElementById('hours');
+    const minutesElement = document.getElementById('minutes');
+    const secondsElement = document.getElementById('seconds');
+    
+    // تحديث العداد التنازلي كل ثانية
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+    
+    function updateCountdown() {
+        const currentTime = new Date();
+        const timeDifference = endDate - currentTime;
+        
+        // التحقق مما إذا انتهى العداد التنازلي
+        if (timeDifference <= 0) {
+            daysElement.textContent = '00';
+            hoursElement.textContent = '00';
+            minutesElement.textContent = '00';
+            secondsElement.textContent = '00';
+            return;
+        }
+        
+        // حساب الأيام والساعات والدقائق والثواني المتبقية
+        const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+        
+        // تحديث عناصر العداد التنازلي
+        daysElement.textContent = days < 10 ? `0${days}` : days;
+        hoursElement.textContent = hours < 10 ? `0${hours}` : hours;
+        minutesElement.textContent = minutes < 10 ? `0${minutes}` : minutes;
+        secondsElement.textContent = seconds < 10 ? `0${seconds}` : seconds;
+    }
+}
+
+/**
+ * تهيئة قائمة الجوال
+ */
+function initMobileMenu() {
+    const menuToggle = document.getElementById('mobile-menu-toggle');
+    const mainMenu = document.getElementById('main-menu');
+    
+    if (menuToggle && mainMenu) {
         menuToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            menuToggle.querySelector('i').classList.toggle('fa-bars');
-            menuToggle.querySelector('i').classList.toggle('fa-times');
+            menuToggle.classList.toggle('active');
+            mainMenu.classList.toggle('active');
+            
+            // تغيير خاصية aria-expanded
+            const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+            menuToggle.setAttribute('aria-expanded', !isExpanded);
+        });
+        
+        // إغلاق القائمة عند النقر على أي رابط فيها
+        const menuLinks = mainMenu.querySelectorAll('a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                mainMenu.classList.remove('active');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            });
         });
     }
+}
+
+/**
+ * تهيئة التمرير السلس
+ */
+function initSmoothScroll() {
+    const links = document.querySelectorAll('a[href^="#"]');
     
-    // Close menu when clicking on a link
-    const navLinks = document.querySelectorAll('nav ul li a');
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            navMenu.classList.remove('active');
-            if (menuToggle.querySelector('i').classList.contains('fa-times')) {
-                menuToggle.querySelector('i').classList.remove('fa-times');
-                menuToggle.querySelector('i').classList.add('fa-bars');
+    links.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                const offsetTop = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
             }
         });
     });
 }
 
-function initAnimations() {
-    // Hero section animations
-    gsap.from('.hero-content', {
-        opacity: 0,
-        y: 50,
-        duration: 1,
-        ease: 'power3.out'
-    });
+/**
+ * تهيئة تأثيرات التمرير
+ */
+function initScrollEffects() {
+    // إضافة فئة active عند التمرير
+    const elementsToAnimate = document.querySelectorAll('.feature-card, .pricing-card, .stat-card');
     
-    gsap.from('.hero-image', {
-        opacity: 0,
-        y: 30,
-        delay: 0.3,
-        duration: 1,
-        ease: 'power3.out'
-    });
-    
-    // Code typing animation
-    const codeLines = document.querySelectorAll('.code-line');
-    gsap.from(codeLines, {
-        opacity: 0,
-        y: 10,
-        duration: 0.5,
-        stagger: 0.1,
-        delay: 1,
-        ease: 'power2.out'
-    });
-    
-    // Stats section
-    gsap.from('.stat-card', {
-        scrollTrigger: {
-            trigger: '.stats-section',
-            start: 'top 80%'
-        },
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: 'power2.out'
-    });
-    
-    // Why section
-    gsap.from('.feature-point', {
-        scrollTrigger: {
-            trigger: '.why-section',
-            start: 'top 80%'
-        },
-        opacity: 0,
-        x: -30,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: 'power2.out'
-    });
-    
-    gsap.from('.comparison-card', {
-        scrollTrigger: {
-            trigger: '.comparison-card',
-            start: 'top 80%'
-        },
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        ease: 'power2.out'
-    });
-    
-    // Features section
-    gsap.from('.feature-card', {
-        scrollTrigger: {
-            trigger: '.features-section',
-            start: 'top 80%'
-        },
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: 'power2.out'
-    });
-    
-    // Program timeline
-    gsap.from('.timeline-item', {
-        scrollTrigger: {
-            trigger: '.program-section',
-            start: 'top 80%'
-        },
-        opacity: 0,
-        x: 30,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: 'power2.out'
-    });
-    
-    // Tools section
-    gsap.from('.tool-card', {
-        scrollTrigger: {
-            trigger: '.tools-section',
-            start: 'top 80%'
-        },
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: 'power2.out'
-    });
-    
-    // Instructor section
-    gsap.from('.instructor-card', {
-        scrollTrigger: {
-            trigger: '.instructor-section',
-            start: 'top 80%'
-        },
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        ease: 'power2.out'
-    });
-    
-    // Register section
-    gsap.from('.register-card', {
-        scrollTrigger: {
-            trigger: '.register-section',
-            start: 'top 80%'
-        },
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        ease: 'power2.out'
-    });
-}
-
-function initTestimonialSlider() {
-    const slider = document.querySelector('.testimonials-slider');
-    if (!slider) return;
-    
-    const cards = document.querySelectorAll('.testimonial-card');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    
-    let currentIndex = 0;
-    
-    function showCard(index) {
-        // Hide all cards
-        cards.forEach(card => {
-            card.style.display = 'none';
-        });
-        
-        // Show the current card
-        cards[index].style.display = 'block';
-        
-        // Animate the current card
-        gsap.fromTo(cards[index], 
-            { opacity: 0, y: 20 },
-            { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }
+    // دالة للتحقق مما إذا كان العنصر مرئيًا
+    function isElementInViewport(el) {
+        const rect = el.getBoundingClientRect();
+        return (
+            rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.8
         );
     }
     
-    // Initial display
-    showCard(currentIndex);
-    
-    // Event listeners for buttons
-    if (prevBtn) {
-        prevBtn.addEventListener('click', () => {
-            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-            showCard(currentIndex);
+    // دالة لتحديث حالة العناصر عند التمرير
+    function checkElements() {
+        elementsToAnimate.forEach(element => {
+            if (isElementInViewport(element)) {
+                element.classList.add('visible');
+            }
         });
     }
     
-    if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % cards.length;
-            showCard(currentIndex);
-        });
-    }
+    // التحقق عند تحميل الصفحة
+    checkElements();
     
-    // Auto rotation
-    setInterval(() => {
-        currentIndex = (currentIndex + 1) % cards.length;
-        showCard(currentIndex);
-    }, 5000);
+    // التحقق عند التمرير
+    window.addEventListener('scroll', checkElements);
 }
 
-function initFaqAccordion() {
-    const faqItems = document.querySelectorAll('.faq-item');
-    
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
+/**
+ * إضافة فئة CSS للعناصر الظاهرة
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    const style = document.createElement('style');
+    style.textContent = `
+        .feature-card, .pricing-card, .stat-card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
         
-        question.addEventListener('click', () => {
-            const isActive = item.classList.contains('active');
-            
-            // Close all items
-            faqItems.forEach(faq => {
-                faq.classList.remove('active');
-            });
-            
-            // Open clicked item if it wasn't active
-            if (!isActive) {
-                item.classList.add('active');
-            }
-        });
-    });
-}
-
-function initPaymentMethodSelector() {
-    const paymentMethodSelect = document.getElementById('paymentMethod');
-    const creditCardDetails = document.querySelector('.credit-card-details');
-    
-    if (paymentMethodSelect && creditCardDetails) {
-        paymentMethodSelect.addEventListener('change', () => {
-            if (paymentMethodSelect.value === 'credit' || paymentMethodSelect.value === 'mada') {
-                creditCardDetails.style.display = 'block';
-            } else {
-                creditCardDetails.style.display = 'none';
-            }
-        });
-    }
-}
-
-function initFormSubmission() {
-    const paymentForm = document.getElementById('paymentForm');
-    
-    if (paymentForm) {
-        paymentForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Simple validation
-            const fullName = document.getElementById('fullName').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const paymentMethod = document.getElementById('paymentMethod').value;
-            
-            if (!fullName || !email || !phone || !paymentMethod) {
-                alert('الرجاء إكمال جميع الحقول المطلوبة');
-                return;
-            }
-            
-            // In a real application, you would submit the form data to a server
-            // For this example, just show a success message
-            alert('تم إكمال عملية الشراء بنجاح! سيتم إرسال تفاصيل الوصول إلى بريدك الإلكتروني.');
-            
-            // Reset form
-            paymentForm.reset();
-        });
-    }
-}
+        .feature-card.visible, .pricing-card.visible, .stat-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .feature-card:nth-child(2), .pricing-card:nth-child(2), .stat-card:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+        
+        .feature-card:nth-child(3), .pricing-card:nth-child(3), .stat-card:nth-child(3) {
+            transition-delay: 0.4s;
+        }
+        
+        .feature-card:nth-child(4), .stat-card:nth-child(4) {
+            transition-delay: 0.6s;
+        }
+        
+        .feature-card:nth-child(5) {
+            transition-delay: 0.8s;
+        }
+        
+        .feature-card:nth-child(6) {
+            transition-delay: 1s;
+        }
+    `;
+    document.head.appendChild(style);
+});
