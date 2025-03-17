@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, send_from_directory
+from flask import Flask, render_template, request, jsonify, send_from_directory, redirect, url_for
 import os
 import logging
 from datetime import datetime
@@ -15,10 +15,25 @@ app = Flask(__name__,
             template_folder='templates')  # استخدام المجلد القياسي للقوالب
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', os.urandom(24))
 
+# مسار للصفحة الرئيسية
 @app.route('/')
-def home():
+def index():
     """Render the home page."""
     return render_template('index.html')
+
+# مسارات تحسين محركات البحث
+@app.route('/robots.txt')
+def robots():
+    return send_from_directory('static', 'robots.txt')
+
+@app.route('/sitemap.xml')
+def sitemap():
+    return send_from_directory('static', 'sitemap.xml')
+
+# إعادة توجيه URLs غير الصالحة إلى الصفحة الرئيسية
+@app.errorhandler(404)
+def page_not_found(e):
+    return redirect(url_for('index'))
 
 @app.route('/register', methods=['POST'])
 def register():

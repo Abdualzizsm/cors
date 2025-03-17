@@ -3,8 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shifra - دورة الذكاء الاصطناعي مع المدرب عبد العزيز</title>
-    <meta name="description" content="تعلم أساسيات الذكاء الاصطناعي وأدواته مع المدرب عبد العزيز في دورة مدتها ثلاثة أيام. سجل الآن!">
+    <meta name="description" content="مجتمع Shifra للذكاء الاصطناعي - انضم لمجتمع تعليمي متفاعل بدولار واحد فقط وتعلم تطبيقات الذكاء الاصطناعي العملية باللغة العربية. دروس، مشاريع عملية، وجلسات أسبوعية مباشرة.">
+    <meta name="keywords" content="الذكاء الاصطناعي، تعلم، دورات، عربي، AI، ChatGPT، مجتمع، تدريب عملي، دولار واحد، منصة تعليمية">
+    <meta name="author" content="Shifra Community">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://shifra-community.onrender.com/">
+    <meta property="og:title" content="مجتمع Shifra للذكاء الاصطناعي - تعلم واتقن مهارات المستقبل بدولار واحد">
+    <meta property="og:description" content="انضم لمجتمع تعليمي متفاعل بدولار واحد فقط وتعلم تطبيقات الذكاء الاصطناعي العملية باللغة العربية. دروس، مشاريع عملية، وجلسات أسبوعية مباشرة.">
+    <meta property="og:image" content="{{ url_for('static', filename='images/shifra-logo.svg') }}">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://shifra-community.onrender.com/">
+    <meta property="twitter:title" content="مجتمع Shifra للذكاء الاصطناعي - تعلم واتقن مهارات المستقبل بدولار واحد">
+    <meta property="twitter:description" content="انضم لمجتمع تعليمي متفاعل بدولار واحد فقط وتعلم تطبيقات الذكاء الاصطناعي العملية باللغة العربية. دروس، مشاريع عملية، وجلسات أسبوعية مباشرة.">
+    <meta property="twitter:image" content="{{ url_for('static', filename='images/shifra-logo.svg') }}">
+    
+    <title>مجتمع Shifra للذكاء الاصطناعي - تعلم واتقن مهارات المستقبل بدولار واحد</title>
     
     <!-- Favicon -->
     <link rel="icon" href="{{ url_for('static', filename='images/favicon.svg') }}" type="image/svg+xml">
@@ -16,330 +34,528 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <!-- ملف CSS الخاص بنا -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <!-- القائمة العلوية -->
+    <!-- القائمة -->
     <header class="site-header">
         <div class="container">
-            <div class="header-wrapper">
+            <div class="header-inner">
                 <div class="logo">
-                    <a href="/" aria-label="الصفحة الرئيسية">
-                        <img src="{{ url_for('static', filename='images/shifra-logo.svg') }}" alt="Shifra Logo" width="40" height="40">
-                        <span>Shifra</span>
+                    <a href="#">
+                        <img src="{{ url_for('static', filename='images/shifra-logo.svg') }}" alt="Shifra" class="logo-image">
                     </a>
                 </div>
                 
-                <nav class="main-nav" aria-label="التنقل الرئيسي">
-                    <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-expanded="false" aria-controls="main-menu" aria-label="قائمة التنقل">
-                        <span class="menu-icon"></span>
-                    </button>
+                <nav class="main-nav">
+                    <div class="mobile-menu-toggle" id="menu-toggle">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </div>
                     
                     <ul id="main-menu" class="main-menu">
-                        <li><a href="#course-features">محتوى الدورة</a></li>
-                        <li><a href="#pricing">الباقات والأسعار</a></li>
-                        <li><a href="#testimonials">آراء المتدربين</a></li>
-                        <li><a href="#about-instructor">عن المدرب</a></li>
+                        <li><a href="#features">ميزات المجتمع</a></li>
+                        <li><a href="#pricing">نموذج العضوية</a></li>
+                        <li><a href="#how-it-works">كيف يعمل</a></li>
+                        <li><a href="#core-values">قيمنا</a></li>
+                        <li><a href="#about-instructor">عن المجتمع</a></li>
                         <li><a href="#faq">أسئلة شائعة</a></li>
                     </ul>
                 </nav>
-                
-                <div class="header-actions">
-                    <a href="#pricing" class="btn btn-primary">سجل الآن</a>
-                </div>
             </div>
         </div>
     </header>
 
-    <!-- قسم البطل (Hero) -->
-    <section class="hero" id="hero">
+    <!-- قسم الهيرو (الترحيب) -->
+    <section class="hero-section">
         <div class="container">
             <div class="hero-content">
-                <span class="badge">التسجيل مفتوح الآن</span>
-                <h1>تعلم <span class="highlight">الذكاء الاصطناعي</span> بطريقة عملية وممتعة</h1>
-                <p>دورة Shifra هي بوابتك لعالم الذكاء الاصطناعي. صممت خصيصاً للراغبين في تعلم استخدام أدوات الذكاء الاصطناعي بطريقة عملية وسهلة.</p>
-                
-                <div class="countdown-container">
-                    <div class="countdown-title">ينتهي العرض خلال:</div>
-                    <div class="countdown-timer" id="countdown" aria-live="polite">
-                        <div class="countdown-item">
-                            <div class="countdown-value" id="days">03</div>
-                            <div class="countdown-label">يوم</div>
-                        </div>
-                        <div class="countdown-item">
-                            <div class="countdown-value" id="hours">10</div>
-                            <div class="countdown-label">ساعة</div>
-                        </div>
-                        <div class="countdown-item">
-                            <div class="countdown-value" id="minutes">24</div>
-                            <div class="countdown-label">دقيقة</div>
-                        </div>
-                        <div class="countdown-item">
-                            <div class="countdown-value" id="seconds">36</div>
-                            <div class="countdown-label">ثانية</div>
-                        </div>
-                    </div>
-                </div>
-                
+                <h1 class="hero-title">انضم لمجتمع <span class="highlight">Shifra</span> للذكاء الاصطناعي</h1>
+                <p class="hero-subtitle">نبني معًا مجتمعًا تعليميًا عربيًا مُبتكرًا يُمكّن الجميع من تعلم وتطبيق تقنيات الذكاء الاصطناعي</p>
                 <div class="hero-cta">
-                    <a href="#pricing" class="btn btn-primary btn-lg">
-                        سجل الآن
-                        <i class="fas fa-arrow-left arrow"></i>
-                    </a>
-                    <a href="#course-features" class="btn btn-secondary btn-lg">اعرف المزيد</a>
+                    <a href="#how-it-works" class="btn btn-primary btn-lg">اكتشف مجتمعنا</a>
+                    <a href="#pricing" class="btn btn-outline btn-lg">انضم مقابل دولار واحد</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-value">200+</span>
+                        <span class="stat-label">عضو في المجتمع</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">10+</span>
+                        <span class="stat-label">ساعات تعليمية</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">20+</span>
+                        <span class="stat-label">مشاريع عملية</span>
+                    </div>
                 </div>
             </div>
             
-            <div class="hero-image">
-                <img src="https://placehold.co/600x400/e01e1e/ffffff?text=AI+Course" alt="دورة الذكاء الاصطناعي" width="500" height="400">
+            <div class="hero-timer">
+                <div class="timer-title">العرض الخاص ينتهي خلال</div>
+                <div class="countdown-timer" id="countdown-timer">
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="countdown-days">00</div>
+                        <div class="countdown-label">يوم</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="countdown-hours">00</div>
+                        <div class="countdown-label">ساعة</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="countdown-minutes">00</div>
+                        <div class="countdown-label">دقيقة</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="countdown-seconds">00</div>
+                        <div class="countdown-label">ثانية</div>
+                    </div>
+                </div>
+                <div class="timer-message">سارع! انضم للمجتمع الآن مقابل دولار واحد فقط</div>
             </div>
         </div>
     </section>
 
-    <!-- قسم الإحصائيات -->
-    <section class="stats-section">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <div class="stat-value">300%</div>
-                    <div class="stat-desc">زيادة في إنتاجيتك</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-cogs"></i>
-                    </div>
-                    <div class="stat-value">15+</div>
-                    <div class="stat-desc">أداة ذكاء اصطناعي</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="stat-value">72</div>
-                    <div class="stat-desc">ساعة تدريبية</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div class="stat-value">500+</div>
-                    <div class="stat-desc">متدرب ناجح</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- قسم محتوى الدورة -->
-    <section class="features-section" id="course-features">
+    <!-- قسم ميزات المجتمع -->
+    <section class="features-section" id="features">
         <div class="container">
             <div class="section-header">
-                <h2>ماذا ستتعلم في الدورة؟</h2>
-                <p>دورة مكثفة لمدة 3 أيام تغطي كل ما تحتاجه للبدء في عالم الذكاء الاصطناعي</p>
+                <span class="section-subtitle">ما الذي يميزنا</span>
+                <h2 class="section-title">ميزات العضوية في مجتمع Shifra</h2>
+                <p class="section-description">انضم لمجتمع يدعمك ويساعدك على تطوير مهاراتك في الذكاء الاصطناعي بطريقة عملية وشاملة</p>
             </div>
             
             <div class="features-grid">
-                <div class="feature-card">
+                <div class="feature-item">
                     <div class="feature-icon">
-                        <i class="fas fa-brain"></i>
+                        <i class="fas fa-graduation-cap"></i>
                     </div>
-                    <h3>أساسيات الذكاء الاصطناعي</h3>
-                    <p>تعرف على المفاهيم الأساسية للذكاء الاصطناعي وتعلم الآلي والتعلم العميق.</p>
+                    <h3 class="feature-title">محتوى تعليمي عربي</h3>
+                    <p class="feature-description">دروس ومحاضرات بالعربية تشرح تقنيات الذكاء الاصطناعي بشكل مبسط وعملي يناسب جميع المستويات</p>
                 </div>
-                <div class="feature-card">
+                
+                <div class="feature-item">
                     <div class="feature-icon">
-                        <i class="fas fa-comment-dots"></i>
+                        <i class="fas fa-users"></i>
                     </div>
-                    <h3>نماذج اللغة الكبيرة</h3>
-                    <p>استخدام ChatGPT وكلود وباردBard وغيرها من نماذج اللغة لزيادة إنتاجيتك.</p>
+                    <h3 class="feature-title">مجتمع نشط ومتفاعل</h3>
+                    <p class="feature-description">التواصل مع أكثر من 200 عضو يتشاركون نفس الاهتمام ويتبادلون الخبرات والتجارب في مجال الذكاء الاصطناعي</p>
                 </div>
-                <div class="feature-card">
+                
+                <div class="feature-item">
                     <div class="feature-icon">
-                        <i class="fas fa-image"></i>
+                        <i class="fas fa-video"></i>
                     </div>
-                    <h3>توليد الصور والفيديو</h3>
-                    <p>استخدام أدوات مثل Midjourney وDALL-E لإنشاء صور وفيديوهات احترافية.</p>
+                    <h3 class="feature-title">جلسات أسبوعية مباشرة</h3>
+                    <p class="feature-description">جلسات تدريبية مباشرة أسبوعية مع خبراء في مجال الذكاء الاصطناعي لمناقشة آخر التطورات والإجابة على الأسئلة</p>
                 </div>
-                <div class="feature-card">
+                
+                <div class="feature-item">
                     <div class="feature-icon">
-                        <i class="fas fa-code"></i>
+                        <i class="fas fa-project-diagram"></i>
                     </div>
-                    <h3>البرمجة بمساعدة الذكاء</h3>
-                    <p>تعلم كيفية استخدام GitHub Copilot وChatGPT لتسريع عملية البرمجة.</p>
+                    <h3 class="feature-title">تحديات ومشاريع عملية</h3>
+                    <p class="feature-description">مشاريع وتحديات شهرية متنوعة لتطبيق ما تعلمته عمليًا وبناء محفظة مشاريع قوية في الذكاء الاصطناعي</p>
                 </div>
-                <div class="feature-card">
+                
+                <div class="feature-item">
                     <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
+                        <i class="fas fa-hands-helping"></i>
                     </div>
-                    <h3>تحليل البيانات</h3>
-                    <p>استخدام أدوات الذكاء الاصطناعي في تحليل البيانات واستخراج الرؤى.</p>
+                    <h3 class="feature-title">دعم مستمر</h3>
+                    <p class="feature-description">مجموعة دعم متخصصة للمساعدة في حل المشكلات التقنية والإجابة على الاستفسارات على مدار الأسبوع</p>
                 </div>
-                <div class="feature-card">
+                
+                <div class="feature-item">
                     <div class="feature-icon">
-                        <i class="fas fa-rocket"></i>
+                        <i class="fas fa-certificate"></i>
                     </div>
-                    <h3>بناء تطبيقات ذكية</h3>
-                    <p>تعلم كيفية بناء تطبيقات بسيطة تستخدم الذكاء الاصطناعي لحل مشكلات حقيقية.</p>
+                    <h3 class="feature-title">شهادات إتمام</h3>
+                    <p class="feature-description">شهادات إتمام للتحديات والمشاريع التي تنجزها، تضيف قيمة حقيقية لسيرتك الذاتية ومسارك المهني</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- قسم الباقات والأسعار -->
-    <section class="pricing-section" id="pricing">
+    <!-- قسم شهادات الأعضاء -->
+    <section class="testimonials-section" id="testimonials">
         <div class="container">
             <div class="section-header">
-                <h2>اختر الباقة المناسبة لك</h2>
-                <p>ثلاث باقات مختلفة تناسب احتياجاتك ومستواك في الذكاء الاصطناعي</p>
+                <span class="section-subtitle">ماذا يقول أعضاؤنا</span>
+                <h2 class="section-title">تجارب من مجتمع Shifra</h2>
+                <p class="section-description">شهادات حقيقية من أعضاء انضموا لمجتمعنا وبدأوا رحلتهم في مجال الذكاء الاصطناعي</p>
             </div>
             
-            <div class="pricing-grid">
-                <!-- الباقة الأساسية -->
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <h3>الباقة الأساسية</h3>
-                        <div class="pricing-value">
-                            <span class="currency">ريال</span>
-                            <span class="amount">399</span>
+            <div class="testimonials-grid">
+                <div class="testimonial-item">
+                    <div class="testimonial-content">
+                        <p class="testimonial-text">"انضمامي لمجتمع Shifra كان نقطة تحول في تعلمي للذكاء الاصطناعي. المحتوى عملي والمجتمع داعم، والتحديات الشهرية ساعدتني في تطبيق ما تعلمته بشكل فعال."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-image">
+                            <img src="https://placehold.co/100x100/e01e1e/ffffff?text=م" alt="محمد" class="rounded-image">
                         </div>
-                        <div class="pricing-period">دورة لمدة 3 أيام</div>
-                    </div>
-                    
-                    <div class="pricing-features">
-                        <ul>
-                            <li><i class="fas fa-check"></i> حضور الدورة التدريبية لمدة 3 أيام</li>
-                            <li><i class="fas fa-check"></i> المادة التدريبية الشاملة</li>
-                            <li><i class="fas fa-check"></i> تطبيقات عملية على أدوات الذكاء الاصطناعي</li>
-                            <li class="disabled"><i class="fas fa-times"></i> جلسة استشارية خاصة</li>
-                            <li class="disabled"><i class="fas fa-times"></i> دعم فني لمدة شهر</li>
-                            <li class="disabled"><i class="fas fa-times"></i> دروس إضافية متقدمة</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="pricing-action">
-                        <a href="https://wa.me/966539631343?text=أرغب%20في%20التسجيل%20في%20الباقة%20الأساسية%20بسعر%20399%20ريال" class="btn btn-primary btn-block" target="_blank">
-                            سجل الآن عبر الواتساب
-                            <i class="fab fa-whatsapp"></i>
-                        </a>
+                        <div class="author-info">
+                            <h4 class="author-name">محمد س.</h4>
+                            <p class="author-title">مطور برمجيات</p>
+                        </div>
                     </div>
                 </div>
                 
-                <!-- الباقة المتقدمة -->
-                <div class="pricing-card featured">
-                    <div class="pricing-badge">الأكثر طلباً</div>
-                    <div class="pricing-header">
-                        <h3>الباقة المتقدمة</h3>
-                        <div class="pricing-value">
-                            <span class="currency">ريال</span>
-                            <span class="amount">699</span>
+                <div class="testimonial-item">
+                    <div class="testimonial-content">
+                        <p class="testimonial-text">"كنت متخوفة من بدء رحلتي في تعلم الذكاء الاصطناعي لأنه مجال معقد، لكن مجتمع Shifra جعل الأمر سهلاً ومنظمًا. المحتوى العربي كان نقطة تحول بالنسبة لي."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-image">
+                            <img src="https://placehold.co/100x100/e01e1e/ffffff?text=ف" alt="فاطمة" class="rounded-image">
                         </div>
-                        <div class="pricing-period">دورة لمدة 3 أيام + مزايا إضافية</div>
-                    </div>
-                    
-                    <div class="pricing-features">
-                        <ul>
-                            <li><i class="fas fa-check"></i> حضور الدورة التدريبية لمدة 3 أيام</li>
-                            <li><i class="fas fa-check"></i> المادة التدريبية الشاملة</li>
-                            <li><i class="fas fa-check"></i> تطبيقات عملية على أدوات الذكاء الاصطناعي</li>
-                            <li><i class="fas fa-check"></i> جلسة استشارية خاصة (ساعة)</li>
-                            <li><i class="fas fa-check"></i> دعم فني لمدة شهر</li>
-                            <li class="disabled"><i class="fas fa-times"></i> دروس إضافية متقدمة</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="pricing-action">
-                        <a href="https://wa.me/966539631343?text=أرغب%20في%20التسجيل%20في%20الباقة%20المتقدمة%20بسعر%20699%20ريال" class="btn btn-primary btn-block" target="_blank">
-                            سجل الآن عبر الواتساب
-                            <i class="fab fa-whatsapp"></i>
-                        </a>
+                        <div class="author-info">
+                            <h4 class="author-name">فاطمة ع.</h4>
+                            <p class="author-title">محللة بيانات</p>
+                        </div>
                     </div>
                 </div>
                 
-                <!-- الباقة الاحترافية -->
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <h3>الباقة الاحترافية</h3>
-                        <div class="pricing-value">
-                            <span class="currency">ريال</span>
-                            <span class="amount">999</span>
+                <div class="testimonial-item">
+                    <div class="testimonial-content">
+                        <p class="testimonial-text">"المجتمع الداعم والجلسات المباشرة الأسبوعية أهم ما يميز Shifra. دائمًا هناك من يساعدك ويوجهك. الاستثمار بدولار واحد كان أفضل قرار اتخذته هذا العام."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-image">
+                            <img src="https://placehold.co/100x100/e01e1e/ffffff?text=ع" alt="عبدالله" class="rounded-image">
                         </div>
-                        <div class="pricing-period">الحزمة الكاملة</div>
-                    </div>
-                    
-                    <div class="pricing-features">
-                        <ul>
-                            <li><i class="fas fa-check"></i> حضور الدورة التدريبية لمدة 3 أيام</li>
-                            <li><i class="fas fa-check"></i> المادة التدريبية الشاملة</li>
-                            <li><i class="fas fa-check"></i> تطبيقات عملية على أدوات الذكاء الاصطناعي</li>
-                            <li><i class="fas fa-check"></i> جلستان استشاريتان خاصتان (ساعتان)</li>
-                            <li><i class="fas fa-check"></i> دعم فني لمدة 3 أشهر</li>
-                            <li><i class="fas fa-check"></i> دروس إضافية متقدمة</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="pricing-action">
-                        <a href="https://wa.me/966539631343?text=أرغب%20في%20التسجيل%20في%20الباقة%20الاحترافية%20بسعر%20999%20ريال" class="btn btn-primary btn-block" target="_blank">
-                            سجل الآن عبر الواتساب
-                            <i class="fab fa-whatsapp"></i>
-                        </a>
+                        <div class="author-info">
+                            <h4 class="author-name">عبدالله م.</h4>
+                            <p class="author-title">طالب هندسة</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- قسم المدرب -->
-    <section class="instructor-section" id="about-instructor">
+    <!-- قسم التسعير -->
+    <section id="pricing" class="pricing-section">
         <div class="container">
             <div class="section-header">
-                <h2>تعرف على المدرب</h2>
-                <p>خبرة أكثر من 10 سنوات في مجال التقنية والذكاء الاصطناعي</p>
+                <span class="section-subtitle">نموذج الدولار الواحد</span>
+                <h2 class="section-title">انضم لمجتمع Shifra بدولار واحد فقط</h2>
+                <p class="section-description">نؤمن أن تعلم الذكاء الاصطناعي ليس ترفًا، بل ضرورة. لا نريد المال أن يكون عائقاً. بدولار واحد فقط، انضم لمجتمع يدعمك ويساعدك على النمو.</p>
+            </div>
+            
+            <div class="single-pricing-card">
+                <div class="pricing-badge">انضم للمجتمع</div>
+                <div class="pricing-header">
+                    <h3>عضوية مجتمع Shifra</h3>
+                    <div class="pricing-value">
+                        <span class="currency">$</span>
+                        <span class="amount">1</span>
+                    </div>
+                    <div class="pricing-period">عضوية دائمة في المجتمع</div>
+                </div>
+                
+                <div class="pricing-features">
+                    <ul>
+                        <li><i class="fas fa-check"></i> وصول كامل للمحتوى التعليمي الأساسي</li>
+                        <li><i class="fas fa-check"></i> عضوية مجتمع Shifra النشط</li>
+                        <li><i class="fas fa-check"></i> جلسات أسبوعية مباشرة مع المدرب</li>
+                        <li><i class="fas fa-check"></i> تحديات ومشاريع عملية</li>
+                        <li><i class="fas fa-check"></i> فرصة التعاون مع متعلمين آخرين</li>
+                        <li><i class="fas fa-check"></i> تطبيقات عملية على أدوات الذكاء الاصطناعي</li>
+                    </ul>
+                </div>
+                
+                <div class="pricing-action">
+                    <a href="https://wa.me/966539631343?text=أرغب%20في%20الانضمام%20لمجتمع%20Shifra%20مقابل%20دولار%20واحد" class="btn btn-primary btn-block" target="_blank">
+                        انضم للمجتمع الآن
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- كيف يعمل نموذج الدولار الواحد -->
+    <section id="how-it-works" class="how-it-works-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">خطوات بسيطة</span>
+                <h2 class="section-title">كيف يعمل نموذج الدولار الواحد؟</h2>
+                <p class="section-description">الدولار ليس للربح، بل لضمان الالتزام والمشاركة الحقيقية في بناء مجتمع متعلم</p>
+            </div>
+            
+            <div class="steps-container">
+                <div class="step-item">
+                    <div class="step-number">١</div>
+                    <div class="step-content">
+                        <h3>ادفع دولار واحد</h3>
+                        <p>الدولار ليس للربح، بل لضمان الالتزام والمشاركة الحقيقية</p>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">٢</div>
+                    <div class="step-content">
+                        <h3>تعلم المهارات الأساسية</h3>
+                        <p>وصول كامل لمحتوى الدورة التأسيسية في الذكاء الاصطناعي</p>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">٣</div>
+                    <div class="step-content">
+                        <h3>شارك في المجتمع</h3>
+                        <p>كلما شاركت أكثر، فتحت المزيد من المحتوى المتقدم</p>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">٤</div>
+                    <div class="step-content">
+                        <h3>تنمو معنا</h3>
+                        <p>كن جزءًا من توسع المجتمع واكتسب فرص مهنية وتعليمية</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم لماذا تنضم للمجتمع بدولار واحد -->
+    <section class="why-section" id="why">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">لماذا الدولار الواحد</span>
+                <h2 class="section-title">انضم لمجتمع Shifra بدولار واحد فقط</h2>
+                <p class="section-description">نؤمن أن تعلم الذكاء الاصطناعي ليس ترفاً، بل ضرورة. لا نريد المال أن يكون عائقاً.
+بدولار واحد فقط انضم للمجتمع بدعمك ومساعدتك على النمو</p>
+            </div>
+            
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="pricing-box">
+                        <div class="pricing-header">
+                            <span class="membership-tag">للجميع</span>
+                            <h3>عضوية مجتمع Shifra</h3>
+                            <div class="price"><span class="currency">$</span>1</div>
+                            <p class="pricing-detail">عضوية دائمة في المجتمع</p>
+                        </div>
+                        <div class="pricing-features">
+                            <ul>
+                                <li><i class="fas fa-check-circle"></i> وصول كامل للمحتوى التعليمي الأساسي</li>
+                                <li><i class="fas fa-check-circle"></i> عضوية مجتمع Shifra النشط</li>
+                                <li><i class="fas fa-check-circle"></i> جلسات أسبوعية مباشرة مع المدرب</li>
+                                <li><i class="fas fa-check-circle"></i> تحديات ومشاريع عملية</li>
+                                <li><i class="fas fa-check-circle"></i> فرصة التعاون مع متعلمين آخرين</li>
+                                <li><i class="fas fa-check-circle"></i> تطبيقات عملية على أدوات الذكاء الاصطناعي</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-action">
+                            <button class="join-button">انضم الآن <i class="fas fa-arrow-circle-left"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="why-content">
+                        <div class="why-item">
+                            <div class="why-icon">
+                                <i class="fas fa-door-open"></i>
+                            </div>
+                            <div class="why-text">
+                                <h4>إزالة الحواجز</h4>
+                                <p>نؤمن أن المعرفة يجب أن تكون متاحة للجميع، وليس فقط لمن يستطيع دفع مبالغ كبيرة</p>
+                            </div>
+                        </div>
+                        <div class="why-item">
+                            <div class="why-icon">
+                                <i class="fas fa-users-class"></i>
+                            </div>
+                            <div class="why-text">
+                                <h4>بناء مجتمع حقيقي</h4>
+                                <p>هدفنا بناء مجتمع تعليمي داعم وليس فقط منصة لبيع الدورات</p>
+                            </div>
+                        </div>
+                        <div class="why-item">
+                            <div class="why-icon">
+                                <i class="fas fa-hand-holding-heart"></i>
+                            </div>
+                            <div class="why-text">
+                                <h4>التزام متبادل</h4>
+                                <p>الدولار الواحد يمثل التزامك بالتعلم وتفاعلك مع المجتمع، ويعكس التزامنا بتقديم أفضل محتوى ممكن</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- القيم الأساسية -->
+    <section id="core-values" class="core-values-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">مبادئنا</span>
+                <h2 class="section-title">القيم الأساسية لمجتمع Shifra</h2>
+                <p class="section-description">مبادئنا التي نلتزم بها في رحلة بناء مجتمع تعليمي</p>
+            </div>
+            
+            <div class="values-container">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <h3>المعرفة حق للجميع</h3>
+                    <p>نؤمن أن المعرفة والتعليم يجب أن تكون متاحة للجميع بغض النظر عن الإمكانيات المادية</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h3>التعلم بالممارسة</h3>
+                    <p>نعتمد على التطبيق العملي والمشاريع الحقيقية لتحقيق أقصى استفادة</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <h3>مشاركة النجاح</h3>
+                    <p>نشجع المتعلمين على مشاركة نجاحاتهم وخبراتهم مع المجتمع</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>التعاون قبل المنافسة</h3>
+                    <p>نبني بيئة تعليمية تعاونية تشجع على العمل الجماعي</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>التعلم المستمر</h3>
+                    <p>نلتزم بتقديم محتوى متجدد يواكب تطورات الذكاء الاصطناعي السريعة</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم عن مجتمع Shifra -->
+    <section class="about-instructor-section" id="about-instructor">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">تعرف علينا</span>
+                <h2 class="section-title">عن مجتمع Shifra</h2>
+                <p class="section-description">مجتمع تعليمي يهدف إلى تمكين المتعلمين في مجال الذكاء الاصطناعي</p>
             </div>
             
             <div class="instructor-profile">
                 <div class="instructor-image">
-                    <img src="https://placehold.co/400x400/e01e1e/ffffff?text=عبد+العزيز" alt="المدرب عبد العزيز" width="300" height="300">
+                    <img src="https://placehold.co/300x300/e01e1e/ffffff?text=Shifra" alt="مجتمع Shifra" class="rounded-image">
                 </div>
                 
-                <div class="instructor-info">
-                    <h3>عبد العزيز</h3>
-                    <p class="instructor-title">خبير ومستشار في الذكاء الاصطناعي</p>
+                <div class="instructor-details">
+                    <h3>مجتمع متكامل للذكاء الاصطناعي</h3>
+                    <p class="instructor-title">نتعلم معاً... ننمو معاً</p>
                     
                     <div class="instructor-bio">
-                        <p>مدرب محترف في مجال الذكاء الاصطناعي مع خبرة تزيد عن 10 سنوات في مجال التقنية. حاصل على شهادات معتمدة من كبرى المؤسسات العالمية في مجال الذكاء الاصطناعي وعلوم البيانات.</p>
-                        <p>قام بتدريب أكثر من 500 متدرب على استخدام أدوات الذكاء الاصطناعي وتطبيقاتها في مختلف المجالات. يتميز بأسلوب تدريبي مميز يجمع بين المعرفة النظرية والتطبيق العملي.</p>
-                    </div>
-                    
-                    <div class="instructor-stats">
-                        <div class="stat">
-                            <div class="stat-value">500+</div>
-                            <div class="stat-label">متدرب</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">50+</div>
-                            <div class="stat-label">دورة</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">10+</div>
-                            <div class="stat-label">سنوات خبرة</div>
-                        </div>
+                        <p>نحن نؤمن أن مستقبل التعلم يكمن في بناء مجتمعات تعاونية تجمع بين المبتدئين والخبراء في مجال واحد. في مجتمع Shifra، نقدم بيئة داعمة لتعلم وتطبيق تقنيات الذكاء الاصطناعي من خلال:</p>
+                        
+                        <ul class="instructor-highlights">
+                            <li><i class="fas fa-check-circle"></i> محتوى تعليمي عربي عالي الجودة</li>
+                            <li><i class="fas fa-check-circle"></i> تطبيقات عملية على أحدث تقنيات الذكاء الاصطناعي</li>
+                            <li><i class="fas fa-check-circle"></i> جلسات أسبوعية مباشرة للنقاش والتوجيه</li>
+                            <li><i class="fas fa-check-circle"></i> تحديات ومشاريع شهرية لتطبيق المهارات</li>
+                            <li><i class="fas fa-check-circle"></i> فرص للتواصل والتعاون مع متعلمين آخرين</li>
+                        </ul>
                     </div>
                     
                     <div class="instructor-social">
-                        <a href="#" class="social-icon" aria-label="تويتر">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="social-icon" aria-label="لينكد إن">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="#" class="social-icon" aria-label="يوتيوب">
-                            <i class="fab fa-youtube"></i>
-                        </a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الأسئلة الشائعة -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">استفساراتك</span>
+                <h2 class="section-title">الأسئلة الشائعة</h2>
+                <p class="section-description">إجابات لأكثر الأسئلة شيوعاً حول مجتمع Shifra</p>
+            </div>
+            
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>لماذا سعر العضوية دولار واحد فقط؟</h3>
+                        <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>لأننا نؤمن أن المعرفة يجب أن تكون متاحة للجميع. نحن لا نهدف للربح السريع، بل لبناء مجتمع متعلم قوي. الدولار هو رمز للالتزام وضمان المشاركة الجادة وليس عائقاً مادياً.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>كيف يتم دفع رسوم العضوية؟</h3>
+                        <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>يمكنك دفع رسوم العضوية عبر الواتساب. بعد التواصل معنا، سنقدم لك خيارات الدفع المتاحة التي تشمل التحويل البنكي أو الدفع الإلكتروني.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>ما هي المزايا التي أحصل عليها مقابل دولار واحد؟</h3>
+                        <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>مقابل دولار واحد، تحصل على عضوية دائمة في مجتمع Shifra للذكاء الاصطناعي، وصول للمحتوى التعليمي الأساسي، المشاركة في الجلسات الأسبوعية المباشرة، فرص التواصل مع متعلمين آخرين، والمشاركة في التحديات والمشاريع العملية.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>هل يوجد محتوى متقدم للمجتمع؟</h3>
+                        <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>نعم! كلما شاركت أكثر في المجتمع، سيتاح لك المزيد من المحتوى المتقدم. نعتمد على نظام المشاركة والتفاعل لفتح المزيد من المحتوى المتخصص والمتقدم في مجال الذكاء الاصطناعي.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>كيف يمكنني المشاركة في المجتمع؟</h3>
+                        <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>بعد الانضمام، ستحصل على دعوة لمجموعة WhatsApp أو Telegram للتواصل مع أعضاء المجتمع. يمكنك المشاركة في النقاشات، طرح الأسئلة، مشاركة تجاربك، والمشاركة في التحديات الشهرية والجلسات الأسبوعية المباشرة.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>هل المحتوى مناسب للمبتدئين في مجال الذكاء الاصطناعي؟</h3>
+                        <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>بالتأكيد! صممنا المحتوى ليكون مناسبًا لجميع المستويات، من المبتدئين تمامًا وحتى المتقدمين. نبدأ بالمفاهيم الأساسية ثم ننتقل تدريجيًا إلى مواضيع أكثر تعقيدًا، مع التركيز دائمًا على التطبيقات العملية.</p>
                     </div>
                 </div>
             </div>
@@ -351,62 +567,63 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <a href="/" aria-label="الصفحة الرئيسية">
-                        <img src="{{ url_for('static', filename='images/shifra-logo.svg') }}" alt="Shifra Logo" width="40" height="40">
-                        <span>Shifra</span>
-                    </a>
-                    <p>تعلم الذكاء الاصطناعي بطريقة عملية وممتعة</p>
+                    <img src="{{ url_for('static', filename='images/shifra-logo.svg') }}" alt="Shifra" class="footer-logo-image">
+                    <p>مجتمع تعليمي عربي في مجال الذكاء الاصطناعي</p>
                 </div>
                 
-                <div class="footer-links">
-                    <h4>روابط سريعة</h4>
-                    <ul>
-                        <li><a href="#course-features">محتوى الدورة</a></li>
-                        <li><a href="#pricing">الباقات والأسعار</a></li>
-                        <li><a href="#about-instructor">عن المدرب</a></li>
-                        <li><a href="#faq">أسئلة شائعة</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-contact">
-                    <h4>تواصل معنا</h4>
-                    <ul>
-                        <li>
-                            <i class="fas fa-phone"></i>
-                            <a href="tel:+966539631343" dir="ltr">+966 53 963 1343</a>
-                        </li>
-                        <li>
-                            <i class="fas fa-envelope"></i>
-                            <a href="mailto:info@shifra.com">info@shifra.com</a>
-                        </li>
-                        <li>
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>الرياض، المملكة العربية السعودية</span>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div class="footer-social">
-                    <h4>تابعنا</h4>
-                    <div class="social-icons">
-                        <a href="#" class="social-icon" aria-label="تويتر">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="social-icon" aria-label="فيسبوك">
-                            <i class="fab fa-facebook"></i>
-                        </a>
-                        <a href="#" class="social-icon" aria-label="انستجرام">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="social-icon" aria-label="يوتيوب">
-                            <i class="fab fa-youtube"></i>
-                        </a>
+                <div class="footer-columns">
+                    <div class="footer-links">
+                        <h4>روابط سريعة</h4>
+                        <ul>
+                            <li><a href="#features">ميزات المجتمع</a></li>
+                            <li><a href="#pricing">نموذج العضوية</a></li>
+                            <li><a href="#how-it-works">كيف يعمل</a></li>
+                            <li><a href="#core-values">قيمنا</a></li>
+                            <li><a href="#about-instructor">عن المجتمع</a></li>
+                            <li><a href="#faq">أسئلة شائعة</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-contact">
+                        <h4>تواصل معنا</h4>
+                        <ul>
+                            <li>
+                                <i class="fas fa-phone"></i>
+                                <a href="tel:+966539631343" dir="ltr">+966 53 963 1343</a>
+                            </li>
+                            <li>
+                                <i class="fas fa-envelope"></i>
+                                <a href="mailto:info@shifra.com">info@shifra.com</a>
+                            </li>
+                            <li>
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>الرياض، المملكة العربية السعودية</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-social">
+                        <h4>تابعنا</h4>
+                        <div class="social-icons">
+                            <a href="#" class="social-icon" aria-label="تويتر">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="social-icon" aria-label="فيسبوك">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+                            <a href="#" class="social-icon" aria-label="انستجرام">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="social-icon" aria-label="يوتيوب">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p> 2025 Shifra - جميع الحقوق محفوظة</p>
+                
+                <div class="footer-bottom">
+                    <p> 2025 Shifra - جميع الحقوق محفوظة</p>
+                </div>
             </div>
         </div>
     </footer>

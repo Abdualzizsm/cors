@@ -3,104 +3,134 @@
  * ملف JavaScript للوظائف التفاعلية
  */
 
-// تهيئة التطبيق عند تحميل الصفحة
-document.addEventListener('DOMContentLoaded', () => {
-    // تهيئة العداد التنازلي
+document.addEventListener('DOMContentLoaded', function() {
+    // تهيئة العد التنازلي
     initCountdown();
     
-    // تهيئة قائمة الجوال
+    // تفعيل القائمة المتنقلة في الهواتف المحمولة
     initMobileMenu();
     
-    // تهيئة التمرير السلس
-    initSmoothScroll();
+    // تمرير سلس للروابط الداخلية
+    initSmoothScrolling();
     
-    // تهيئة تأثيرات التمرير
-    initScrollEffects();
+    // تفعيل الأسئلة الشائعة
+    initFaqAccordion();
+    
+    // تحريك رأس الصفحة عند التمرير
+    initHeaderScroll();
 });
 
-/**
- * تهيئة العداد التنازلي
- */
+// تهيئة العد التنازلي
 function initCountdown() {
-    // تاريخ انتهاء العرض (بعد 3 أيام من الآن)
+    // تاريخ انتهاء العرض (4 أيام من الآن)
     const now = new Date();
-    const endDate = new Date(now);
-    endDate.setDate(now.getDate() + 3);
-    endDate.setHours(23, 59, 59, 0);
+    const targetDate = new Date(now);
+    targetDate.setDate(now.getDate() + 4);
     
-    // عناصر العداد التنازلي
-    const daysElement = document.getElementById('days');
-    const hoursElement = document.getElementById('hours');
-    const minutesElement = document.getElementById('minutes');
-    const secondsElement = document.getElementById('seconds');
+    // عناصر العد التنازلي
+    const daysElement = document.getElementById('timer-days');
+    const hoursElement = document.getElementById('timer-hours');
+    const minutesElement = document.getElementById('timer-minutes');
+    const secondsElement = document.getElementById('timer-seconds');
     
-    // تحديث العداد التنازلي كل ثانية
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
+    if (!daysElement || !hoursElement || !minutesElement || !secondsElement) {
+        // محاولة الوصول إلى عناصر العد التنازلي القديمة
+        const daysOld = document.getElementById('countdown-days');
+        const hoursOld = document.getElementById('countdown-hours');
+        const minutesOld = document.getElementById('countdown-minutes');
+        const secondsOld = document.getElementById('countdown-seconds');
+        
+        if (daysOld && hoursOld && minutesOld && secondsOld) {
+            function updateOldCountdown() {
+                const now = new Date();
+                const difference = targetDate - now;
+                
+                if (difference < 0) {
+                    // إعادة تعيين العد التنازلي إذا انتهى
+                    targetDate.setDate(now.getDate() + 4);
+                    updateOldCountdown();
+                    return;
+                }
+                
+                // حساب الوقت المتبقي
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+                
+                // تحديث العناصر
+                daysOld.textContent = String(days).padStart(2, '0');
+                hoursOld.textContent = String(hours).padStart(2, '0');
+                minutesOld.textContent = String(minutes).padStart(2, '0');
+                secondsOld.textContent = String(seconds).padStart(2, '0');
+            }
+            
+            // تحديث العد التنازلي كل ثانية
+            updateOldCountdown();
+            setInterval(updateOldCountdown, 1000);
+        }
+        return;
+    }
     
     function updateCountdown() {
-        const currentTime = new Date();
-        const timeDifference = endDate - currentTime;
+        const now = new Date();
+        const difference = targetDate - now;
         
-        // التحقق مما إذا انتهى العداد التنازلي
-        if (timeDifference <= 0) {
-            daysElement.textContent = '00';
-            hoursElement.textContent = '00';
-            minutesElement.textContent = '00';
-            secondsElement.textContent = '00';
+        if (difference < 0) {
+            // إعادة تعيين العد التنازلي إذا انتهى
+            targetDate.setDate(now.getDate() + 4);
+            updateCountdown();
             return;
         }
         
-        // حساب الأيام والساعات والدقائق والثواني المتبقية
-        const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+        // حساب الوقت المتبقي
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
         
-        // تحديث عناصر العداد التنازلي
-        daysElement.textContent = days < 10 ? `0${days}` : days;
-        hoursElement.textContent = hours < 10 ? `0${hours}` : hours;
-        minutesElement.textContent = minutes < 10 ? `0${minutes}` : minutes;
-        secondsElement.textContent = seconds < 10 ? `0${seconds}` : seconds;
+        // تحديث العناصر
+        daysElement.textContent = String(days).padStart(2, '0');
+        hoursElement.textContent = String(hours).padStart(2, '0');
+        minutesElement.textContent = String(minutes).padStart(2, '0');
+        secondsElement.textContent = String(seconds).padStart(2, '0');
     }
+    
+    // تحديث العد التنازلي كل ثانية
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
 }
 
-/**
- * تهيئة قائمة الجوال
- */
+// تفعيل القائمة المتحركة في الهواتف
 function initMobileMenu() {
-    const menuToggle = document.getElementById('mobile-menu-toggle');
+    const menuToggle = document.getElementById('menu-toggle');
     const mainMenu = document.getElementById('main-menu');
     
-    if (menuToggle && mainMenu) {
-        menuToggle.addEventListener('click', () => {
-            menuToggle.classList.toggle('active');
-            mainMenu.classList.toggle('active');
-            
-            // تغيير خاصية aria-expanded
-            const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
-            menuToggle.setAttribute('aria-expanded', !isExpanded);
-        });
-        
-        // إغلاق القائمة عند النقر على أي رابط فيها
-        const menuLinks = mainMenu.querySelectorAll('a');
-        menuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                menuToggle.classList.remove('active');
-                mainMenu.classList.remove('active');
-                menuToggle.setAttribute('aria-expanded', 'false');
-            });
-        });
+    if (!menuToggle || !mainMenu) {
+        console.warn('لم يتم العثور على عناصر القائمة المتنقلة');
+        return;
     }
+    
+    menuToggle.addEventListener('click', function() {
+        menuToggle.classList.toggle('active');
+        mainMenu.classList.toggle('active');
+    });
+    
+    // إغلاق القائمة عند النقر على أي رابط
+    const menuLinks = mainMenu.querySelectorAll('a');
+    menuLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            menuToggle.classList.remove('active');
+            mainMenu.classList.remove('active');
+        });
+    });
 }
 
-/**
- * تهيئة التمرير السلس
- */
-function initSmoothScroll() {
-    const links = document.querySelectorAll('a[href^="#"]');
+// تمرير سلس للروابط الداخلية
+function initSmoothScrolling() {
+    const internalLinks = document.querySelectorAll('a[href^="#"]');
     
-    links.forEach(link => {
+    internalLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             
@@ -108,47 +138,55 @@ function initSmoothScroll() {
             if (targetId === '#') return;
             
             const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                const offsetTop = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                
-                window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
-                });
-            }
+            if (!targetElement) return;
+            
+            const headerOffset = 80;
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
         });
     });
 }
 
-/**
- * تهيئة تأثيرات التمرير
- */
-function initScrollEffects() {
-    // إضافة فئة active عند التمرير
-    const elementsToAnimate = document.querySelectorAll('.feature-card, .pricing-card, .stat-card');
+// تفعيل الأسئلة الشائعة (الأكورديون)
+function initFaqAccordion() {
+    const faqItems = document.querySelectorAll('.faq-item');
     
-    // دالة للتحقق مما إذا كان العنصر مرئيًا
-    function isElementInViewport(el) {
-        const rect = el.getBoundingClientRect();
-        return (
-            rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.8
-        );
-    }
+    faqItems.forEach(item => {
+        const questionElement = item.querySelector('.faq-question');
+        
+        if (questionElement) {
+            questionElement.addEventListener('click', function() {
+                // إغلاق جميع الأسئلة المفتوحة
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                
+                // تبديل حالة السؤال المحدد
+                item.classList.toggle('active');
+            });
+        }
+    });
+}
+
+// تغيير حجم رأس الصفحة عند التمرير
+function initHeaderScroll() {
+    const header = document.querySelector('.site-header');
+    if (!header) return;
     
-    // دالة لتحديث حالة العناصر عند التمرير
-    function checkElements() {
-        elementsToAnimate.forEach(element => {
-            if (isElementInViewport(element)) {
-                element.classList.add('visible');
-            }
-        });
-    }
-    
-    // التحقق عند تحميل الصفحة
-    checkElements();
-    
-    // التحقق عند التمرير
-    window.addEventListener('scroll', checkElements);
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 50) {
+            header.classList.add('shrink');
+        } else {
+            header.classList.remove('shrink');
+        }
+    });
 }
 
 /**
