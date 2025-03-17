@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // تحريك رأس الصفحة عند التمرير
     initHeaderScroll();
+    
+    // إضافة بيانات منظمة لتحسين SEO
+    addStructuredData();
 });
 
 // تهيئة العد التنازلي
@@ -152,26 +155,27 @@ function initSmoothScrolling() {
     });
 }
 
-// تفعيل الأسئلة الشائعة (الأكورديون)
+// الأسئلة الشائعة - التوسيع والطي
 function initFaqAccordion() {
     const faqItems = document.querySelectorAll('.faq-item');
     
     faqItems.forEach(item => {
-        const questionElement = item.querySelector('.faq-question');
+        const question = item.querySelector('.faq-question');
         
-        if (questionElement) {
-            questionElement.addEventListener('click', function() {
-                // إغلاق جميع الأسئلة المفتوحة
-                faqItems.forEach(otherItem => {
-                    if (otherItem !== item) {
-                        otherItem.classList.remove('active');
-                    }
-                });
-                
-                // تبديل حالة السؤال المحدد
-                item.classList.toggle('active');
+        question.addEventListener('click', () => {
+            // Toggle active state
+            const isActive = item.classList.contains('active');
+            
+            // Close all items
+            faqItems.forEach(faqItem => {
+                faqItem.classList.remove('active');
             });
-        }
+            
+            // Open current item (unless it was already open)
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        });
     });
 }
 
@@ -187,6 +191,152 @@ function initHeaderScroll() {
             header.classList.remove('shrink');
         }
     });
+}
+
+// إضافة البيانات المنظمة لتحسين SEO
+function addStructuredData() {
+    const structuredDataSection = document.createElement('script');
+    structuredDataSection.type = 'application/ld+json';
+    
+    const structuredData = {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        "name": "Shifra Community",
+        "description": "مجتمع لتعلم الذكاء الاصطناعي باللغة العربية",
+        "url": "https://shifra-community.onrender.com/",
+        "logo": "https://shifra-community.onrender.com/static/images/shifra-logo.svg",
+        "sameAs": [
+            "https://www.facebook.com/shifracommunity",
+            "https://twitter.com/shifracommunity",
+            "https://www.instagram.com/shifracommunity"
+        ],
+        "offers": {
+            "@type": "Offer",
+            "price": "1",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://shifra-community.onrender.com/"
+        }
+    };
+    
+    structuredDataSection.textContent = JSON.stringify(structuredData);
+    document.head.appendChild(structuredDataSection);
+    
+    // أيضًا نضيف بيانات منظمة للمقالات
+    const blogStructuredData = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "item": {
+                    "@type": "Article",
+                    "name": "مقدمة شاملة في الذكاء الاصطناعي للمبتدئين",
+                    "description": "تعرف على المفاهيم الأساسية للذكاء الاصطناعي وكيف يمكنك البدء في تعلم هذا المجال المثير.",
+                    "author": {
+                        "@type": "Organization",
+                        "name": "Shifra Community"
+                    },
+                    "publisher": {
+                        "@type": "Organization",
+                        "name": "Shifra Community",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "url": "https://shifra-community.onrender.com/static/images/shifra-logo.svg"
+                        }
+                    }
+                }
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "item": {
+                    "@type": "Article",
+                    "name": "كيفية استخدام ChatGPT لتطوير مشاريعك البرمجية",
+                    "description": "دليل عملي لاستخدام ChatGPT في تطوير البرمجيات وتحسين الإنتاجية.",
+                    "author": {
+                        "@type": "Organization",
+                        "name": "Shifra Community"
+                    },
+                    "publisher": {
+                        "@type": "Organization",
+                        "name": "Shifra Community",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "url": "https://shifra-community.onrender.com/static/images/shifra-logo.svg"
+                        }
+                    }
+                }
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "item": {
+                    "@type": "Article",
+                    "name": "أساسيات التعلم الآلي: الخوارزميات والتطبيقات",
+                    "description": "استكشف عالم التعلم الآلي وأهم الخوارزميات المستخدمة في تحليل البيانات والتنبؤ.",
+                    "author": {
+                        "@type": "Organization",
+                        "name": "Shifra Community"
+                    },
+                    "publisher": {
+                        "@type": "Organization",
+                        "name": "Shifra Community",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "url": "https://shifra-community.onrender.com/static/images/shifra-logo.svg"
+                        }
+                    }
+                }
+            }
+        ]
+    };
+    
+    const blogStructuredDataSection = document.createElement('script');
+    blogStructuredDataSection.type = 'application/ld+json';
+    blogStructuredDataSection.textContent = JSON.stringify(blogStructuredData);
+    document.head.appendChild(blogStructuredDataSection);
+    
+    // إضافة بيانات منظمة للأسئلة الشائعة
+    const faqStructuredData = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "كيف يتم استخدام مبلغ الدولار الواحد؟",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "يتم استخدام مبلغ الدولار الواحد في تطوير المحتوى التعليمي وتحسين المنصة وتنظيم الجلسات المباشرة. هدفنا ليس الربح المادي بل بناء مجتمع تعليمي متكامل يدعم بعضه البعض."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "ما هي طرق الدفع المتاحة للاشتراك؟",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "نوفر عدة طرق للدفع تشمل بطاقات الائتمان (Visa/Mastercard)، PayPal، وخيارات دفع محلية في عدة دول عربية. جميع المعاملات مؤمنة بتشفير عالي المستوى."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "كيف يمكنني الوصول للمحتوى بعد الانضمام؟",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "بعد الانضمام وتأكيد اشتراكك، ستتلقى بريدًا إلكترونيًا يحتوي على تفاصيل الوصول للمنصة التعليمية. سيكون لديك حساب خاص يتيح لك الوصول لجميع المحتوى التعليمي والمشاركة في الجلسات الأسبوعية."
+                }
+            }
+        ]
+    };
+    
+    const faqStructuredDataSection = document.createElement('script');
+    faqStructuredDataSection.type = 'application/ld+json';
+    faqStructuredDataSection.textContent = JSON.stringify(faqStructuredData);
+    document.head.appendChild(faqStructuredDataSection);
 }
 
 /**
