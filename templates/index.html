@@ -36,19 +36,52 @@
     
     <!-- Google / Search Engine Tags -->
     <meta itemprop="name" content="مجتمع Shifra للذكاء الاصطناعي">
-    <meta itemprop="description" content="انضم لمجتمع تعليمي متفاعل بدولار واحد فقط وتعلم تطبيقات الذكاء الاصطناعي العملية باللغة العربية">
+    <meta itemprop="description" content="مجتمع تعليمي عربي متخصص في الذكاء الاصطناعي. انضم إلينا وتعلم أحدث تقنيات الذكاء الاصطناعي والتعلم الآلي والبرمجة بدولار واحد شهريًا.">
     <meta itemprop="image" content="https://www.shifra.ltd/static/images/shifra-logo-red.svg">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- الخطوط -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
     <!-- ملف CSS الخاص بنا -->
     <link rel="stylesheet" href="https://www.shifra.ltd/static/css/styles.css">
+    
+    <!-- أنماط خاصة بالموقع -->
+    <style>
+        /* أنماط CSS الأساسية */
+        :root {
+            --primary-color: #ff0000;
+            --secondary-color: #333333;
+            --background-color: #f9f9f9;
+            --text-color: #333333;
+            --heading-color: #111111;
+            --footer-color: #222222;
+        }
+
+        /* تصميم زر لوحة التحكم */
+        .dashboard-link {
+            background-color: #dc3545;
+            color: white !important;
+            padding: 8px 15px !important;
+            border-radius: 5px;
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .dashboard-link:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .dashboard-link i {
+            margin-left: 5px;
+        }
+    </style>
 </head>
 <body>
     <!-- القائمة -->
@@ -76,6 +109,7 @@
                         <li><a href="#about-instructor">عن المجتمع</a></li>
                         <li><a href="#faq">أسئلة شائعة</a></li>
                         <li><a href="#blog">المدونة</a></li>
+                        <li><a href="{{ url_for('admin_login') }}" class="dashboard-link"><i class="fas fa-cog"></i> لوحة التحكم</a></li>
                     </ul>
                 </nav>
             </div>
@@ -603,9 +637,9 @@
                     
                     <div class="instructor-social">
                         <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
                         <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
             </div>
