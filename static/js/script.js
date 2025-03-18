@@ -193,7 +193,7 @@ function initHeaderScroll() {
     });
 }
 
-// إضافة البيانات المنظمة (Schema.org) للمساعدة في تحسين ظهور الموقع في نتائج البحث
+// إضافة بيانات منظمة (Schema.org) للمساعدة في تحسين ظهور الموقع في نتائج البحث
 function addStructuredData() {
     // 1. بيانات المنظمة التعليمية
     const organizationSchema = {
@@ -201,7 +201,13 @@ function addStructuredData() {
         '@type': 'EducationalOrganization',
         'name': 'مجتمع Shifra للذكاء الاصطناعي',
         'url': 'https://www.shifra.ltd/',
-        'logo': 'https://www.shifra.ltd/static/images/shifra-logo.svg',
+        'logo': {
+            '@type': 'ImageObject',
+            'url': 'https://www.shifra.ltd/static/images/shifra-logo.svg',
+            'width': '512',
+            'height': '512'
+        },
+        'image': 'https://www.shifra.ltd/static/images/shifra-logo.svg',
         'description': 'مجتمع تعليمي عربي في مجال الذكاء الاصطناعي يقدم دروسًا وندوات أسبوعية بدولار واحد شهريًا',
         'email': 'info@shifra.ltd',
         'telephone': '+966-5XXXXXXXX',
@@ -260,6 +266,20 @@ function addStructuredData() {
         ]
     };
     
+    // 4. بيانات العلامة التجارية
+    const brandSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'Brand',
+        'name': 'Shifra',
+        'logo': {
+            '@type': 'ImageObject',
+            'url': 'https://www.shifra.ltd/static/images/shifra-logo.svg',
+            'width': '512',
+            'height': '512'
+        },
+        'url': 'https://www.shifra.ltd/'
+    };
+    
     // إنشاء عناصر البيانات المنظمة وإضافتها للصفحة
     function createAndAddSchemaScript(schema) {
         const script = document.createElement('script');
@@ -271,6 +291,7 @@ function addStructuredData() {
     createAndAddSchemaScript(organizationSchema);
     articleSchemas.forEach(schema => createAndAddSchemaScript(schema));
     createAndAddSchemaScript(faqSchema);
+    createAndAddSchemaScript(brandSchema);
 }
 
 /**
