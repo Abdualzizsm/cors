@@ -176,9 +176,9 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#visitors">
+                <a class="nav-link" href="#visitors-info">
                     <i class="fas fa-users"></i>
-                    الزوار
+                    معلومات الزوار
                 </a>
             </li>
             <li class="nav-item">
@@ -252,10 +252,96 @@
             </div>
         </div>
         
-        <div id="visitors" class="mt-4" style="display: none;">
-            <h2 class="page-title">بيانات الزوار</h2>
-            <div class="table-container">
-                <p>سيتم إضافة المزيد من التحليلات التفصيلية هنا...</p>
+        <div id="visitors-info" class="mt-4" style="display: none;">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card shadow">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0">معلومات الزوار المفصلة</h5>
+                            <p class="text-muted mb-0">بيانات مفصلة عن آخر 100 زائر للموقع</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>وقت الزيارة</th>
+                                            <th>عنوان IP</th>
+                                            <th>الدولة</th>
+                                            <th>المدينة</th>
+                                            <th>الجهاز</th>
+                                            <th>المتصفح</th>
+                                            <th>نظام التشغيل</th>
+                                            <th>الصفحة المزارة</th>
+                                            <th>المصدر</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for visitor in visitors_info %}
+                                        <tr>
+                                            <td>{{ visitor['timestamp'] }}</td>
+                                            <td>{{ visitor['ip'] }}</td>
+                                            <td>{{ visitor['country'] }}</td>
+                                            <td>{{ visitor['city'] }}</td>
+                                            <td>{{ visitor['device'] }}</td>
+                                            <td>{{ visitor['browser'] }}</td>
+                                            <td>{{ visitor['os'] }}</td>
+                                            <td>{{ visitor['page'] }}</td>
+                                            <td>{{ visitor['referrer'] or 'مباشر' }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- إحصائيات الأجهزة -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card shadow">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0">توزيع الأجهزة</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="devicesChart" height="250"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card shadow">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0">أنظمة التشغيل</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="osChart" height="250"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- إحصائيات إضافية -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0">تلميحات لاستهداف العملاء</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="alert alert-info">
+                                <h5><i class="fas fa-lightbulb"></i> نصائح للاستهداف الإعلاني</h5>
+                                <ul>
+                                    <li>يمكنك استخدام بيانات الأجهزة لتخصيص حملاتك الإعلانية على Google Ads وتحديد نوع الأجهزة المستهدفة</li>
+                                    <li>استخدم بيانات المتصفحات وأنظمة التشغيل لتحسين توافق موقعك</li>
+                                    <li>حلل أكثر الصفحات زيارة لفهم اهتمامات زوار موقعك</li>
+                                    <li>استخدم بيانات المصادر لمعرفة من أين يأتي زوارك ولتحسين استراتيجية التسويق الخاصة بك</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -297,186 +383,290 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // بيانات من الخادم
-        const daysData = {{ days|safe }};
-        const countsData = {{ counts|safe }};
-        
-        // إعداد الرسم البياني للزيارات
-        const ctx = document.getElementById('visitsChart').getContext('2d');
-        const visitsChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: daysData,
-                datasets: [{
-                    label: 'عدد الزيارات',
-                    data: countsData,
-                    backgroundColor: 'rgba(220, 53, 69, 0.2)',
-                    borderColor: 'rgba(220, 53, 69, 1)',
-                    borderWidth: 2,
-                    tension: 0.3,
-                    pointBackgroundColor: 'rgba(220, 53, 69, 1)',
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2,
-                    pointRadius: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
+        document.addEventListener('DOMContentLoaded', function() {
+            // التبديل بين لوحة التحكم والمحتوى عند النقر على أيقونة القائمة
+            document.getElementById('sidebarToggle').addEventListener('click', function() {
+                document.getElementById('sidebar').classList.toggle('active');
+            });
+            
+            // بيانات من الخادم
+            const daysData = {{ days|safe }};
+            const countsData = {{ counts|safe }};
+            const browsersData = {{ browsers|safe }};
+            const osData = {{ os_stats|safe }};
+            const deviceData = {{ device_stats|safe }};
+            
+            // إعداد الرسم البياني للزيارات
+            const ctx = document.getElementById('visitsChart').getContext('2d');
+            const visitsChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: daysData,
+                    datasets: [{
+                        label: 'عدد الزيارات',
+                        data: countsData,
+                        backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                        borderColor: 'rgba(220, 53, 69, 1)',
+                        borderWidth: 2,
+                        tension: 0.4
+                    }]
                 },
-                scales: {
-                    x: {
-                        grid: {
-                            display: false
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top'
                         }
                     },
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.05)'
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
                         }
                     }
                 }
-            }
-        });
-        
-        // تبديل المحتوى عند النقر على روابط القائمة الجانبية
-        document.querySelectorAll('.sidebar .nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // إزالة الفئة النشطة من جميع الروابط
-                document.querySelectorAll('.sidebar .nav-link').forEach(el => {
-                    el.classList.remove('active');
-                });
-                
-                // إضافة الفئة النشطة للرابط المنقور
-                this.classList.add('active');
-                
-                // إخفاء جميع الأقسام
-                document.querySelectorAll('.content > div').forEach(div => {
-                    div.style.display = 'none';
-                });
-                
-                // إظهار القسم المطلوب
-                const targetId = this.getAttribute('href').substring(1);
-                document.getElementById(targetId).style.display = 'block';
-                
-                // إذا تم النقر على قسم المتصفحات، قم بتحميل البيانات
-                if (targetId === 'browsers') {
-                    loadBrowsersData();
-                }
-                
-                // في وضع الجوال، أغلق الشريط الجانبي بعد النقر
-                if (window.innerWidth < 992) {
-                    document.getElementById('sidebar').classList.remove('active');
+            });
+            
+            // بيانات وهمية للمتصفحات
+            const browsersDefaultData = {
+                labels: ['Chrome', 'Firefox', 'Safari', 'Edge', 'Other'],
+                datasets: [{
+                    data: [65, 15, 12, 5, 3],
+                    backgroundColor: [
+                        'rgba(220, 53, 69, 0.8)',
+                        'rgba(255, 193, 7, 0.8)',
+                        'rgba(13, 110, 253, 0.8)',
+                        'rgba(40, 167, 69, 0.8)',
+                        'rgba(108, 117, 125, 0.8)'
+                    ],
+                    borderWidth: 0
+                }]
+            };
+            
+            // إعداد الرسم البياني للمتصفحات
+            const browsersCtx = document.getElementById('browsersChart').getContext('2d');
+            const browsersChart = new Chart(browsersCtx, {
+                type: 'doughnut',
+                data: browsersDefaultData,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
+                    cutout: '70%'
                 }
             });
-        });
-        
-        // بيانات وهمية للمتصفحات
-        const browsersData = {
-            labels: ['Chrome', 'Firefox', 'Safari', 'Edge', 'Other'],
-            datasets: [{
-                data: [65, 15, 12, 5, 3],
-                backgroundColor: [
-                    'rgba(220, 53, 69, 0.8)',
-                    'rgba(255, 193, 7, 0.8)',
-                    'rgba(13, 110, 253, 0.8)',
-                    'rgba(40, 167, 69, 0.8)',
-                    'rgba(108, 117, 125, 0.8)'
-                ],
-                borderWidth: 0
-            }]
-        };
-        
-        // إعداد الرسم البياني للمتصفحات
-        const browsersCtx = document.getElementById('browsersChart').getContext('2d');
-        const browsersChart = new Chart(browsersCtx, {
-            type: 'doughnut',
-            data: browsersData,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
-                    }
-                },
-                cutout: '70%'
-            }
-        });
-        
-        // وظيفة لتحميل بيانات المتصفحات من الواجهة الخلفية
-        function loadBrowsersData() {
-            fetch('/admin/data')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.browsers) {
-                        // إنشاء رسم بياني مفصل للمتصفحات
-                        const detailedBrowsersCtx = document.getElementById('detailedBrowsersChart').getContext('2d');
-                        
-                        const browsers = Object.keys(data.browsers);
-                        const counts = Object.values(data.browsers);
-                        
-                        new Chart(detailedBrowsersCtx, {
-                            type: 'bar',
-                            data: {
-                                labels: browsers,
-                                datasets: [{
-                                    label: 'عدد الزيارات',
-                                    data: counts,
-                                    backgroundColor: 'rgba(220, 53, 69, 0.8)',
-                                    borderColor: 'rgba(220, 53, 69, 1)',
-                                    borderWidth: 1
-                                }]
-                            },
-                            options: {
-                                indexAxis: 'y',
-                                responsive: true,
-                                plugins: {
-                                    legend: {
-                                        display: false
-                                    }
+            
+            // وظيفة لتحميل بيانات المتصفحات من الواجهة الخلفية
+            function loadBrowsersData() {
+                fetch('/admin/data')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.browsers) {
+                            // إنشاء رسم بياني مفصل للمتصفحات
+                            const detailedBrowsersCtx = document.getElementById('detailedBrowsersChart').getContext('2d');
+                            
+                            const browsers = Object.keys(data.browsers);
+                            const counts = Object.values(data.browsers);
+                            
+                            new Chart(detailedBrowsersCtx, {
+                                type: 'bar',
+                                data: {
+                                    labels: browsers,
+                                    datasets: [{
+                                        label: 'عدد الزيارات',
+                                        data: counts,
+                                        backgroundColor: 'rgba(220, 53, 69, 0.8)',
+                                        borderColor: 'rgba(220, 53, 69, 1)',
+                                        borderWidth: 1
+                                    }]
                                 },
-                                scales: {
-                                    x: {
-                                        beginAtZero: true,
-                                        grid: {
-                                            color: 'rgba(0, 0, 0, 0.05)'
+                                options: {
+                                    indexAxis: 'y',
+                                    responsive: true,
+                                    plugins: {
+                                        legend: {
+                                            display: false
                                         }
                                     },
-                                    y: {
-                                        grid: {
-                                            display: false
+                                    scales: {
+                                        x: {
+                                            beginAtZero: true,
+                                            grid: {
+                                                color: 'rgba(0, 0, 0, 0.05)'
+                                            }
+                                        },
+                                        y: {
+                                            grid: {
+                                                display: false
+                                            }
                                         }
                                     }
                                 }
-                            }
-                        });
+                            });
+                            
+                            // تحديث الرسم البياني الصغير في الصفحة الرئيسية
+                            browsersChart.data.labels = browsers;
+                            browsersChart.data.datasets[0].data = counts;
+                            browsersChart.update();
+                        }
                         
-                        // تحديث الرسم البياني الصغير في الصفحة الرئيسية
-                        browsersChart.data.labels = browsers;
-                        browsersChart.data.datasets[0].data = counts;
-                        browsersChart.update();
+                        // إنشاء رسومات إضافية للبيانات الجديدة
+                        if (data.devices) {
+                            createDevicesChart(data.devices);
+                        }
+                        
+                        if (data.os) {
+                            createOsChart(data.os);
+                        }
+                    })
+                    .catch(error => console.error('خطأ في تحميل بيانات المتصفحات:', error));
+            }
+            
+            // رسم بياني للأجهزة
+            function createDevicesChart(deviceData) {
+                const devicesCtx = document.getElementById('devicesChart');
+                if (!devicesCtx) return;
+                
+                const ctx = devicesCtx.getContext('2d');
+                const labels = Object.keys(deviceData);
+                const data = Object.values(deviceData);
+                
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: [
+                                'rgba(13, 110, 253, 0.8)',
+                                'rgba(220, 53, 69, 0.8)',
+                                'rgba(255, 193, 7, 0.8)'
+                            ],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        },
+                        cutout: '70%'
                     }
-                })
-                .catch(error => console.error('خطأ في تحميل بيانات المتصفحات:', error));
-        }
-        
-        // إعداد بيانات وهمية للإحصاءات الأخرى
-        document.getElementById('avg-time').textContent = '02:35';
-        document.getElementById('bounce-rate').textContent = '42%';
-        
-        // تبديل الشريط الجانبي في وضع الجوال
-        document.getElementById('sidebarToggle').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('active');
+                });
+            }
+            
+            // رسم بياني لأنظمة التشغيل
+            function createOsChart(osData) {
+                const osCtx = document.getElementById('osChart');
+                if (!osCtx) return;
+                
+                const ctx = osCtx.getContext('2d');
+                const labels = Object.keys(osData);
+                const data = Object.values(osData);
+                
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'عدد الزيارات',
+                            data: data,
+                            backgroundColor: 'rgba(13, 110, 253, 0.8)',
+                            borderColor: 'rgba(13, 110, 253, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(0, 0, 0, 0.05)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // تبديل المحتوى عند النقر على روابط القائمة الجانبية
+            document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // إزالة الفئة النشطة من جميع الروابط
+                    document.querySelectorAll('.sidebar .nav-link').forEach(el => {
+                        el.classList.remove('active');
+                    });
+                    
+                    // إضافة الفئة النشطة للرابط المنقور
+                    this.classList.add('active');
+                    
+                    // إخفاء جميع الأقسام
+                    document.querySelectorAll('.content > div').forEach(div => {
+                        div.style.display = 'none';
+                    });
+                    
+                    // إظهار القسم المطلوب
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.style.display = 'block';
+                    }
+                    
+                    // إذا تم النقر على قسم المتصفحات، قم بتحميل البيانات
+                    if (targetId === 'browsers') {
+                        loadBrowsersData();
+                    }
+                    
+                    // إذا تم النقر على قسم معلومات الزوار، قم بإنشاء رسومات الأجهزة وأنظمة التشغيل
+                    if (targetId === 'visitors-info') {
+                        if (deviceData) {
+                            createDevicesChart(deviceData);
+                        }
+                        
+                        if (osData) {
+                            createOsChart(osData);
+                        }
+                    }
+                    
+                    // في وضع الجوال، أغلق الشريط الجانبي بعد النقر
+                    if (window.innerWidth < 992) {
+                        document.getElementById('sidebar').classList.remove('active');
+                    }
+                });
+            });
+            
+            // بيانات وهمية للإحصاءات الأخرى
+            document.getElementById('avg-time').textContent = '02:35';
+            document.getElementById('bounce-rate').textContent = '42%';
+            
+            // تحميل بيانات المتصفحات للمرة الأولى عند تحميل الصفحة
+            loadBrowsersData();
         });
-        
-        // تحميل بيانات المتصفحات عند تحميل الصفحة
-        loadBrowsersData();
     </script>
 </body>
 </html>
