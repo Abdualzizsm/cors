@@ -35,6 +35,12 @@ def google_verification():
     """صفحة التحقق من ملكية الموقع على Google Search Console"""
     return render_template('google-verification.html')
 
+# مسار التحقق من Google للنطاق الجديد
+@app.route('/.well-known/acme-challenge/<token>')
+def acme_challenge(token):
+    """مسار للتحقق من ملكية النطاق أثناء إعداد SSL"""
+    return token
+
 # إعادة توجيه URLs غير الصالحة إلى الصفحة الرئيسية
 @app.errorhandler(404)
 def page_not_found(e):

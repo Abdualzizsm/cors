@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://shifra-community.onrender.com/static/sitemap.xml
+# موقع خريطة الموقع
+Sitemap: https://www.shifra.ltd/sitemap.xml
