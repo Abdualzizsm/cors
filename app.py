@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, send_from_directory, redirect, url_for
+from flask import Flask, render_template, request, jsonify, send_from_directory, redirect, url_for, make_response
 import os
 import logging
 from datetime import datetime
@@ -28,7 +28,10 @@ def robots():
 
 @app.route('/sitemap.xml')
 def sitemap():
-    return send_from_directory('static', 'sitemap.xml')
+    """تقديم ملف sitemap.xml من مجلد static لكن مع جعله متاحًا في جذر الموقع"""
+    response = make_response(send_from_directory('static', 'sitemap.xml'))
+    response.headers['Content-Type'] = 'application/xml'
+    return response
 
 @app.route('/google-verification')
 def google_verification():
