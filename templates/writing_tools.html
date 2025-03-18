@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أدوات الكتابة - شفرة للذكاء الاصطناعي</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts (Tajawal) -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* أنماط CSS الأساسية */
+        :root {
+            --primary-color: #C0272D;
+            --secondary-color: #A01F25;
+            --accent-color: #D12F36;
+            --background-color: #ffffff;
+            --card-color: #f8f9fa;
+            --text-color: #333333;
+            --text-light: #666666;
+            --border-color: #e0e0e0;
+            --hover-color: #f0f0f0;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: var(--background-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .navbar-brand img {
+            height: 40px;
+        }
+
+        .card {
+            background-color: var(--card-color);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            margin-bottom: 20px;
+            height: 100%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--accent-color);
+        }
+
+        .tool-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        /* تصميم Footer */
+        footer {
+            background-color: #f8f9fa;
+            padding: 40px 0 20px;
+            margin-top: 60px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-link {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-link:hover {
+            color: var(--accent-color);
+        }
+
+        .social-icons a {
+            display: inline-block;
+            color: var(--text-light);
+            margin-right: 15px;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        /* بطاقة شرح الأداة */
+        .tool-explanation {
+            margin-bottom: 50px;
+        }
+
+        .tool-hero {
+            background-color: var(--card-color);
+            padding: 60px 0;
+            margin-bottom: 50px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .feature-item {
+            margin-bottom: 30px;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- القائمة العلوية (Navbar) -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='images/shifra-logo.svg') }}" alt="شفرة AI">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('index') }}">الرئيسية</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">الأدوات</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">النصوص الإرشادية</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">المنتدى</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">تعلم</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <a href="#" class="btn btn-outline me-2"><i class="fas fa-user"></i> تسجيل دخول</a>
+                    <a href="#" class="btn btn-primary"><i class="fas fa-user-plus"></i> حساب جديد</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- قسم العنوان الرئيسي -->
+    <section class="tool-hero">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <div class="tool-icon">
+                        <i class="fas fa-pen-alt"></i>
+                    </div>
+                    <h1 class="mb-4">أدوات الكتابة بالذكاء الاصطناعي</h1>
+                    <p class="lead mb-4">مجموعة من أدوات الكتابة المدعومة بالذكاء الاصطناعي لمساعدتك في إنشاء محتوى كتابي احترافي باللغة العربية</p>
+                    <a href="#tools" class="btn btn-primary">استكشف الأدوات</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- شرح عن أدوات الكتابة -->
+    <section class="container mt-5 tool-explanation">
+        <div class="row">
+            <div class="col-lg-6">
+                <h2 class="mb-4">كيف تساعدك أدوات الكتابة؟</h2>
+                <p>تُمكّنك أدوات الكتابة المدعومة بالذكاء الاصطناعي من إنشاء محتوى عالي الجودة بسرعة وكفاءة. سواء كنت تكتب مقالات، محتوى تسويقي، منشورات مدونة، رسائل بريد إلكتروني، أو أي نوع آخر من المحتوى النصي - ستساعدك هذه الأدوات على:</p>
+                <ul class="mt-3">
+                    <li>إنشاء محتوى احترافي بلغة عربية سليمة</li>
+                    <li>تحسين الأسلوب اللغوي وجعله أكثر جاذبية</li>
+                    <li>توفير الوقت والجهد في عملية الكتابة</li>
+                    <li>اقتراح أفكار وعناوين جديدة للمحتوى</li>
+                    <li>مساعدتك في التغلب على حاجز الكتابة</li>
+                </ul>
+            </div>
+            <div class="col-lg-6">
+                <img src="https://via.placeholder.com/600x400" alt="أدوات الكتابة" class="img-fluid rounded">
+            </div>
+        </div>
+    </section>
+
+    <!-- الأدوات المتوفرة -->
+    <section id="tools" class="container mt-5">
+        <h2 class="section-title">أدوات الكتابة المتاحة</h2>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="tool-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h4 class="card-title">شفرة GPT</h4>
+                        <p class="card-text">الذكاء الاصطناعي المتخصص في اللغة العربية، يساعدك في إنشاء أي نوع من المحتوى النصي بكفاءة عالية</p>
+                        <a href="#" class="btn btn-primary mt-3">استخدم الآن</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="tool-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4 class="card-title">مدقق النصوص</h4>
+                        <p class="card-text">أداة تساعدك في تدقيق وتحسين النصوص العربية، وتصحيح الأخطاء النحوية والإملائية</p>
+                        <a href="#" class="btn btn-primary mt-3">استخدم الآن</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="tool-icon">
+                            <i class="fas fa-pen-fancy"></i>
+                        </div>
+                        <h4 class="card-title">محسن الأسلوب</h4>
+                        <p class="card-text">أداة تساعدك في تحسين أسلوب الكتابة وجعله أكثر احترافية وجاذبية للقراء</p>
+                        <a href="#" class="btn btn-primary mt-3">استخدم الآن</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="tool-icon">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                        <h4 class="card-title">منشئ المقالات</h4>
+                        <p class="card-text">أداة لإنشاء مقالات كاملة حول مختلف المواضيع باللغة العربية</p>
+                        <a href="#" class="btn btn-primary mt-3">استخدم الآن</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="tool-icon">
+                            <i class="fas fa-envelope-open-text"></i>
+                        </div>
+                        <h4 class="card-title">كاتب البريد الإلكتروني</h4>
+                        <p class="card-text">أداة لإنشاء رسائل بريد إلكتروني احترافية لمختلف الأغراض</p>
+                        <a href="#" class="btn btn-primary mt-3">استخدم الآن</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="tool-icon">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <h4 class="card-title">منشئ المحتوى التسويقي</h4>
+                        <p class="card-text">أداة لإنشاء محتوى تسويقي جذاب للمواقع ووسائل التواصل الاجتماعي</p>
+                        <a href="#" class="btn btn-primary mt-3">استخدم الآن</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- مميزات أدوات الكتابة -->
+    <section class="container mt-5">
+        <h2 class="section-title">مميزات أدوات الكتابة</h2>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="feature-item text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h4>دعم اللغة العربية</h4>
+                    <p>جميع أدواتنا مصممة خصيصاً للغة العربية، مع مراعاة خصائصها وقواعدها النحوية</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="feature-item text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <h4>سرعة في الإنجاز</h4>
+                    <p>توفير وقت وجهد كبيرين من خلال إنشاء المحتوى بشكل سريع وفعال</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="feature-item text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h4>تخصيص حسب الحاجة</h4>
+                    <p>إمكانية تخصيص المحتوى حسب الأسلوب والنبرة المطلوبة لتناسب احتياجاتك</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5 class="mb-3 fw-bold text-dark">شفرة للذكاء الاصطناعي</h5>
+                    <p class="text-secondary">أول مجتمع عربي متخصص في الذكاء الاصطناعي، نهدف إلى نشر المعرفة وتسهيل الوصول إلى تقنيات الذكاء الاصطناعي للمتحدثين باللغة العربية.</p>
+                    <div class="social-icons mt-3">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5 class="mb-3 fw-bold text-dark">روابط سريعة</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ url_for('index') }}" class="footer-link"><i class="fas fa-angle-left ms-2"></i>الرئيسية</a></li>
+                        <li><a href="#" class="footer-link"><i class="fas fa-angle-left ms-2"></i>الأدوات</a></li>
+                        <li><a href="#" class="footer-link"><i class="fas fa-angle-left ms-2"></i>المنتدى</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5 class="mb-3 fw-bold text-dark">تعلم</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link"><i class="fas fa-angle-left ms-2"></i>دليل المبتدئين</a></li>
+                        <li><a href="#" class="footer-link"><i class="fas fa-angle-left ms-2"></i>مسارات تعليمية</a></li>
+                        <li><a href="#" class="footer-link"><i class="fas fa-angle-left ms-2"></i>المدونة</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5 class="mb-3 fw-bold text-dark">النشرة البريدية</h5>
+                    <p class="text-secondary">اشترك في نشرتنا البريدية ليصلك كل جديد عن الذكاء الاصطناعي باللغة العربية</p>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control border-0" placeholder="البريد الإلكتروني" aria-label="البريد الإلكتروني">
+                        <button class="btn btn-accent" type="button">اشتراك</button>
+                    </div>
+                    <small class="text-secondary">لن نشارك بريدك مع أي جهة خارجية</small>
+                </div>
+            </div>
+            <div class="row mt-4 pt-4 border-top">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0 text-secondary">© 2025 شفرة للذكاء الاصطناعي. جميع الحقوق محفوظة.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="#" class="footer-link me-3">سياسة الخصوصية</a>
+                    <a href="#" class="footer-link">شروط الاستخدام</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

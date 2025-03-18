@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مكتبة النصوص الإرشادية - شفرة للذكاء الاصطناعي</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts (Tajawal) -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* أنماط CSS الأساسية */
+        :root {
+            --primary-color: #C0272D;
+            --secondary-color: #A01F25;
+            --accent-color: #D12F36;
+            --background-color: #ffffff;
+            --card-color: #f8f9fa;
+            --text-color: #333333;
+            --text-light: #666666;
+            --border-color: #e0e0e0;
+            --hover-color: #f0f0f0;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: var(--background-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .navbar-brand img {
+            height: 40px;
+        }
+
+        .card {
+            background-color: var(--card-color);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            margin-bottom: 20px;
+            height: 100%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--accent-color);
+        }
+
+        .tool-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        /* تصميم Footer */
+        footer {
+            background-color: #f8f9fa;
+            padding: 40px 0 20px;
+            margin-top: 60px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-link {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-link:hover {
+            color: var(--accent-color);
+        }
+
+        .social-icons a {
+            display: inline-block;
+            color: var(--text-light);
+            margin-right: 15px;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        /* أنماط مكتبة النصوص */
+        .prompt-card {
+            background-color: var(--card-color);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .prompt-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-color);
+        }
+
+        .prompt-text {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .prompt-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .category-badge {
+            background-color: rgba(192, 39, 45, 0.1);
+            color: var(--primary-color);
+            font-size: 0.85rem;
+            padding: 5px 12px;
+            border-radius: 50px;
+            margin-right: 5px;
+            display: inline-block;
+        }
+
+        .tool-hero {
+            background-color: var(--card-color);
+            padding: 60px 0;
+            margin-bottom: 50px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .feature-item {
+            margin-bottom: 30px;
+        }
+
+        .search-prompt {
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .search-prompt input {
+            width: 100%;
+            padding: 15px 25px;
+            padding-left: 50px;
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
+            font-size: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+
+        .search-prompt input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-prompt .search-icon {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        .filter-section {
+            margin-bottom: 30px;
+        }
+
+        .filter-button {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 15px;
+            border-radius: 50px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+
+        .filter-button:hover,
+        .filter-button.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- القائمة العلوية (Navbar) -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='images/shifra-logo.svg') }}" alt="شفرة AI">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('index') }}">الرئيسية</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">الأدوات</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">النصوص الإرشادية</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">المنتدى</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">تعلم</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <a href="#" class="btn btn-outline me-2"><i class="fas fa-user"></i> تسجيل دخول</a>
+                    <a href="#" class="btn btn-primary"><i class="fas fa-user-plus"></i> حساب جديد</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- قسم العنوان الرئيسي -->
+    <section class="tool-hero">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <div class="tool-icon">
+                        <i class="fas fa-comment-dots"></i>
+                    </div>
+                    <h1 class="mb-4">مكتبة النصوص الإرشادية</h1>
+                    <p class="lead mb-4">مجموعة من النصوص الإرشادية المميزة باللغة العربية للحصول على أفضل النتائج من أدوات الذكاء الاصطناعي</p>
+                    <a href="#prompts" class="btn btn-primary me-2">استكشف المكتبة</a>
+                    <a href="#" class="btn btn-outline-primary">شارك نصاً إرشادياً</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم البحث والتصفية -->
+    <section class="container mt-5">
+        <div class="search-prompt">
+            <input type="text" placeholder="ابحث عن نص إرشادي...">
+            <div class="search-icon">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <h5 class="mb-3">تصفية حسب الفئة:</h5>
+            <button class="filter-button active">الكل</button>
+            <button class="filter-button">كتابة محتوى</button>
+            <button class="filter-button">إنشاء صور</button>
+            <button class="filter-button">تحليل بيانات</button>
+            <button class="filter-button">تعلم آلي</button>
+            <button class="filter-button">برمجة</button>
+            <button class="filter-button">تصميم</button>
+            <button class="filter-button">التسويق</button>
+        </div>
+    </section>
+
+    <!-- قسم النصوص الإرشادية -->
+    <section id="prompts" class="container mt-5">
+        <h2 class="section-title">النصوص الإرشادية المميزة</h2>
+        
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="prompt-card">
+                    <h4>إنشاء مقال احترافي باللغة العربية</h4>
+                    <div class="mb-2">
+                        <span class="category-badge">كتابة محتوى</span>
+                        <span class="category-badge">تسويق</span>
+                    </div>
+                    <p>استخدم هذا النص الإرشادي لإنشاء مقالات كاملة وشاملة باللغة العربية الفصحى حول أي موضوع تختاره.</p>
+                    <div class="prompt-text">
+اكتب مقالاً شاملاً حول [الموضوع] باللغة العربية الفصحى. يجب أن يتضمن المقال:
+
+1. مقدمة تشرح أهمية الموضوع وسياقه.
+2. تقسيم محتوى المقال إلى نقاط رئيسية واضحة.
+3. شرح مفصل لكل نقطة مع أمثلة توضيحية.
+4. إحصائيات وحقائق داعمة للمحتوى (إن وجدت).
+5. خاتمة تلخص النقاط الرئيسية وتقدم استنتاجات.
+
+استخدم لغة سهلة الفهم للقارئ العام مع الحفاظ على الدقة العلمية. المقال يجب أن يكون شيقًا وممتعًا للقراءة.
+                    </div>
+                    <div class="prompt-actions">
+                        <div>
+                            <button class="btn btn-sm btn-primary"><i class="fas fa-copy me-1"></i> نسخ</button>
+                            <button class="btn btn-sm btn-outline-primary"><i class="far fa-bookmark me-1"></i> حفظ</button>
+                        </div>
+                        <div>
+                            <span class="text-muted"><i class="fas fa-heart me-1"></i> 245</span>
+                            <span class="text-muted ms-3"><i class="fas fa-eye me-1"></i> 1.2K</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="prompt-card">
+                    <h4>إنشاء صورة لشخصية كرتونية عربية</h4>
+                    <div class="mb-2">
+                        <span class="category-badge">إنشاء صور</span>
+                        <span class="category-badge">تصميم</span>
+                    </div>
+                    <p>استخدم هذا النص الإرشادي مع أدوات إنشاء الصور لإنشاء شخصيات كرتونية بطابع عربي مميز.</p>
+                    <div class="prompt-text">
+قم بإنشاء صورة لشخصية كرتونية عربية بالمواصفات التالية:
+
+- شخصية [وصف الشخصية: طفل، رجل، امرأة، إلخ]
+- ملامح عربية واضحة مع [وصف الملامح المميزة]
+- يرتدي [وصف الملابس التقليدية أو العصرية]
+- في خلفية تظهر [وصف المكان/البيئة العربية]
+- أسلوب رسم [واقعي/كرتوني/ثلاثي الأبعاد/خط عربي]
+- ألوان زاهية ومشرقة تعكس الثقافة العربية
+- تعبير وجه [سعيد/جاد/مندهش/إلخ]
+
+يجب أن تكون الصورة ملائمة للأطفال وتحترم الثقافة العربية والإسلامية.
+                    </div>
+                    <div class="prompt-actions">
+                        <div>
+                            <button class="btn btn-sm btn-primary"><i class="fas fa-copy me-1"></i> نسخ</button>
+                            <button class="btn btn-sm btn-outline-primary"><i class="far fa-bookmark me-1"></i> حفظ</button>
+                        </div>
+                        <div>
+                            <span class="text-muted"><i class="fas fa-heart me-1"></i> 189</span>
+                            <span class="text-muted ms-3"><i class="fas fa-eye me-1"></i> 956</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="prompt-card">
+                    <h4>تحليل البيانات وإنشاء تقرير تفصيلي</h4>
+                    <div class="mb-2">
+                        <span class="category-badge">تحليل بيانات</span>
+                        <span class="category-badge">تعلم آلي</span>
+                    </div>
+                    <p>نص إرشادي لتحليل مجموعات البيانات وإنشاء تقارير إحصائية شاملة باللغة العربية.</p>
+                    <div class="prompt-text">
+قم بتحليل مجموعة البيانات التالية [وصف البيانات أو رابط] وقدم تقريراً شاملاً باللغة العربية يتضمن:
+
+1. ملخص تنفيذي يوضح أهم الاكتشافات والاستنتاجات.
+2. تحليل وصفي للبيانات (متوسط، وسيط، انحراف معياري، إلخ).
+3. تحديد الاتجاهات والأنماط الرئيسية في البيانات.
+4. تحليل العلاقات بين المتغيرات المختلفة.
+5. تمثيل بياني للنتائج مع وصف تفصيلي لكل رسم بياني.
+6. توصيات واقتراحات بناءً على نتائج التحليل.
+7. الحدود والقيود في التحليل الحالي.
+
+استخدم مصطلحات إحصائية وتقنية مناسبة مع شرحها بأسلوب مبسط.
+                    </div>
+                    <div class="prompt-actions">
+                        <div>
+                            <button class="btn btn-sm btn-primary"><i class="fas fa-copy me-1"></i> نسخ</button>
+                            <button class="btn btn-sm btn-outline-primary"><i class="far fa-bookmark me-1"></i> حفظ</button>
+                        </div>
+                        <div>
+                            <span class="text-muted"><i class="fas fa-heart me-1"></i> 142</span>
+                            <span class="text-muted ms-3"><i class="fas fa-eye me-1"></i> 763</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="prompt-card">
+                    <h4>كتابة كود برمجي مع شرح مفصل</h4>
+                    <div class="mb-2">
+                        <span class="category-badge">برمجة</span>
+                        <span class="category-badge">تعليم</span>
+                    </div>
+                    <p>استخدم هذا النص الإرشادي للحصول على شرح مفصل للكود البرمجي باللغة العربية مع أمثلة توضيحية.</p>
+                    <div class="prompt-text">
+اكتب كود برمجي بلغة [اسم لغة البرمجة] لـ [وصف المهمة أو المشروع]. يجب أن يتضمن الرد:
+
+1. كود كامل وقابل للتنفيذ مباشرة.
+2. شرح مفصل لكل جزء من الكود باللغة العربية.
+3. تعليقات داخل الكود توضح وظيفة كل قسم.
+4. شرح للمفاهيم البرمجية المستخدمة ولماذا تم اختيارها.
+5. أمثلة على المدخلات والمخرجات المتوقعة.
+6. تحسينات ممكنة للكود لزيادة الكفاءة أو سهولة القراءة.
+
+اجعل الشرح مناسباً لمستوى [مبتدئ/متوسط/متقدم] وقم بتبسيط المفاهيم المعقدة.
+                    </div>
+                    <div class="prompt-actions">
+                        <div>
+                            <button class="btn btn-sm btn-primary"><i class="fas fa-copy me-1"></i> نسخ</button>
+                            <button class="btn btn-sm btn-outline-primary"><i class="far fa-bookmark me-1"></i> حفظ</button>
+                        </div>
+                        <div>
+                            <span class="text-muted"><i class="fas fa-heart me-1"></i> 178</span>
+                            <span class="text-muted ms-3"><i class="fas fa-eye me-1"></i> 895</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- زر تحميل المزيد -->
+        <div class="text-center mt-4">
+            <button class="btn btn-primary">تحميل المزيد <i class="fas fa-chevron-down me-1"></i></button>
+        </div>
+    </section>
+
+    <!-- قسم الإرشادات -->
+    <section class="container mt-5">
+        <h2 class="section-title">كيفية كتابة نصوص إرشادية فعالة</h2>
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="tool-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h4 class="card-title">كن محدداً ودقيقاً</h4>
+                        <p class="card-text">حدد بوضوح ما تريد الحصول عليه. كلما كان النص الإرشادي أكثر تحديداً، كانت النتائج أفضل.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="tool-icon">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <h4 class="card-title">قسّم طلبك إلى أجزاء</h4>
+                        <p class="card-text">استخدم القوائم والنقاط لتقسيم طلبك إلى أجزاء واضحة ومنظمة لتحسين فهم الذكاء الاصطناعي.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="tool-icon">
+                            <i class="fas fa-sliders-h"></i>
+                        </div>
+                        <h4 class="card-title">حدد المعايير والأسلوب</h4>
+                        <p class="card-text">وضّح الأسلوب والنبرة والمعايير التي تريدها في النتيجة النهائية للحصول على محتوى مناسب.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5 class="mb-3 fw-bold text-dark">شفرة للذكاء الاصطناعي</h5>
+                    <p class="text-secondary">أول مجتمع عربي متخصص في الذكاء الاصطناعي، نهدف إلى نشر المعرفة وتسهيل الوصول إلى تقنيات الذكاء الاصطناعي للمتحدثين باللغة العربية.</p>
+                    <div class="social-icons mt-3">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5 class="mb-3 fw-bold text-dark">روابط سريعة</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ url_for('index') }}" class="footer-link"><i class="fas fa-angle-left ms-2"></i>الرئيسية</a></li>
+                        <li><a href="#" class="footer-link"><i class="fas fa-angle-left ms-2"></i>الأدوات</a></li>
+                        <li><a href="#" class="footer-link"><i class="fas fa-angle-left ms-2"></i>المنتدى</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5 class="mb-3 fw-bold text-dark">تعلم</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link"><i class="fas fa-angle-left ms-2"></i>دليل المبتدئين</a></li>
+                        <li><a href="#" class="footer-link"><i class="fas fa-angle-left ms-2"></i>مسارات تعليمية</a></li>
+                        <li><a href="#" class="footer-link"><i class="fas fa-angle-left ms-2"></i>المدونة</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5 class="mb-3 fw-bold text-dark">النشرة البريدية</h5>
+                    <p class="text-secondary">اشترك في نشرتنا البريدية ليصلك كل جديد عن الذكاء الاصطناعي باللغة العربية</p>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control border-0" placeholder="البريد الإلكتروني" aria-label="البريد الإلكتروني">
+                        <button class="btn btn-accent" type="button">اشتراك</button>
+                    </div>
+                    <small class="text-secondary">لن نشارك بريدك مع أي جهة خارجية</small>
+                </div>
+            </div>
+            <div class="row mt-4 pt-4 border-top">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0 text-secondary">© 2025 شفرة للذكاء الاصطناعي. جميع الحقوق محفوظة.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="#" class="footer-link me-3">سياسة الخصوصية</a>
+                    <a href="#" class="footer-link">شروط الاستخدام</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

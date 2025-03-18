@@ -173,10 +173,52 @@ def before_request():
     if not request.path.startswith('/static') and not request.path.startswith('/admin') and request.method == 'GET':
         log_visit(request.path)
 
-# مسار للصفحة الرئيسية
+# مسار للصفحة الرئيسية (صفحة الذكاء الاصطناعي)
 @app.route('/')
 def index():
-    """Render the home page."""
+    log_visit('ai_community')
+    return render_template('ai_community.html')
+
+# مسار لصفحة أدوات الكتابة
+@app.route('/writing-tools')
+def writing_tools():
+    log_visit('writing_tools')
+    return render_template('writing_tools.html')
+
+# مسار لصفحة أدوات إنشاء الصور
+@app.route('/image-generation')
+def image_generation():
+    log_visit('image_generation')
+    return render_template('image_generation.html')
+
+# مسار لصفحة أدوات إنشاء الفيديو
+@app.route('/video-creation')
+def video_creation():
+    log_visit('video_creation')
+    return render_template('video_creation.html')
+
+# مسار لصفحة المقاطع الصوتية
+@app.route('/audio-clips')
+def audio_clips():
+    log_visit('audio_clips')
+    return render_template('audio_clips.html')
+
+# مسار لصفحة مكتبة النصوص الإرشادية
+@app.route('/prompt-library')
+def prompt_library():
+    log_visit('prompt_library')
+    return render_template('prompt_library.html')
+
+# مسار لصفحة منتدى المناقشة
+@app.route('/discussion-forum')
+def discussion_forum():
+    log_visit('discussion_forum')
+    return render_template('discussion_forum.html')
+
+# مسار لصفحة الانضمام المدفوعة (الصفحة الرئيسية القديمة)
+@app.route('/join')
+def join():
+    log_visit('join')
     return render_template('index.html')
 
 # مسارات تحسين محركات البحث
