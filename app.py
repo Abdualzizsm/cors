@@ -33,6 +33,13 @@ def sitemap():
     response.headers['Content-Type'] = 'application/xml'
     return response
 
+@app.route('/manifest.json')
+def manifest():
+    """تقديم ملف manifest.json من مجلد static لكن مع جعله متاحًا في جذر الموقع"""
+    response = make_response(send_from_directory('static', 'manifest.json'))
+    response.headers['Content-Type'] = 'application/json'
+    return response
+
 @app.route('/google-verification')
 def google_verification():
     """صفحة التحقق من ملكية الموقع على Google Search Console"""
