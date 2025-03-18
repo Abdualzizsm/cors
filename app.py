@@ -30,6 +30,11 @@ def robots():
 def sitemap():
     return send_from_directory('static', 'sitemap.xml')
 
+@app.route('/google-verification')
+def google_verification():
+    """صفحة التحقق من ملكية الموقع على Google Search Console"""
+    return render_template('google-verification.html')
+
 # إعادة توجيه URLs غير الصالحة إلى الصفحة الرئيسية
 @app.errorhandler(404)
 def page_not_found(e):
