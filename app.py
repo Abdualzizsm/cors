@@ -40,6 +40,11 @@ def manifest():
     response.headers['Content-Type'] = 'application/json'
     return response
 
+@app.route('/favicon.ico')
+def favicon():
+    """تقديم ملف favicon.ico من مجلد static"""
+    return send_from_directory('static', 'favicon.ico')
+
 @app.route('/google-verification')
 def google_verification():
     """صفحة التحقق من ملكية الموقع على Google Search Console"""

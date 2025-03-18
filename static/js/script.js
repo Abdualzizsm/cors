@@ -203,11 +203,11 @@ function addStructuredData() {
         'url': 'https://www.shifra.ltd/',
         'logo': {
             '@type': 'ImageObject',
-            'url': 'https://www.shifra.ltd/static/images/shifra-logo-red.svg',
-            'width': '512',
-            'height': '512'
+            'url': 'https://www.shifra.ltd/favicon.ico',
+            'width': '192',
+            'height': '192'
         },
-        'image': 'https://www.shifra.ltd/static/images/shifra-logo-red.svg',
+        'image': 'https://www.shifra.ltd/favicon.ico',
         'description': 'مجتمع تعليمي عربي في مجال الذكاء الاصطناعي يقدم دروسًا وندوات أسبوعية بدولار واحد شهريًا',
         'email': 'info@shifra.ltd',
         'telephone': '+966-5XXXXXXXX',
@@ -237,7 +237,7 @@ function addStructuredData() {
                 'name': 'مجتمع Shifra للذكاء الاصطناعي',
                 'logo': {
                     '@type': 'ImageObject',
-                    'url': 'https://www.shifra.ltd/static/images/shifra-logo-red.svg'
+                    'url': 'https://www.shifra.ltd/favicon.ico'
                 }
             },
             'datePublished': '2025-03-18',
@@ -273,9 +273,9 @@ function addStructuredData() {
         'name': 'Shifra',
         'logo': {
             '@type': 'ImageObject',
-            'url': 'https://www.shifra.ltd/static/images/shifra-logo-red.svg',
-            'width': '512',
-            'height': '512'
+            'url': 'https://www.shifra.ltd/favicon.ico',
+            'width': '192',
+            'height': '192'
         },
         'url': 'https://www.shifra.ltd/'
     };
