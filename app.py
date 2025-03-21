@@ -56,6 +56,113 @@ def init_db():
     )
     ''')
     
+    # جدول المستخدمين
+    c.execute('''
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL UNIQUE,
+        email TEXT NOT NULL UNIQUE,
+        password TEXT NOT NULL,
+        join_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+        avatar_url TEXT,
+        is_admin INTEGER DEFAULT 0
+    )
+    ''')
+    
+    # جدول الأدوات
+    c.execute('''
+    CREATE TABLE IF NOT EXISTS tools (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        description TEXT NOT NULL,
+        category TEXT NOT NULL,
+        website_url TEXT NOT NULL,
+        logo_url TEXT,
+        pricing TEXT NOT NULL,
+        features TEXT NOT NULL,
+        usage_steps TEXT NOT NULL,
+        added_by INTEGER,
+        added_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+        views_count INTEGER DEFAULT 0,
+        status TEXT DEFAULT 'pending',
+        FOREIGN KEY (added_by) REFERENCES users (id)
+    )
+    ''')
+    
+    # جدول المراجعات
+    c.execute('''
+    CREATE TABLE IF NOT EXISTS reviews (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        tool_id INTEGER NOT NULL,
+        user_id INTEGER NOT NULL,
+        rating INTEGER NOT NULL,
+        comment TEXT NOT NULL,
+        pros TEXT,
+        cons TEXT,
+        date DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (tool_id) REFERENCES tools (id),
+        FOREIGN KEY (user_id) REFERENCES users (id)
+    )
+    ''')
+    
+    # جدول الأدوات المحفوظة
+    c.execute('''
+    CREATE TABLE IF NOT EXISTS saved_tools (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        tool_id INTEGER NOT NULL,
+        saved_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users (id),
+        FOREIGN KEY (tool_id) REFERENCES tools (id),
+        UNIQUE(user_id, tool_id)
+    )
+    ''')
+    
+    # جدول التعليقات
+    c.execute('''
+    CREATE TABLE IF NOT EXISTS comments (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        tool_id INTEGER NOT NULL,
+        user_id INTEGER NOT NULL,
+        content TEXT NOT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        parent_id INTEGER,
+        FOREIGN KEY (tool_id) REFERENCES tools (id),
+        FOREIGN KEY (user_id) REFERENCES users (id),
+        FOREIGN KEY (parent_id) REFERENCES comments (id)
+    )
+    ''')
+    
+    # جدول المناقشات
+    c.execute('''
+    CREATE TABLE IF NOT EXISTS discussions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        description TEXT NOT NULL,
+        user_id INTEGER NOT NULL,
+        tool_id INTEGER,
+        category TEXT NOT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        views_count INTEGER DEFAULT 0,
+        status TEXT DEFAULT 'active',
+        FOREIGN KEY (user_id) REFERENCES users (id),
+        FOREIGN KEY (tool_id) REFERENCES tools (id)
+    )
+    ''')
+    
+    # جدول ردود المناقشات
+    c.execute('''
+    CREATE TABLE IF NOT EXISTS discussion_replies (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        discussion_id INTEGER NOT NULL,
+        user_id INTEGER NOT NULL,
+        content TEXT NOT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (discussion_id) REFERENCES discussions (id),
+        FOREIGN KEY (user_id) REFERENCES users (id)
+    )
+    ''')
+    
     # التحقق من وجود بيانات تجريبية للعرض
     c.execute("SELECT COUNT(*) FROM visits")
     count = c.fetchone()[0]
@@ -176,8 +283,57 @@ def before_request():
 # مسار للصفحة الرئيسية (صفحة الذكاء الاصطناعي)
 @app.route('/')
 def index():
-    log_visit('ai_community')
-    return render_template('ai_community.html')
+    # الحصول على الأدوات المميزة
+    conn = sqlite3.connect('analytics.db')
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    
+    # الحصول على الأدوات المميزة
+    c.execute('''
+        SELECT id, name, description, category, logo_url, pricing, 
+               website_url, features, views_count
+        FROM tools
+        WHERE status = 'approved'
+        ORDER BY views_count DESC
+        LIMIT 6
+    ''')
+    featured_tools = [dict(row) for row in c.fetchall()]
+    
+    # الحصول على أحدث الأدوات
+    c.execute('''
+        SELECT id, name, description, category, logo_url, pricing, 
+               website_url, added_date, features
+        FROM tools
+        WHERE status = 'approved'
+        ORDER BY added_date DESC
+        LIMIT 8
+    ''')
+    latest_tools = [dict(row) for row in c.fetchall()]
+    
+    # معالجة الميزات لعرضها كقائمة
+    for tool in featured_tools + latest_tools:
+        if 'features' in tool and tool['features']:
+            try:
+                tool['features_list'] = tool['features'].split('|')[:3]  # أخذ أول 3 ميزات فقط
+            except:
+                tool['features_list'] = []
+    
+    # الحصول على إحصائيات الموقع
+    c.execute('SELECT COUNT(*) FROM tools WHERE status = "approved"')
+    total_tools = c.fetchone()[0]
+    
+    c.execute('SELECT COUNT(*) FROM users')
+    total_users = c.fetchone()[0]
+    
+    conn.close()
+    
+    return render_template('home.html', 
+                          featured_tools=featured_tools,
+                          latest_tools=latest_tools,
+                          stats={
+                              'tools': total_tools,
+                              'users': total_users
+                          })
 
 # مسار لصفحة أدوات الكتابة
 @app.route('/writing-tools')
@@ -220,6 +376,569 @@ def discussion_forum():
 def join():
     log_visit('join')
     return render_template('index.html')
+
+# مسارات الميزات الاجتماعية
+
+# 1. التعليقات
+@app.route('/comments/<int:tool_id>', methods=['GET'])
+def get_comments(tool_id):
+    """الحصول على جميع تعليقات أداة معينة"""
+    conn = sqlite3.connect('analytics.db')
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    
+    c.execute('''
+        SELECT c.id, c.content, c.created_at, c.parent_id, 
+               u.id as user_id, u.username, u.avatar_url
+        FROM comments c
+        JOIN users u ON c.user_id = u.id
+        WHERE c.tool_id = ?
+        ORDER BY c.created_at DESC
+    ''', (tool_id,))
+    
+    comments = [dict(row) for row in c.fetchall()]
+    
+    # تنظيم التعليقات في تسلسل هرمي (تعليقات وردود)
+    parent_comments = []
+    comment_replies = {}
+    
+    for comment in comments:
+        if comment['parent_id'] is None:
+            parent_comments.append(comment)
+        else:
+            if comment['parent_id'] not in comment_replies:
+                comment_replies[comment['parent_id']] = []
+            comment_replies[comment['parent_id']].append(comment)
+    
+    # إضافة الردود إلى التعليقات الرئيسية
+    for comment in parent_comments:
+        comment['replies'] = comment_replies.get(comment['id'], [])
+    
+    conn.close()
+    return jsonify(parent_comments)
+
+@app.route('/comments/<int:tool_id>', methods=['POST'])
+def add_comment(tool_id):
+    """إضافة تعليق جديد على أداة معينة"""
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'message': 'يجب تسجيل الدخول أولاً'}), 401
+    
+    data = request.json
+    content = data.get('content')
+    parent_id = data.get('parent_id')
+    
+    if not content or not content.strip():
+        return jsonify({'success': False, 'message': 'التعليق لا يمكن أن يكون فارغاً'}), 400
+    
+    conn = sqlite3.connect('analytics.db')
+    c = conn.cursor()
+    
+    c.execute('''
+        INSERT INTO comments (tool_id, user_id, content, parent_id)
+        VALUES (?, ?, ?, ?)
+    ''', (tool_id, session['user_id'], content, parent_id))
+    
+    comment_id = c.lastrowid
+    conn.commit()
+    
+    # الحصول على معلومات المستخدم والتعليق
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    
+    c.execute('''
+        SELECT c.id, c.content, c.created_at, c.parent_id, 
+               u.id as user_id, u.username, u.avatar_url
+        FROM comments c
+        JOIN users u ON c.user_id = u.id
+        WHERE c.id = ?
+    ''', (comment_id,))
+    
+    comment = dict(c.fetchone())
+    comment['replies'] = []
+    
+    conn.close()
+    return jsonify({'success': True, 'comment': comment})
+
+@app.route('/comments/<int:comment_id>', methods=['DELETE'])
+def delete_comment(comment_id):
+    """حذف تعليق"""
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'message': 'يجب تسجيل الدخول أولاً'}), 401
+    
+    conn = sqlite3.connect('analytics.db')
+    c = conn.cursor()
+    
+    # التحقق من أن المستخدم هو صاحب التعليق أو مشرف
+    c.execute('''
+        SELECT user_id FROM comments WHERE id = ?
+    ''', (comment_id,))
+    
+    result = c.fetchone()
+    if not result:
+        conn.close()
+        return jsonify({'success': False, 'message': 'التعليق غير موجود'}), 404
+    
+    comment_user_id = result[0]
+    
+    # التحقق مما إذا كان المستخدم هو المشرف
+    c.execute('''
+        SELECT is_admin FROM users WHERE id = ?
+    ''', (session['user_id'],))
+    
+    is_admin = c.fetchone()[0]
+    
+    if session['user_id'] != comment_user_id and not is_admin:
+        conn.close()
+        return jsonify({'success': False, 'message': 'غير مصرح لك بحذف هذا التعليق'}), 403
+    
+    # حذف التعليق وجميع الردود عليه
+    c.execute('''
+        DELETE FROM comments WHERE id = ? OR parent_id = ?
+    ''', (comment_id, comment_id))
+    
+    conn.commit()
+    conn.close()
+    
+    return jsonify({'success': True})
+
+# 2. المناقشات
+@app.route('/discussions')
+def discussions():
+    """عرض صفحة المناقشات"""
+    category = request.args.get('category', 'all')
+    search = request.args.get('search', '')
+    sort_by = request.args.get('sort_by', 'recent')
+    page = int(request.args.get('page', 1))
+    per_page = 20
+    offset = (page - 1) * per_page
+    
+    conn = sqlite3.connect('analytics.db')
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    
+    # بناء استعلام البحث
+    query_params = []
+    where_clauses = []
+    
+    if category != 'all':
+        where_clauses.append("d.category = ?")
+        query_params.append(category)
+    
+    if search:
+        where_clauses.append("(d.title LIKE ? OR d.description LIKE ?)")
+        query_params.extend([f'%{search}%', f'%{search}%'])
+    
+    where_clause = " AND ".join(where_clauses)
+    if where_clause:
+        where_clause = "WHERE " + where_clause
+    
+    # تحديد طريقة الترتيب
+    order_by = "COALESCE(last_reply_at, d.created_at) DESC"  # الافتراضي: الأحدث
+    if sort_by == 'views':
+        order_by = "d.views_count DESC"
+    elif sort_by == 'rating':
+        order_by = "d.created_at DESC"  # يمكن تعديله لاحقاً إذا كان هناك تقييم للمناقشات
+    
+    # الحصول على إجمالي عدد المناقشات
+    c.execute(f'''
+        SELECT COUNT(*) as total 
+        FROM discussions d 
+        {where_clause}
+    ''', query_params)
+    total = c.fetchone()['total']
+    
+    # الحصول على المناقشات مع معلومات المستخدم وعدد الردود
+    c.execute(f'''
+        SELECT d.id, d.title, d.description, d.created_at, d.views_count, d.category,
+               u.id as user_id, u.username, u.avatar_url,
+               t.id as tool_id, t.name as tool_name,
+               COUNT(dr.id) as replies_count,
+               (SELECT MAX(created_at) FROM discussion_replies WHERE discussion_id = d.id) as last_reply_at
+        FROM discussions d
+        JOIN users u ON d.user_id = u.id
+        LEFT JOIN tools t ON d.tool_id = t.id
+        LEFT JOIN discussion_replies dr ON d.id = dr.discussion_id
+        {where_clause}
+        GROUP BY d.id
+        ORDER BY {order_by}
+        LIMIT ? OFFSET ?
+    ''', query_params + [per_page, offset])
+    
+    discussions_list = [dict(row) for row in c.fetchall()]
+    
+    # الحصول على فئات المناقشات
+    c.execute('''
+        SELECT category, COUNT(*) as count
+        FROM discussions
+        GROUP BY category
+        ORDER BY count DESC
+    ''')
+    
+    categories = [dict(row) for row in c.fetchall()]
+    
+    # الحصول على إحصائيات المنتدى
+    c.execute('SELECT COUNT(*) FROM discussions')
+    total_discussions = c.fetchone()[0]
+    
+    c.execute('SELECT COUNT(*) FROM discussion_replies')
+    total_replies = c.fetchone()[0]
+    
+    c.execute('SELECT COUNT(DISTINCT user_id) FROM discussions')
+    total_contributors = c.fetchone()[0]
+    
+    conn.close()
+    
+    return render_template('discussions.html', 
+                          discussions=discussions_list, 
+                          categories=categories,
+                          current_category=category,
+                          current_search=search,
+                          current_sort=sort_by,
+                          page=page,
+                          total=total,
+                          pages=((total - 1) // per_page) + 1,
+                          stats={
+                              'discussions': total_discussions,
+                              'replies': total_replies,
+                              'contributors': total_contributors
+                          })
+
+@app.route('/discussions/new', methods=['GET', 'POST'])
+def new_discussion():
+    """إنشاء مناقشة جديدة"""
+    if 'user_id' not in session:
+        return redirect(url_for('login', next=url_for('new_discussion')))
+    
+    if request.method == 'POST':
+        title = request.form.get('title')
+        description = request.form.get('description')
+        category = request.form.get('category')
+        tool_id = request.form.get('tool_id') or None
+        notifications = 'notifications' in request.form
+        
+        if not title or not description or not category:
+            flash('جميع الحقول المطلوبة يجب ملؤها', 'danger')
+            return redirect(url_for('new_discussion'))
+        
+        conn = sqlite3.connect('analytics.db')
+        c = conn.cursor()
+        
+        c.execute('''
+            INSERT INTO discussions (title, description, user_id, tool_id, category)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (title, description, session['user_id'], tool_id, category))
+        
+        discussion_id = c.lastrowid
+        conn.commit()
+        conn.close()
+        
+        flash('تمت إضافة المناقشة بنجاح!', 'success')
+        return redirect(url_for('view_discussion', discussion_id=discussion_id))
+    
+    # الحصول على قائمة الأدوات للاختيار منها
+    conn = sqlite3.connect('analytics.db')
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    
+    c.execute('''
+        SELECT id, name FROM tools WHERE status = 'approved'
+        ORDER BY name
+    ''')
+    
+    tools = [dict(row) for row in c.fetchall()]
+    conn.close()
+    
+    return render_template('new_discussion.html', tools=tools)
+
+@app.route('/discussions/<int:discussion_id>')
+def view_discussion(discussion_id):
+    """عرض مناقشة معينة وردودها"""
+    conn = sqlite3.connect('analytics.db')
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    
+    # زيادة عدد المشاهدات
+    c.execute('''
+        UPDATE discussions SET views_count = views_count + 1 WHERE id = ?
+    ''', (discussion_id,))
+    conn.commit()
+    
+    # الحصول على تفاصيل المناقشة
+    c.execute('''
+        SELECT d.id, d.title, d.description, d.created_at, d.views_count, d.category,
+               u.id as user_id, u.username, u.avatar_url,
+               t.id as tool_id, t.name as tool_name
+        FROM discussions d
+        JOIN users u ON d.user_id = u.id
+        LEFT JOIN tools t ON d.tool_id = t.id
+        WHERE d.id = ?
+    ''', (discussion_id,))
+    
+    discussion = c.fetchone()
+    if not discussion:
+        conn.close()
+        flash('المناقشة غير موجودة', 'danger')
+        return redirect(url_for('discussions'))
+    
+    discussion = dict(discussion)
+    
+    # الحصول على الردود على المناقشة
+    c.execute('''
+        SELECT dr.id, dr.content, dr.created_at,
+               u.id as user_id, u.username, u.avatar_url
+        FROM discussion_replies dr
+        JOIN users u ON dr.user_id = u.id
+        WHERE dr.discussion_id = ?
+        ORDER BY dr.created_at
+    ''', (discussion_id,))
+    
+    replies = [dict(row) for row in c.fetchall()]
+    
+    conn.close()
+    
+    return render_template('view_discussion.html', discussion=discussion, replies=replies)
+
+@app.route('/discussions/<int:discussion_id>/reply', methods=['POST'])
+def add_reply(discussion_id):
+    """إضافة رد على مناقشة"""
+    if 'user_id' not in session:
+        flash('يجب تسجيل الدخول لإضافة رد', 'warning')
+        return redirect(url_for('login', next=url_for('view_discussion', discussion_id=discussion_id)))
+    
+    content = request.form.get('content')
+    
+    if not content or not content.strip():
+        flash('الرد لا يمكن أن يكون فارغاً', 'danger')
+        return redirect(url_for('view_discussion', discussion_id=discussion_id))
+    
+    conn = sqlite3.connect('analytics.db')
+    c = conn.cursor()
+    
+    # التحقق من وجود المناقشة
+    c.execute('SELECT id FROM discussions WHERE id = ?', (discussion_id,))
+    if not c.fetchone():
+        conn.close()
+        flash('المناقشة غير موجودة', 'danger')
+        return redirect(url_for('discussions'))
+    
+    c.execute('''
+        INSERT INTO discussion_replies (discussion_id, user_id, content)
+        VALUES (?, ?, ?)
+    ''', (discussion_id, session['user_id'], content))
+    
+    conn.commit()
+    conn.close()
+    
+    flash('تمت إضافة الرد بنجاح!', 'success')
+    return redirect(url_for('view_discussion', discussion_id=discussion_id))
+
+@app.route('/discussions/<int:discussion_id>/edit', methods=['GET', 'POST'])
+def edit_discussion(discussion_id):
+    """تعديل مناقشة"""
+    if 'user_id' not in session:
+        flash('يجب تسجيل الدخول لتعديل المناقشة', 'warning')
+        return redirect(url_for('login', next=url_for('view_discussion', discussion_id=discussion_id)))
+    
+    conn = sqlite3.connect('analytics.db')
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    
+    # التحقق من وجود المناقشة وملكيتها
+    c.execute('''
+        SELECT d.*, u.username, u.avatar_url
+        FROM discussions d
+        JOIN users u ON d.user_id = u.id
+        WHERE d.id = ?
+    ''', (discussion_id,))
+    
+    discussion = c.fetchone()
+    if not discussion:
+        conn.close()
+        flash('المناقشة غير موجودة', 'danger')
+        return redirect(url_for('discussions'))
+    
+    if discussion['user_id'] != session['user_id']:
+        conn.close()
+        flash('لا يمكنك تعديل هذه المناقشة', 'danger')
+        return redirect(url_for('view_discussion', discussion_id=discussion_id))
+    
+    discussion = dict(discussion)
+    
+    if request.method == 'POST':
+        title = request.form.get('title')
+        description = request.form.get('description')
+        category = request.form.get('category')
+        tool_id = request.form.get('tool_id') or None
+        notifications = 'notifications' in request.form
+        
+        if not title or not description or not category:
+            flash('جميع الحقول المطلوبة يجب ملؤها', 'danger')
+        else:
+            c.execute('''
+                UPDATE discussions
+                SET title = ?, description = ?, category = ?, tool_id = ?
+                WHERE id = ?
+            ''', (title, description, category, tool_id, discussion_id))
+            
+            conn.commit()
+            flash('تم تحديث المناقشة بنجاح!', 'success')
+            return redirect(url_for('view_discussion', discussion_id=discussion_id))
+    
+    # الحصول على قائمة الأدوات للاختيار منها
+    c.execute('''
+        SELECT id, name FROM tools WHERE status = 'approved'
+        ORDER BY name
+    ''')
+    
+    tools = [dict(row) for row in c.fetchall()]
+    conn.close()
+    
+    return render_template('edit_discussion.html', discussion=discussion, tools=tools)
+
+@app.route('/reply/<int:reply_id>/edit', methods=['GET', 'POST'])
+def edit_reply(reply_id):
+    """تعديل رد"""
+    if 'user_id' not in session:
+        flash('يجب تسجيل الدخول لتعديل الرد', 'warning')
+        return redirect(url_for('login'))
+    
+    conn = sqlite3.connect('analytics.db')
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    
+    # التحقق من وجود الرد وملكيته
+    c.execute('''
+        SELECT dr.*, d.id as discussion_id, d.title as discussion_title
+        FROM discussion_replies dr
+        JOIN discussions d ON dr.discussion_id = d.id
+        WHERE dr.id = ?
+    ''', (reply_id,))
+    
+    reply = c.fetchone()
+    if not reply:
+        conn.close()
+        flash('الرد غير موجود', 'danger')
+        return redirect(url_for('discussions'))
+    
+    if reply['user_id'] != session['user_id']:
+        conn.close()
+        flash('لا يمكنك تعديل هذا الرد', 'danger')
+        return redirect(url_for('view_discussion', discussion_id=reply['discussion_id']))
+    
+    reply = dict(reply)
+    
+    if request.method == 'POST':
+        content = request.form.get('content')
+        
+        if not content or not content.strip():
+            flash('الرد لا يمكن أن يكون فارغاً', 'danger')
+        else:
+            c.execute('''
+                UPDATE discussion_replies
+                SET content = ?
+                WHERE id = ?
+            ''', (content, reply_id))
+            
+            conn.commit()
+            flash('تم تحديث الرد بنجاح!', 'success')
+            return redirect(url_for('view_discussion', discussion_id=reply['discussion_id']))
+    
+    # الحصول على معلومات المناقشة
+    c.execute('''
+        SELECT title
+        FROM discussions
+        WHERE id = ?
+    ''', (reply['discussion_id'],))
+    
+    discussion = dict(c.fetchone())
+    discussion['id'] = reply['discussion_id']
+    
+    conn.close()
+    
+    return render_template('edit_reply.html', reply=reply, discussion=discussion)
+
+@app.route('/reply/<int:reply_id>/delete')
+def delete_reply(reply_id):
+    """حذف رد"""
+    if 'user_id' not in session:
+        flash('يجب تسجيل الدخول لحذف الرد', 'warning')
+        return redirect(url_for('login'))
+    
+    conn = sqlite3.connect('analytics.db')
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    
+    # التحقق من وجود الرد وملكيته
+    c.execute('''
+        SELECT dr.user_id, dr.discussion_id, u.is_admin
+        FROM discussion_replies dr
+        JOIN users u ON u.id = ?
+        WHERE dr.id = ?
+    ''', (session['user_id'], reply_id))
+    
+    result = c.fetchone()
+    if not result:
+        conn.close()
+        flash('الرد غير موجود', 'danger')
+        return redirect(url_for('discussions'))
+    
+    # التحقق من صلاحية الحذف (مالك الرد أو مشرف)
+    if result['user_id'] != session['user_id'] and not result['is_admin']:
+        conn.close()
+        flash('لا يمكنك حذف هذا الرد', 'danger')
+        return redirect(url_for('view_discussion', discussion_id=result['discussion_id']))
+    
+    discussion_id = result['discussion_id']
+    
+    c.execute('DELETE FROM discussion_replies WHERE id = ?', (reply_id,))
+    conn.commit()
+    conn.close()
+    
+    flash('تم حذف الرد بنجاح', 'success')
+    return redirect(url_for('view_discussion', discussion_id=discussion_id))
+
+@app.route('/discussions/<int:discussion_id>/delete')
+def delete_discussion(discussion_id):
+    """حذف مناقشة"""
+    if 'user_id' not in session:
+        flash('يجب تسجيل الدخول لحذف المناقشة', 'warning')
+        return redirect(url_for('login'))
+    
+    conn = sqlite3.connect('analytics.db')
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    
+    # التحقق من وجود المناقشة وملكيتها
+    c.execute('''
+        SELECT d.user_id, u.is_admin
+        FROM discussions d
+        JOIN users u ON u.id = ?
+        WHERE d.id = ?
+    ''', (session['user_id'], discussion_id))
+    
+    result = c.fetchone()
+    if not result:
+        conn.close()
+        flash('المناقشة غير موجودة', 'danger')
+        return redirect(url_for('discussions'))
+    
+    # التحقق من صلاحية الحذف (مالك المناقشة أو مشرف)
+    if result['user_id'] != session['user_id'] and not result['is_admin']:
+        conn.close()
+        flash('لا يمكنك حذف هذه المناقشة', 'danger')
+        return redirect(url_for('view_discussion', discussion_id=discussion_id))
+    
+    # حذف جميع الردود المرتبطة بالمناقشة أولاً
+    c.execute('DELETE FROM discussion_replies WHERE discussion_id = ?', (discussion_id,))
+    
+    # ثم حذف المناقشة نفسها
+    c.execute('DELETE FROM discussions WHERE id = ?', (discussion_id,))
+    
+    conn.commit()
+    conn.close()
+    
+    flash('تم حذف المناقشة بنجاح', 'success')
+    return redirect(url_for('discussions'))
 
 # مسارات تحسين محركات البحث
 @app.route('/robots.txt')
