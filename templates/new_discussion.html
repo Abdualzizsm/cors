@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block title %}إضافة مناقشة جديدة - Shifra{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">الرئيسية</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url_for('discussions') }}">المناقشات</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">مناقشة جديدة</li>
+                </ol>
+            </nav>
+            
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title h3 mb-4">إضافة مناقشة جديدة</h1>
+                    
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    
+                    <form action="{{ url_for('new_discussion') }}" method="POST">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">عنوان المناقشة <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="title" name="title" required maxlength="100" placeholder="اكتب عنواناً واضحاً ومختصراً">
+                            <div class="form-text">أدخل عنواناً يصف موضوع المناقشة (100 حرف كحد أقصى)</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="category" class="form-label">الفئة <span class="text-danger">*</span></label>
+                            <select class="form-select" id="category" name="category" required>
+                                <option value="" disabled selected>اختر فئة...</option>
+                                <option value="سؤال">سؤال</option>
+                                <option value="نقاش">نقاش</option>
+                                <option value="مشاركة تجربة">مشاركة تجربة</option>
+                                <option value="نصيحة">نصيحة</option>
+                                <option value="مشكلة">مشكلة</option>
+                                <option value="اقتراح">اقتراح</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="tool_id" class="form-label">الأداة المتعلقة (اختياري)</label>
+                            <select class="form-select" id="tool_id" name="tool_id">
+                                <option value="">لا توجد</option>
+                                {% for tool in tools %}
+                                <option value="{{ tool.id }}">{{ tool.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="form-text">إذا كانت مناقشتك متعلقة بأداة معينة، اخترها هنا</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="description" class="form-label">محتوى المناقشة <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="description" name="description" rows="10" required placeholder="اكتب محتوى المناقشة بوضوح..."></textarea>
+                            <div class="form-text">
+                                <i class="fas fa-info-circle"></i> نصائح:
+                                <ul class="mb-0 mt-1">
+                                    <li>اشرح موضوعك بوضوح وتفصيل</li>
+                                    <li>استخدم فقرات منظمة لسهولة القراءة</li>
+                                    <li>أضف أمثلة محددة إن أمكن</li>
+                                    <li>اختم بسؤال محدد إذا كنت تطلب المساعدة</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="notification" name="notification" checked>
+                            <label class="form-check-label" for="notification">إشعاري عند وجود ردود جديدة</label>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ url_for('discussions') }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-right"></i> إلغاء
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> نشر المناقشة
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h2 class="card-title h5">إرشادات كتابة مناقشة فعالة</h2>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <h3 class="h6 text-success">ما يجب فعله:</h3>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> اختر عنواناً واضحاً ومحدداً</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> قدم معلومات كافية ودقيقة</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> استخدم لغة واضحة ومباشرة</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> اختر الفئة المناسبة لمناقشتك</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> تفاعل مع ردود الآخرين</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h3 class="h6 text-danger">ما يجب تجنبه:</h3>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-times-circle text-danger me-2"></i> الكتابة باللغة العامية المبالغ فيها</li>
+                                <li class="mb-2"><i class="fas fa-times-circle text-danger me-2"></i> استخدام عناوين مبهمة أو عامة جداً</li>
+                                <li class="mb-2"><i class="fas fa-times-circle text-danger me-2"></i> نشر محتوى مكرر أو مخالف</li>
+                                <li class="mb-2"><i class="fas fa-times-circle text-danger me-2"></i> الإساءة للآخرين أو التنمر</li>
+                                <li class="mb-2"><i class="fas fa-times-circle text-danger me-2"></i> الترويج أو الإعلان بشكل مباشر</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // التحقق من المحتوى قبل الإرسال
+    const form = document.querySelector('form');
+    const descriptionField = document.getElementById('description');
+    const titleField = document.getElementById('title');
+    
+    form.addEventListener('submit', function(e) {
+        // التحقق من الطول الأدنى للمحتوى
+        if (descriptionField.value.trim().length < 20) {
+            e.preventDefault();
+            alert('يجب أن يحتوي وصف المناقشة على 20 حرفاً على الأقل');
+            descriptionField.focus();
+        }
+        
+        // التحقق من الطول الأدنى للعنوان
+        if (titleField.value.trim().length < 5) {
+            e.preventDefault();
+            alert('يجب أن يحتوي عنوان المناقشة على 5 أحرف على الأقل');
+            titleField.focus();
+        }
+    });
+});
+</script>
+{% endblock %} 

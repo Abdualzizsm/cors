@@ -1,0 +1,340 @@
+{% extends "base.html" %}
+
+{% block title %}{{ discussion.title }} - Shifra{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <!-- المناقشة الرئيسية والردود -->
+        <div class="col-md-9">
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">الرئيسية</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url_for('discussions') }}">المناقشات</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url_for('discussions', category=discussion.category) }}">{{ discussion.category }}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ discussion.title }}</li>
+                </ol>
+            </nav>
+            
+            <!-- المناقشة الرئيسية -->
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center bg-light py-3">
+                    <h1 class="h3 mb-0">{{ discussion.title }}</h1>
+                    <div>
+                        {% if discussion.tool_id %}
+                        <a href="{{ url_for('tool', tool_id=discussion.tool_id) }}" class="btn btn-sm btn-info">
+                            <i class="fas fa-tools"></i> {{ discussion.tool_name }}
+                        </a>
+                        {% endif %}
+                        <span class="badge bg-secondary ms-2">{{ discussion.category }}</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                {% if discussion.avatar_url %}
+                                    <img src="{{ discussion.avatar_url }}" alt="{{ discussion.username }}" class="rounded-circle" width="60" height="60">
+                                {% else %}
+                                    <div class="avatar-placeholder rounded-circle bg-light d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                        <i class="fas fa-user fa-2x text-muted"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <div class="fw-bold">{{ discussion.username }}</div>
+                                <div class="text-muted small">{{ discussion.created_at }}</div>
+                            </div>
+                        </div>
+                        <div class="text-muted">
+                            <i class="fas fa-eye"></i> {{ discussion.views_count }} مشاهدة
+                        </div>
+                    </div>
+                    
+                    <div class="discussion-content">
+                        {{ discussion.description|nl2br }}
+                    </div>
+                    
+                    <div class="mt-4 d-flex">
+                        <a href="#reply-form" class="btn btn-primary me-2">
+                            <i class="fas fa-reply"></i> رد
+                        </a>
+                        
+                        {% if 'user_id' in session and session['user_id'] == discussion.user_id %}
+                        <a href="{{ url_for('edit_discussion', discussion_id=discussion.id) }}" class="btn btn-outline-secondary me-2">
+                            <i class="fas fa-edit"></i> تعديل
+                        </a>
+                        <a href="{{ url_for('delete_discussion', discussion_id=discussion.id) }}" class="btn btn-outline-danger" onclick="return confirm('هل أنت متأكد من حذف هذه المناقشة؟')">
+                            <i class="fas fa-trash"></i> حذف
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- الردود -->
+            <h2 class="h4 mb-3">الردود ({{ replies|length }})</h2>
+            
+            {% if replies %}
+                {% for reply in replies %}
+                <div class="card mb-3" id="reply-{{ reply.id }}">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3">
+                                    {% if reply.avatar_url %}
+                                        <img src="{{ reply.avatar_url }}" alt="{{ reply.username }}" class="rounded-circle" width="50" height="50">
+                                    {% else %}
+                                        <div class="avatar-placeholder rounded-circle bg-light d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                            <i class="fas fa-user text-muted"></i>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <div class="fw-bold">{{ reply.username }}</div>
+                                    <div class="text-muted small">{{ reply.created_at }}</div>
+                                </div>
+                            </div>
+                            
+                            {% if 'user_id' in session and session['user_id'] == reply.user_id %}
+                            <div>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-link text-muted dropdown-toggle" type="button" id="replyActionsDropdown-{{ reply.id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="replyActionsDropdown-{{ reply.id }}">
+                                        <li>
+                                            <a class="dropdown-item" href="{{ url_for('edit_reply', reply_id=reply.id) }}">
+                                                <i class="fas fa-edit me-2"></i> تعديل
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item text-danger" href="{{ url_for('delete_reply', reply_id=reply.id) }}" onclick="return confirm('هل أنت متأكد من حذف هذا الرد؟')">
+                                                <i class="fas fa-trash me-2"></i> حذف
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="reply-content">
+                            {{ reply.content|nl2br }}
+                        </div>
+                        
+                        <div class="mt-3 d-flex justify-content-end">
+                            <button class="btn btn-sm btn-link text-muted quote-btn" data-username="{{ reply.username }}" data-content="{{ reply.content }}">
+                                <i class="fas fa-quote-right"></i> اقتباس
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> لا توجد ردود على هذه المناقشة حتى الآن. كن أول من يرد!
+                </div>
+            {% endif %}
+            
+            <!-- نموذج الرد -->
+            <div class="card mt-4" id="reply-form">
+                <div class="card-body">
+                    <h3 class="h5 mb-3">إضافة رد</h3>
+                    
+                    {% if 'user_id' in session %}
+                        <form action="{{ url_for('add_reply', discussion_id=discussion.id) }}" method="POST">
+                            <div class="mb-3">
+                                <textarea class="form-control" id="content" name="content" rows="5" required placeholder="اكتب ردك هنا..."></textarea>
+                            </div>
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane"></i> إرسال الرد
+                                </button>
+                            </div>
+                        </form>
+                    {% else %}
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i> يجب <a href="{{ url_for('login', next=url_for('view_discussion', discussion_id=discussion.id)) }}" class="alert-link">تسجيل الدخول</a> لإضافة رد على هذه المناقشة.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- المعلومات الجانبية -->
+        <div class="col-md-3">
+            <!-- معلومات الكاتب -->
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <h2 class="card-title h5 mb-3">كاتب المناقشة</h2>
+                    {% if discussion.avatar_url %}
+                        <img src="{{ discussion.avatar_url }}" alt="{{ discussion.username }}" class="rounded-circle mb-3" width="100" height="100">
+                    {% else %}
+                        <div class="avatar-placeholder rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 100px; height: 100px;">
+                            <i class="fas fa-user fa-3x text-muted"></i>
+                        </div>
+                    {% endif %}
+                    <h3 class="h6">{{ discussion.username }}</h3>
+                    <a href="{{ url_for('profile', username=discussion.username) }}" class="btn btn-sm btn-outline w-100 mt-2">
+                        <i class="fas fa-user"></i> عرض الملف الشخصي
+                    </a>
+                </div>
+            </div>
+            
+            <!-- مناقشات مشابهة -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title h5 mb-3">مناقشات مشابهة</h2>
+                    <div id="similar-discussions-loading" class="text-center py-3">
+                        <div class="spinner-border spinner-border-sm text-primary" role="status">
+                            <span class="visually-hidden">جاري التحميل...</span>
+                        </div>
+                        <p class="mt-2 mb-0 small">جاري تحميل المناقشات المشابهة...</p>
+                    </div>
+                    <div id="similar-discussions-list" class="d-none">
+                        <!-- سيتم ملء هذا القسم بالمناقشات المشابهة عبر جافاسكربت -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- أدوات مشابهة -->
+            {% if discussion.tool_id %}
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title h5 mb-3">أدوات مشابهة</h2>
+                    <div id="similar-tools-loading" class="text-center py-3">
+                        <div class="spinner-border spinner-border-sm text-primary" role="status">
+                            <span class="visually-hidden">جاري التحميل...</span>
+                        </div>
+                        <p class="mt-2 mb-0 small">جاري تحميل الأدوات المشابهة...</p>
+                    </div>
+                    <div id="similar-tools-list" class="d-none">
+                        <!-- سيتم ملء هذا القسم بالأدوات المشابهة عبر جافاسكربت -->
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // التعامل مع زر الاقتباس
+    const quoteButtons = document.querySelectorAll('.quote-btn');
+    const replyTextarea = document.getElementById('content');
+    
+    quoteButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const username = this.dataset.username;
+            const content = this.dataset.content;
+            
+            const quotedText = `[اقتباس من ${username}]\n${content}\n[/اقتباس]\n\n`;
+            
+            replyTextarea.value += quotedText;
+            
+            // التمرير إلى نموذج الرد
+            document.getElementById('reply-form').scrollIntoView({ behavior: 'smooth' });
+            
+            // تركيز مؤشر الكتابة في نهاية النص
+            replyTextarea.focus();
+            replyTextarea.setSelectionRange(replyTextarea.value.length, replyTextarea.value.length);
+        });
+    });
+    
+    // تحميل المناقشات المشابهة
+    function loadSimilarDiscussions() {
+        const similarDiscussionsLoading = document.getElementById('similar-discussions-loading');
+        const similarDiscussionsList = document.getElementById('similar-discussions-list');
+        
+        // هنا يمكن استبدال هذا برمز حقيقي لاستدعاء API للحصول على مناقشات مشابهة
+        // للأغراض التوضيحية سنستخدم بيانات وهمية
+        setTimeout(() => {
+            similarDiscussionsLoading.classList.add('d-none');
+            similarDiscussionsList.classList.remove('d-none');
+            
+            // بيانات وهمية للعرض
+            const sampleDiscussions = [
+                { id: 101, title: "تجربتي مع بطاقة الأوامر الصوتية", replies: 5 },
+                { id: 102, title: "كيف أبدأ في استخدام تقنيات الذكاء الاصطناعي؟", replies: 12 },
+                { id: 103, title: "مقارنة بين أدوات إنشاء الصور", replies: 8 }
+            ];
+            
+            let html = '';
+            if (sampleDiscussions.length === 0) {
+                html = '<div class="text-muted small">لا توجد مناقشات مشابهة</div>';
+            } else {
+                sampleDiscussions.forEach(disc => {
+                    html += `
+                        <div class="mb-2">
+                            <a href="/discussions/${disc.id}" class="text-decoration-none">${disc.title}</a>
+                            <span class="text-muted small">(${disc.replies} رد)</span>
+                        </div>
+                    `;
+                });
+            }
+            
+            similarDiscussionsList.innerHTML = html;
+        }, 1000);
+    }
+    
+    // تحميل الأدوات المشابهة
+    function loadSimilarTools() {
+        const similarToolsLoading = document.getElementById('similar-tools-loading');
+        const similarToolsList = document.getElementById('similar-tools-list');
+        
+        if (!similarToolsLoading || !similarToolsList) return;
+        
+        // هنا يمكن استبدال هذا برمز حقيقي لاستدعاء API للحصول على أدوات مشابهة
+        // للأغراض التوضيحية سنستخدم بيانات وهمية
+        setTimeout(() => {
+            similarToolsLoading.classList.add('d-none');
+            similarToolsList.classList.remove('d-none');
+            
+            // بيانات وهمية للعرض
+            const sampleTools = [
+                { id: 201, name: "ChatGPT", logo: "/static/images/tools/chatgpt-logo.png" },
+                { id: 202, name: "Midjourney", logo: "/static/images/tools/midjourney-logo.png" },
+                { id: 203, name: "Stable Diffusion", logo: "/static/images/tools/stablediffusion-logo.png" }
+            ];
+            
+            let html = '';
+            if (sampleTools.length === 0) {
+                html = '<div class="text-muted small">لا توجد أدوات مشابهة</div>';
+            } else {
+                sampleTools.forEach(tool => {
+                    html += `
+                        <div class="d-flex align-items-center mb-2">
+                            <img src="${tool.logo}" alt="${tool.name}" class="me-2" style="width: 30px; height: 30px;">
+                            <a href="/tool/${tool.id}" class="text-decoration-none">${tool.name}</a>
+                        </div>
+                    `;
+                });
+            }
+            
+            similarToolsList.innerHTML = html;
+        }, 1500);
+    }
+    
+    // تحميل المناقشات والأدوات المشابهة
+    loadSimilarDiscussions();
+    loadSimilarTools();
+    
+    // إظهار محتويات اقتباسات المناقشة
+    function formatContent() {
+        document.querySelectorAll('.reply-content, .discussion-content').forEach(element => {
+            const content = element.innerHTML;
+            const formattedContent = content.replace(/\[اقتباس من (.*?)\]([\s\S]*?)\[\/اقتباس\]/g, 
+                '<div class="quote-block p-3 rounded bg-light mb-3"><div class="quote-header mb-2 text-muted"><i class="fas fa-quote-right"></i> اقتباس من $1:</div><div class="quote-body">$2</div></div>'
+            );
+            element.innerHTML = formattedContent;
+        });
+    }
+    
+    formatContent();
+});
+</script>
+{% endblock %} 

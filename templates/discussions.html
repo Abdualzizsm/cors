@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+{% block title %}المناقشات - Shifra{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <!-- جانبي: الفئات والإحصائيات -->
+        <div class="col-md-3">
+            <!-- الفئات -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title h5">الفئات</h2>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="{{ url_for('discussions', category='all') }}" class="text-decoration-none{% if current_category == 'all' %} fw-bold{% endif %}">كل الفئات</a>
+                            <span class="badge bg-primary rounded-pill">{{ total }}</span>
+                        </li>
+                        {% for category in categories %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="{{ url_for('discussions', category=category.category) }}" class="text-decoration-none{% if current_category == category.category %} fw-bold{% endif %}">{{ category.category }}</a>
+                            <span class="badge bg-primary rounded-pill">{{ category.count }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- إرشادات للمناقشات -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title h5">إرشادات المشاركة</h2>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> كن محترماً ولطيفاً مع الآخرين</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> استخدم عناوين واضحة ومفيدة</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> تجنب التكرار وابحث قبل النشر</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> استخدم العلامات المناسبة للموضوع</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> شارك خبراتك وتجاربك</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- رئيسي: قائمة المناقشات -->
+        <div class="col-md-9">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="h3 mb-0">المناقشات</h1>
+                <a href="{{ url_for('new_discussion') }}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> مناقشة جديدة
+                </a>
+            </div>
+            
+            <!-- فلترة المناقشات -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form action="{{ url_for('discussions') }}" method="GET" class="row g-3">
+                        {% if current_category != 'all' %}
+                        <input type="hidden" name="category" value="{{ current_category }}">
+                        {% endif %}
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="search" placeholder="ابحث في المناقشات..." value="{{ request.args.get('search', '') }}">
+                                <button class="btn btn-outline-secondary" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" name="sort" onchange="this.form.submit()">
+                                <option value="recent" {% if request.args.get('sort') == 'recent' or not request.args.get('sort') %}selected{% endif %}>الأحدث</option>
+                                <option value="active" {% if request.args.get('sort') == 'active' %}selected{% endif %}>الأكثر نشاطاً</option>
+                                <option value="views" {% if request.args.get('sort') == 'views' %}selected{% endif %}>الأكثر مشاهدة</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" name="filter" onchange="this.form.submit()">
+                                <option value="all" {% if request.args.get('filter') == 'all' or not request.args.get('filter') %}selected{% endif %}>كل المناقشات</option>
+                                <option value="has_tool" {% if request.args.get('filter') == 'has_tool' %}selected{% endif %}>متعلقة بأداة</option>
+                                <option value="no_replies" {% if request.args.get('filter') == 'no_replies' %}selected{% endif %}>بدون ردود</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- قائمة المناقشات -->
+            {% if discussions %}
+                {% for discussion in discussions %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- معلومات صاحب المناقشة -->
+                            <div class="col-md-1 text-center mb-3 mb-md-0">
+                                {% if discussion.avatar_url %}
+                                    <img src="{{ discussion.avatar_url }}" alt="{{ discussion.username }}" class="rounded-circle" width="50" height="50">
+                                {% else %}
+                                    <div class="avatar-placeholder rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto" style="width: 50px; height: 50px;">
+                                        <i class="fas fa-user text-muted"></i>
+                                    </div>
+                                {% endif %}
+                                <div class="small text-muted text-truncate mt-1">{{ discussion.username }}</div>
+                            </div>
+                            
+                            <!-- محتوى المناقشة -->
+                            <div class="col-md-8">
+                                <h2 class="h5 mb-1">
+                                    <a href="{{ url_for('view_discussion', discussion_id=discussion.id) }}" class="text-decoration-none">
+                                        {{ discussion.title }}
+                                    </a>
+                                </h2>
+                                <p class="text-muted small mb-2">
+                                    {% if discussion.tool_id %}
+                                    <span class="badge bg-info me-1">
+                                        <i class="fas fa-tools"></i> <a href="{{ url_for('tool', tool_id=discussion.tool_id) }}" class="text-white text-decoration-none">{{ discussion.tool_name }}</a>
+                                    </span>
+                                    {% endif %}
+                                    <span class="badge bg-secondary">{{ discussion.category }}</span>
+                                </p>
+                                <p class="mb-0 text-truncate" style="max-width: 100%;">
+                                    {{ discussion.description[:150] }}{% if discussion.description|length > 150 %}...{% endif %}
+                                </p>
+                            </div>
+                            
+                            <!-- إحصائيات المناقشة -->
+                            <div class="col-md-3">
+                                <div class="d-flex flex-column align-items-end h-100 justify-content-between">
+                                    <div class="text-muted small">
+                                        <div><i class="fas fa-calendar-alt"></i> {{ discussion.created_at[:10] }}</div>
+                                        <div><i class="fas fa-eye"></i> {{ discussion.views_count }} مشاهدة</div>
+                                        <div><i class="fas fa-comment-alt"></i> {{ discussion.replies_count }} رد</div>
+                                    </div>
+                                    
+                                    {% if discussion.replies_count > 0 %}
+                                    <small class="text-muted mt-2">
+                                        آخر رد {{ formatDate(discussion.last_reply_at) }}
+                                    </small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                
+                <!-- ترقيم الصفحات -->
+                {% if pages > 1 %}
+                <nav aria-label="صفحات المناقشات">
+                    <ul class="pagination justify-content-center">
+                        {% if page > 1 %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('discussions', category=current_category, page=page-1) }}" aria-label="السابق">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link" aria-hidden="true">&laquo;</span>
+                        </li>
+                        {% endif %}
+                        
+                        {% for p in range(1, pages + 1) %}
+                            {% if p >= page - 2 and p <= page + 2 %}
+                            <li class="page-item {% if p == page %}active{% endif %}">
+                                <a class="page-link" href="{{ url_for('discussions', category=current_category, page=p) }}">{{ p }}</a>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% if page < pages %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('discussions', category=current_category, page=page+1) }}" aria-label="التالي">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link" aria-hidden="true">&raquo;</span>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+            {% else %}
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> لا توجد مناقشات في هذه الفئة. 
+                    <a href="{{ url_for('new_discussion') }}" class="alert-link">كن أول من يبدأ مناقشة!</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// دالة لتنسيق التاريخ بصيغة "منذ..."
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now - date;
+    const diffSec = Math.floor(diffMs / 1000);
+    const diffMin = Math.floor(diffSec / 60);
+    const diffHour = Math.floor(diffMin / 60);
+    const diffDay = Math.floor(diffHour / 24);
+    
+    if (diffSec < 60) {
+        return 'الآن';
+    } else if (diffMin < 60) {
+        return `منذ ${diffMin} دقيقة`;
+    } else if (diffHour < 24) {
+        return `منذ ${diffHour} ساعة`;
+    } else if (diffDay < 7) {
+        return `منذ ${diffDay} يوم`;
+    } else {
+        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+        return date.toLocaleDateString('ar-EG', options);
+    }
+}
+</script>
+{% endblock %} 

@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}تعديل المناقشة - Shifra{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">الرئيسية</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url_for('discussions') }}">المناقشات</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url_for('view_discussion', discussion_id=discussion.id) }}">{{ discussion.title }}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">تعديل المناقشة</li>
+                </ol>
+            </nav>
+            
+            <div class="card">
+                <div class="card-header bg-light py-3">
+                    <h1 class="h3 mb-0">تعديل المناقشة</h1>
+                </div>
+                <div class="card-body">
+                    {% if 'user_id' in session and session['user_id'] == discussion.user_id %}
+                        <form action="{{ url_for('edit_discussion', discussion_id=discussion.id) }}" method="POST">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">عنوان المناقشة</label>
+                                <input type="text" class="form-control" id="title" name="title" value="{{ discussion.title }}" minlength="5" required>
+                                <div class="form-text">يجب أن يكون العنوان واضحاً ومعبراً عن موضوع المناقشة (5 أحرف على الأقل).</div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="category" class="form-label">التصنيف</label>
+                                <select class="form-select" id="category" name="category" required>
+                                    <option value="" disabled>اختر تصنيفاً</option>
+                                    <option value="عام" {% if discussion.category == 'عام' %}selected{% endif %}>عام</option>
+                                    <option value="استفسارات" {% if discussion.category == 'استفسارات' %}selected{% endif %}>استفسارات</option>
+                                    <option value="مشاكل تقنية" {% if discussion.category == 'مشاكل تقنية' %}selected{% endif %}>مشاكل تقنية</option>
+                                    <option value="تجارب وخبرات" {% if discussion.category == 'تجارب وخبرات' %}selected{% endif %}>تجارب وخبرات</option>
+                                    <option value="نصائح وإرشادات" {% if discussion.category == 'نصائح وإرشادات' %}selected{% endif %}>نصائح وإرشادات</option>
+                                    <option value="مقارنات" {% if discussion.category == 'مقارنات' %}selected{% endif %}>مقارنات</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="tool_id" class="form-label">الأداة المرتبطة (اختياري)</label>
+                                <select class="form-select" id="tool_id" name="tool_id">
+                                    <option value="">لا يوجد</option>
+                                    {% for tool in tools %}
+                                    <option value="{{ tool.id }}" {% if discussion.tool_id == tool.id %}selected{% endif %}>{{ tool.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="form-text">يمكنك ربط هذه المناقشة بأداة محددة إذا كان موضوعها متعلقاً بها.</div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="description" class="form-label">محتوى المناقشة</label>
+                                <textarea class="form-control" id="description" name="description" rows="10" minlength="20" required>{{ discussion.description }}</textarea>
+                                <div class="form-text">اشرح موضوع المناقشة بالتفصيل، وحاول توفير معلومات كافية ليتمكن الآخرون من المشاركة (20 حرفاً على الأقل).</div>
+                            </div>
+                            
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="notifications" name="notifications" {% if discussion.notifications %}checked{% endif %}>
+                                <label class="form-check-label" for="notifications">إشعاري عند وجود ردود جديدة</label>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between">
+                                <a href="{{ url_for('view_discussion', discussion_id=discussion.id) }}" class="btn btn-outline-secondary">
+                                    <i class="fas fa-times"></i> إلغاء
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> حفظ التعديلات
+                                </button>
+                            </div>
+                        </form>
+                    {% else %}
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle"></i> لا يمكنك تعديل هذه المناقشة لأنك لست صاحبها أو أنك غير مسجل الدخول.
+                        </div>
+                        <div class="text-center mt-3">
+                            <a href="{{ url_for('view_discussion', discussion_id=discussion.id) }}" class="btn btn-primary">
+                                <i class="fas fa-arrow-left"></i> العودة إلى المناقشة
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const descriptionField = document.getElementById('description');
+    const titleField = document.getElementById('title');
+    
+    if (form) {
+        form.addEventListener('submit', function(event) {
+            // التحقق من طول الوصف
+            if (descriptionField.value.length < 20) {
+                event.preventDefault();
+                alert('يجب أن يحتوي وصف المناقشة على 20 حرفاً على الأقل.');
+                descriptionField.focus();
+                return false;
+            }
+            
+            // التحقق من طول العنوان
+            if (titleField.value.length < 5) {
+                event.preventDefault();
+                alert('يجب أن يحتوي عنوان المناقشة على 5 أحرف على الأقل.');
+                titleField.focus();
+                return false;
+            }
+            
+            return true;
+        });
+    }
+});
+</script>
+{% endblock %} 
