@@ -1,0 +1,152 @@
+/* تنسيقات صفحة المحرر */
+
+/* تخطيط المحرر */
+.editor-container {
+    display: flex;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.editor-sidebar {
+    flex: 0 0 300px;
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    height: fit-content;
+}
+
+.editor-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* عنوان المحتوى */
+.title-input {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+/* منطقة المحرر */
+.editor-area {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.tox-tinymce {
+    border: none !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+}
+
+.tox .tox-menubar, .tox .tox-toolbar, .tox .tox-toolbar__overflow, .tox .tox-toolbar__primary {
+    background-color: #f8f9fa !important;
+}
+
+/* رأس المحرر */
+.editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.editor-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* قائمة اختيار القوالب */
+.template-selector {
+    margin-bottom: 25px;
+}
+
+.template-selector h3 {
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.template-selector select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #f8f9fa;
+}
+
+/* مساعد الذكاء الاصطناعي */
+.ai-assistant {
+    margin-bottom: 25px;
+}
+
+.ai-assistant h3 {
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.ai-assistant button {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+/* صندوق الاقتراحات */
+.suggestions-box {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.suggestions-box h4 {
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.suggestions-box ul {
+    list-style-type: none;
+}
+
+.suggestions-box li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.suggestions-box li:hover {
+    color: #3498db;
+}
+
+.suggestions-box li:last-child {
+    border-bottom: none;
+}
+
+/* منطقة المعاينة */
+.preview-area {
+    background-color: white;
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.preview-area #close-preview {
+    margin-top: 20px;
+}
+
+/* تصميم متجاوب */
+@media (max-width: 900px) {
+    .editor-container {
+        flex-direction: column;
+    }
+    
+    .editor-sidebar {
+        flex: none;
+        width: 100%;
+    }
+}
