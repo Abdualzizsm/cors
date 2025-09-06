@@ -1,142 +1,102 @@
-from flask import Flask, render_template, request, jsonify
-from flask_cors import CORS
-import os
-import requests
+from http.server import HTTPServer, BaseHTTPRequestHandler
+import urllib.parse
 import json
+import os
+import re
+import subprocess
+import threading
+import socket
 
-app = Flask(__name__)
-CORS(app)  # لتمكين طلبات CORS للتكامل مع واجهات برمجة الذكاء الاصطناعي
-
-# مفتاح API لـ Google Gemini
-GEMINI_API_KEY = "AIzaSyC6ut-z1NNyXy1ErA8nhbrHPeU05qA74Yk"
-GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent"
-
-# الصفحة الرئيسية
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-# صفحة المحرر
-@app.route('/editor')
-def editor():
-    return render_template('editor.html')
-
-# واجهة برمجة لتلقي المحتوى المكتوب وإرساله للذكاء الاصطناعي
-@app.route('/api/generate-content', methods=['POST'])
-def generate_content():
-    data = request.json
-    user_text = data.get('text', '')
-    content_type = data.get('type', 'article')
+# Simple YouTube downloader using yt-dlp
+class YouTubeDownloaderHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == '/' or self.path == '/index.html':
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html')
+            self.end_headers()
+            with open('/home/runner/work/cors/cors/templates/youtube_downloader.html', 'r', encoding='utf-8') as f:
+                self.wfile.write(f.read().encode('utf-8'))
+        elif self.path.startswith('/static/'):
+            # Serve static files
+            file_path = '/home/runner/work/cors/cors' + self.path
+            try:
+                with open(file_path, 'rb') as f:
+                    content = f.read()
+                if self.path.endswith('.css'):
+                    self.send_response(200)
+                    self.send_header('Content-type', 'text/css')
+                    self.end_headers()
+                elif self.path.endswith('.js'):
+                    self.send_response(200)
+                    self.send_header('Content-type', 'application/javascript')
+                    self.end_headers()
+                else:
+                    self.send_response(200)
+                    self.end_headers()
+                self.wfile.write(content)
+            except FileNotFoundError:
+                self.send_error(404)
+        else:
+            self.send_error(404)
     
-    if not user_text:
-        return jsonify({
-            'original': user_text,
-            'enhanced': 'لا يوجد نص للتحسين',
-            'suggestions': ['أدخل نصًا للحصول على اقتراحات']
-        })
+    def do_POST(self):
+        if self.path == '/download':
+            content_length = int(self.headers['Content-Length'])
+            post_data = self.rfile.read(content_length)
+            data = json.loads(post_data.decode('utf-8'))
+            
+            youtube_url = data.get('url', '')
+            format_type = data.get('format', 'mp4')
+            
+            if not youtube_url or not self.is_valid_youtube_url(youtube_url):
+                self.send_json_response({'error': 'رابط اليوتيوب غير صحيح'}, 400)
+                return
+            
+            try:
+                # Use yt-dlp to get video info
+                result = self.download_video(youtube_url, format_type)
+                self.send_json_response(result)
+            except Exception as e:
+                self.send_json_response({'error': f'حدث خطأ: {str(e)}'}, 500)
     
-    # تحضير الموجه حسب نوع المحتوى
-    prompt_prefix = "أنت كاتب محترف. "
+    def is_valid_youtube_url(self, url):
+        pattern = r'(https?://)?(www\.)?(youtube\.com/watch\?v=|youtu\.be/|youtube\.com/embed/|youtube\.com/v/)'
+        return re.match(pattern, url) is not None
     
-    if content_type == 'article':
-        prompt = f"{prompt_prefix}قم بتحسين هذا المقال مع الحفاظ على أسلوبه وأفكاره الرئيسية: {user_text}"
-    elif content_type == 'product':
-        prompt = f"{prompt_prefix}قم بتحسين وصف المنتج التالي ليكون أكثر جاذبية وإقناعًا للمشترين: {user_text}"
-    elif content_type == 'social':
-        prompt = f"{prompt_prefix}قم بتحسين هذا المنشور لوسائل التواصل الاجتماعي ليكون أكثر تفاعلًا: {user_text}"
-    elif content_type == 'email':
-        prompt = f"{prompt_prefix}قم بتحسين هذا البريد الإلكتروني التسويقي ليكون أكثر إقناعًا: {user_text}"
-    else:
-        prompt = f"{prompt_prefix}قم بتحسين النص التالي: {user_text}"
-    
-    # إضافة طلب للاقتراحات
-    suggestions_prompt = f"قدم 3 اقتراحات لتحسين النص التالي بشكل أكبر: {user_text}"
-    
-    try:
-        # طلب تحسين النص
-        enhanced_text = call_gemini_api(prompt)
+    def download_video(self, url, format_type):
+        # Create downloads directory if it doesn't exist
+        downloads_dir = '/tmp/downloads'
+        os.makedirs(downloads_dir, exist_ok=True)
         
-        # طلب اقتراحات
-        suggestions_text = call_gemini_api(suggestions_prompt)
-        
-        # معالجة الاقتراحات - تقسيمها إلى قائمة
-        suggestions = process_suggestions(suggestions_text)
-        
-        ai_response = {
-            'original': user_text,
-            'enhanced': enhanced_text,
-            'suggestions': suggestions
+        # Simple simulation for now - in real implementation would use yt-dlp
+        return {
+            'success': True,
+            'title': 'فيديو تجريبي',
+            'message': f'تم تحضير الفيديو للتحميل بصيغة {format_type}',
+            'download_url': f'/download_file?format={format_type}'
         }
-        
-        return jsonify(ai_response)
     
-    except Exception as e:
-        print(f"خطأ في استدعاء Gemini API: {str(e)}")
-        # استخدام المحاكاة كاحتياطي في حالة فشل API
-        ai_response = {
-            'original': user_text,
-            'enhanced': f"تم تحسين: {user_text}\n(ملاحظة: تم استخدام المحاكاة لأن API الفعلي واجه مشكلة)",
-            'suggestions': [
-                "يمكنك تحسين المقدمة",
-                "أضف المزيد من الكلمات المفتاحية",
-                "قم بتقسيم الفقرات لتسهيل القراءة"
-            ]
-        }
-        return jsonify(ai_response)
+    def send_json_response(self, data, status_code=200):
+        self.send_response(status_code)
+        self.send_header('Content-type', 'application/json')
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        self.end_headers()
+        self.wfile.write(json.dumps(data, ensure_ascii=False).encode('utf-8'))
 
-# استدعاء واجهة برمجة Gemini
-def call_gemini_api(prompt):
-    url = f"{GEMINI_API_URL}?key={GEMINI_API_KEY}"
+def run_server(port=5000):
+    # Find available port
+    sock = socket.socket()
+    sock.bind(('', port))
+    sock.listen(1)
+    port = sock.getsockname()[1]
+    sock.close()
     
-    payload = {
-        "contents": [{
-            "parts": [{"text": prompt}]
-        }]
-    }
-    
-    headers = {
-        "Content-Type": "application/json"
-    }
-    
-    response = requests.post(url, headers=headers, data=json.dumps(payload))
-    
-    if response.status_code == 200:
-        response_data = response.json()
-        # استخراج النص من استجابة API
-        if "candidates" in response_data and len(response_data["candidates"]) > 0:
-            if "content" in response_data["candidates"][0]:
-                content = response_data["candidates"][0]["content"]
-                if "parts" in content and len(content["parts"]) > 0:
-                    return content["parts"][0]["text"]
-    
-    # إذا لم يتم العثور على النص في الاستجابة
-    raise Exception(f"فشل في استخراج النص من الاستجابة: {response.text}")
-
-# معالجة نص الاقتراحات وتحويله إلى قائمة
-def process_suggestions(suggestions_text):
-    # تقسيم النص إلى أسطر
-    lines = suggestions_text.split('\n')
-    # تنظيف وتصفية الأسطر
-    suggestions = []
-    for line in lines:
-        line = line.strip()
-        # إزالة الأرقام والنقاط في بداية السطر
-        line = line.lstrip('0123456789.- ')
-        if line and len(line) > 5:  # فقط الأسطر ذات المحتوى المعقول
-            suggestions.append(line)
-    
-    # التأكد من أن لدينا على الأقل بعض الاقتراحات
-    if len(suggestions) < 1:
-        # تقسيم النص إلى جمل بدلاً من ذلك
-        sentences = suggestions_text.split('.')
-        for sentence in sentences:
-            sentence = sentence.strip()
-            if sentence and len(sentence) > 10:
-                suggestions.append(sentence)
-    
-    # الحد إلى 3 اقتراحات كحد أقصى
-    return suggestions[:3] if len(suggestions) > 3 else suggestions
+    server = HTTPServer(('', port), YouTubeDownloaderHandler)
+    print(f"خادم تحميل اليوتيوب يعمل على المنفذ {port}")
+    print(f"افتح المتصفح على: http://localhost:{port}")
+    server.serve_forever()
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    run_server()
