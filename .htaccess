@@ -1,0 +1,66 @@
+RewriteEngine On
+
+# إعادة توجيه جميع الطلبات إلى app.py
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /app.py/$1 [QSA,L]
+
+# إعدادات الأمان
+<Files "*.py">
+    Require all denied
+</Files>
+
+<Files "app.py">
+    Require all granted
+</Files>
+
+# حماية الملفات الحساسة
+<Files ".env">
+    Require all denied
+</Files>
+
+<Files "requirements.txt">
+    Require all denied
+</Files>
+
+<Files "*.md">
+    Require all denied
+</Files>
+
+# إعدادات Python
+AddHandler cgi-script .py
+Options +ExecCGI
+
+# إعدادات الترميز العربي
+AddDefaultCharset UTF-8
+
+# إعدادات MIME للملفات الثابتة
+AddType text/css .css
+AddType application/javascript .js
+AddType image/png .png
+AddType image/jpeg .jpg
+AddType image/gif .gif
+
+# حماية المجلدات الحساسة
+<Directory "templates">
+    Require all denied
+</Directory>
+
+# إعدادات الضغط لتحسين الأداء
+<IfModule mod_deflate.c>
+    SetOutputFilter DEFLATE
+    SetEnvIfNoCase Request_URI \
+        \.(?:gif|jpe?g|png)$ no-gzip dont-vary
+    SetEnvIfNoCase Request_URI \
+        \.(?:exe|t?gz|zip|bz2|sit|rar)$ no-gzip dont-vary
+</IfModule>
+
+# إعدادات التخزين المؤقت
+<IfModule mod_expires.c>
+    ExpiresActive on
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/gif "access plus 1 month"
+</IfModule>
