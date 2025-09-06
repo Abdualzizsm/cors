@@ -7,8 +7,8 @@ import json
 app = Flask(__name__)
 CORS(app)  # لتمكين طلبات CORS للتكامل مع واجهات برمجة الذكاء الاصطناعي
 
-# مفتاح API لـ Google Gemini
-GEMINI_API_KEY = "AIzaSyC6ut-z1NNyXy1ErA8nhbrHPeU05qA74Yk"
+# مفتاح API لـ Google Gemini - يتم قراءته من متغيرات البيئة للأمان
+GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', "AIzaSyC6ut-z1NNyXy1ErA8nhbrHPeU05qA74Yk")
 GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent"
 
 # الصفحة الرئيسية
@@ -139,4 +139,6 @@ def process_suggestions(suggestions_text):
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    debug_mode = os.environ.get('FLASK_ENV', 'development') != 'production'
+    host = os.environ.get('HOST', '0.0.0.0')
+    app.run(host=host, port=port, debug=debug_mode)
