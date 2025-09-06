@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحميل من اليوتيوب - محول الفيديو والصوت</title>
+    <link rel="stylesheet" href="/static/css/youtube_downloader.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fab fa-youtube"></i>
+                    <span>محمل اليوتيوب</span>
+                </div>
+                <p class="subtitle">حمل الفيديوهات والملفات الصوتية بسهولة</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <section class="hero">
+                <h1>تحميل من اليوتيوب</h1>
+                <p>حمل أي فيديو أو صوت من اليوتيوب بجودة عالية</p>
+                
+                <div class="download-form">
+                    <div class="input-group">
+                        <input type="url" id="youtube-url" placeholder="ضع رابط الفيديو هنا...">
+                        <button id="download-btn" class="btn-primary">
+                            <i class="fas fa-download"></i>
+                            تحميل
+                        </button>
+                    </div>
+                    
+                    <div class="format-options">
+                        <label class="radio-option">
+                            <input type="radio" name="format" value="mp4" checked>
+                            <span class="radio-custom"></span>
+                            <i class="fas fa-video"></i>
+                            فيديو (MP4)
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="format" value="mp3">
+                            <span class="radio-custom"></span>
+                            <i class="fas fa-music"></i>
+                            صوت (MP3)
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="format" value="wav">
+                            <span class="radio-custom"></span>
+                            <i class="fas fa-headphones"></i>
+                            صوت عالي الجودة (WAV)
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <section class="features">
+                <h2>المميزات</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-bolt"></i>
+                        <h3>سريع وسهل</h3>
+                        <p>تحميل فوري بدون تعقيدات، فقط ضع الرابط واحصل على ملفك</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>آمن ومجاني</h3>
+                        <p>بدون تسجيل أو دفع، خدمة مجانية تماماً وآمنة 100%</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-cog"></i>
+                        <h3>تحويل متقدم</h3>
+                        <p>تحويل للعديد من الصيغ مع الحفاظ على أعلى جودة ممكنة</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h3>متوافق مع الجوال</h3>
+                        <p>يعمل على جميع الأجهزة والمتصفحات بكفاءة عالية</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="how-to">
+                <h2>كيفية الاستخدام</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>انسخ الرابط</h3>
+                            <p>انسخ رابط الفيديو من اليوتيوب</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>اختر الصيغة</h3>
+                            <p>حدد الصيغة المطلوبة (فيديو أو صوت)</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>حمل الملف</h3>
+                            <p>اضغط على تحميل واحصل على ملفك فوراً</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 محمل اليوتيوب - جميع الحقوق محفوظة</p>
+        </div>
+    </footer>
+
+    <!-- Loading Modal -->
+    <div id="loading-modal" class="modal">
+        <div class="modal-content">
+            <div class="loading-spinner"></div>
+            <p>جاري تحضير الملف...</p>
+        </div>
+    </div>
+
+    <!-- Result Modal -->
+    <div id="result-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close-modal">&times;</span>
+            <div id="result-content">
+                <!-- سيتم إضافة المحتوى هنا بواسطة JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/youtube_downloader.js"></script>
+</body>
+</html>
