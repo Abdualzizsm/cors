@@ -292,6 +292,34 @@
             margin-top: 20px;
         }
 
+        /* نظام الإشعارات */
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #2ecc71;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .notification.show {
+            opacity: 1;
+        }
+
+        .notification.error {
+            background-color: #e74c3c;
+        }
+
+        .notification.warning {
+            background-color: #f39c12;
+        }
+
         #editor-textarea {
             width: 100%;
             min-height: 400px;
@@ -472,8 +500,37 @@
 
     <script>
         // API key for Google Gemini
+        // ملاحظة: يمكنك استبدال هذا المفتاح بمفتاحك الخاص
         const GEMINI_API_KEY = "AIzaSyC6ut-z1NNyXy1ErA8nhbrHPeU05qA74Yk";
         const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent";
+
+        // دالة لعرض الإشعارات
+        function showNotification(message, type = 'success') {
+            // إزالة أي إشعار موجود
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+
+            // إنشاء إشعار جديد
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            // إظهار الإشعار
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+
+            // إخفاء الإشعار بعد 3 ثوانٍ
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
 
         // التنقل بين الصفحات
         function showHome() {
@@ -549,7 +606,7 @@
             localStorage.setItem('savedContent', content);
             localStorage.setItem('savedTitle', title);
             
-            alert('تم حفظ المحتوى بنجاح!');
+            showNotification('تم حفظ المحتوى بنجاح!');
         }
 
         // معاينة المحتوى
@@ -586,7 +643,7 @@
             const generateBtn = document.getElementById('generate-btn');
             
             if (!content || content.trim() === '') {
-                alert('الرجاء كتابة بعض المحتوى أولاً');
+                showNotification('الرجاء كتابة بعض المحتوى أولاً', 'warning');
                 return;
             }
             
@@ -623,9 +680,11 @@
                 const suggestionsResponse = await callGeminiAPI(suggestionsPrompt);
                 displaySuggestions(parseSuggestions(suggestionsResponse));
                 
+                showNotification('تم تحسين المحتوى بنجاح!');
+                
             } catch (error) {
                 console.error('خطأ في استدعاء API:', error);
-                alert('حدث خطأ أثناء تحسين المحتوى. يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.');
+                showNotification('حدث خطأ أثناء تحسين المحتوى. يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.', 'error');
             } finally {
                 // إعادة تفعيل الزر
                 generateBtn.textContent = 'تحسين المحتوى';
@@ -648,11 +707,13 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(payload)
+                body: JSON.stringify(payload),
+                signal: AbortSignal.timeout(30000) // مهلة 30 ثانية
             });
             
             if (!response.ok) {
-                throw new Error(`API request failed: ${response.status}`);
+                const errorData = await response.text();
+                throw new Error(`فشل طلب API (${response.status}): ${errorData}`);
             }
             
             const data = await response.json();
@@ -664,7 +725,7 @@
                 }
             }
             
-            throw new Error('لم يتم العثور على نص في الاستجابة');
+            throw new Error('لم يتم العثور على نص في استجابة API');
         }
 
         // معالجة نص الاقتراحات
