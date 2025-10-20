@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خدمات كتابة المحتوى بالذكاء الاصطناعي</title>
+    <style>
+        /* التنسيقات الأساسية */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Tahoma, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* الهيدر */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            margin-bottom: 10px;
+        }
+
+        header p {
+            opacity: 0.8;
+        }
+
+        header .nav-link {
+            color: white;
+            text-decoration: none;
+            margin-top: 10px;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        /* الأزرار */
+        .btn-primary, .btn-secondary {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            border: 1px solid #bdc3c7;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-secondary:hover {
+            background-color: #dce0e1;
+        }
+
+        /* القسم الرئيسي */
+        .hero {
+            text-align: center;
+            margin: 50px 0;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .hero .btn-primary {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            padding: 12px 30px;
+        }
+
+        /* قسم المميزات */
+        .features {
+            margin: 70px 0;
+        }
+
+        .features h2 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .feature-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        /* قسم الدعوة للعمل */
+        .cta {
+            text-align: center;
+            background-color: #ecf0f1;
+            padding: 60px 20px;
+            border-radius: 10px;
+            margin: 50px 0;
+        }
+
+        .cta h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .cta .btn-secondary {
+            margin-top: 20px;
+            padding: 12px 30px;
+        }
+
+        /* التذييل */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        /* الصفات المخفية */
+        .hidden {
+            display: none !important;
+        }
+
+        /* تنسيقات صفحة المحرر */
+        .editor-container {
+            display: flex;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .editor-sidebar {
+            flex: 0 0 300px;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            height: fit-content;
+        }
+
+        .editor-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .title-input {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 1.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .editor-area {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .editor-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .template-selector {
+            margin-bottom: 25px;
+        }
+
+        .template-selector h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .template-selector select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: #f8f9fa;
+        }
+
+        .ai-assistant {
+            margin-bottom: 25px;
+        }
+
+        .ai-assistant h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .ai-assistant button {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .suggestions-box {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .suggestions-box h4 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .suggestions-box ul {
+            list-style-type: none;
+        }
+
+        .suggestions-box li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+
+        .suggestions-box li:hover {
+            color: #3498db;
+        }
+
+        .suggestions-box li:last-child {
+            border-bottom: none;
+        }
+
+        .preview-area {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .preview-area #close-preview {
+            margin-top: 20px;
+        }
+
+        /* نظام الإشعارات */
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #2ecc71;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .notification.show {
+            opacity: 1;
+        }
+
+        .notification.error {
+            background-color: #e74c3c;
+        }
+
+        .notification.warning {
+            background-color: #f39c12;
+        }
+
+        #editor-textarea {
+            width: 100%;
+            min-height: 400px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: Arial, Tahoma, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            resize: vertical;
+        }
+
+        .toolbar {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .toolbar button {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            background-color: white;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .toolbar button:hover {
+            background-color: #e9ecef;
+        }
+
+        /* تصميم متجاوب */
+        @media (max-width: 900px) {
+            .editor-container {
+                flex-direction: column;
+            }
+            
+            .editor-sidebar {
+                flex: none;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- الصفحة الرئيسية -->
+    <div id="home-page">
+        <header>
+            <div class="container">
+                <h1>خدمات كتابة المحتوى بالذكاء الاصطناعي</h1>
+                <p>أفضل محتوى بأقل جهد باستخدام أحدث تقنيات الذكاء الاصطناعي</p>
+            </div>
+        </header>
+
+        <main class="container">
+            <section class="hero">
+                <h2>ابدأ تجربة الكتابة الآن</h2>
+                <p>أنشئ محتوى احترافي بسرعة وسهولة</p>
+                <button class="btn-primary" onclick="showEditor()">جرب المحرر الآن</button>
+            </section>
+
+            <section class="features">
+                <h2>مميزات خدماتنا</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h3>محرر سهل الاستخدام</h3>
+                        <p>واجهة بسيطة وسهلة تمكّنك من التركيز على المحتوى</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>اقتراحات ذكية</h3>
+                        <p>يقدم الذكاء الاصطناعي اقتراحات لتحسين محتواك</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>قوالب جاهزة</h3>
+                        <p>مجموعة متنوعة من القوالب تناسب احتياجاتك المختلفة</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>تخصيص المحتوى</h3>
+                        <p>تخصيص المحتوى حسب الجمهور المستهدف وقطاع الأعمال</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="cta">
+                <h2>جاهز للبدء؟</h2>
+                <p>ابدأ في إنشاء محتوى رائع الآن</p>
+                <button class="btn-secondary" onclick="showEditor()">اذهب إلى المحرر</button>
+            </section>
+        </main>
+
+        <footer>
+            <div class="container">
+                <p>&copy; 2025 خدمات كتابة المحتوى بالذكاء الاصطناعي. جميع الحقوق محفوظة.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- صفحة المحرر -->
+    <div id="editor-page" class="hidden">
+        <header>
+            <div class="container">
+                <h1>محرر المحتوى</h1>
+                <a class="nav-link" onclick="showHome()">العودة للرئيسية</a>
+            </div>
+        </header>
+
+        <main class="container editor-container">
+            <div class="editor-sidebar">
+                <div class="template-selector">
+                    <h3>اختر نوع المحتوى</h3>
+                    <select id="content-type">
+                        <option value="article">مقال</option>
+                        <option value="product">وصف منتج</option>
+                        <option value="social">منشور تواصل اجتماعي</option>
+                        <option value="email">بريد إلكتروني تسويقي</option>
+                    </select>
+                </div>
+                
+                <div class="ai-assistant">
+                    <h3>مساعد الذكاء الاصطناعي</h3>
+                    <button id="generate-btn" class="btn-primary" onclick="enhanceContent()">تحسين المحتوى</button>
+                    <button id="suggest-btn" class="btn-secondary" onclick="suggestIdeas()">اقتراح أفكار</button>
+                </div>
+                
+                <div id="ai-suggestions" class="suggestions-box">
+                    <h4>اقتراحات الذكاء الاصطناعي</h4>
+                    <ul id="suggestions-list"></ul>
+                </div>
+            </div>
+            
+            <div class="editor-main">
+                <div class="editor-header">
+                    <input type="text" id="content-title" placeholder="عنوان المحتوى..." class="title-input">
+                    <div class="editor-actions">
+                        <button id="save-btn" class="btn-secondary" onclick="saveContent()">حفظ</button>
+                        <button id="preview-btn" class="btn-secondary" onclick="previewContent()">معاينة</button>
+                    </div>
+                </div>
+                
+                <div class="editor-area">
+                    <div class="toolbar">
+                        <button onclick="formatText('bold')" title="خط عريض"><b>ع</b></button>
+                        <button onclick="formatText('italic')" title="مائل"><i>م</i></button>
+                        <button onclick="formatText('underline')" title="تسطير"><u>س</u></button>
+                        <button onclick="insertList()" title="قائمة">• قائمة</button>
+                    </div>
+                    <textarea id="editor-textarea" placeholder="ابدأ بالكتابة هنا...">ابدأ بالكتابة هنا...
+
+هذا محرر سهل الاستخدام يمكنك من خلاله إنشاء محتوى احترافي.</textarea>
+                </div>
+                
+                <div id="preview-area" class="preview-area hidden">
+                    <div id="preview-content"></div>
+                    <button id="close-preview" class="btn-secondary" onclick="closePreview()">العودة للتحرير</button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="container">
+                <p>&copy; 2025 خدمات كتابة المحتوى بالذكاء الاصطناعي. جميع الحقوق محفوظة.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // API key for Google Gemini
+        // ملاحظة: يمكنك استبدال هذا المفتاح بمفتاحك الخاص
+        const GEMINI_API_KEY = "AIzaSyC6ut-z1NNyXy1ErA8nhbrHPeU05qA74Yk";
+        const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent";
+
+        // دالة لعرض الإشعارات
+        function showNotification(message, type = 'success') {
+            // إزالة أي إشعار موجود
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+
+            // إنشاء إشعار جديد
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            // إظهار الإشعار
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+
+            // إخفاء الإشعار بعد 3 ثوانٍ
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+
+        // التنقل بين الصفحات
+        function showHome() {
+            document.getElementById('home-page').classList.remove('hidden');
+            document.getElementById('editor-page').classList.add('hidden');
+            // تأثير ظهور لبطاقات المميزات
+            setTimeout(() => {
+                const featureCards = document.querySelectorAll('.feature-card');
+                featureCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('visible');
+                    }, 100 * index);
+                });
+            }, 100);
+        }
+
+        function showEditor() {
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('editor-page').classList.remove('hidden');
+            
+            // استعادة المحتوى المحفوظ
+            const savedContent = localStorage.getItem('savedContent');
+            const savedTitle = localStorage.getItem('savedTitle');
+            if (savedContent) {
+                document.getElementById('editor-textarea').value = savedContent;
+            }
+            if (savedTitle) {
+                document.getElementById('content-title').value = savedTitle;
+            }
+        }
+
+        // وظائف التحرير
+        function formatText(command) {
+            const textarea = document.getElementById('editor-textarea');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selectedText = textarea.value.substring(start, end);
+            
+            if (selectedText) {
+                let formattedText = selectedText;
+                switch(command) {
+                    case 'bold':
+                        formattedText = `**${selectedText}**`;
+                        break;
+                    case 'italic':
+                        formattedText = `*${selectedText}*`;
+                        break;
+                    case 'underline':
+                        formattedText = `_${selectedText}_`;
+                        break;
+                }
+                
+                textarea.value = textarea.value.substring(0, start) + formattedText + textarea.value.substring(end);
+                textarea.focus();
+            }
+        }
+
+        function insertList() {
+            const textarea = document.getElementById('editor-textarea');
+            const cursorPos = textarea.selectionStart;
+            const textBefore = textarea.value.substring(0, cursorPos);
+            const textAfter = textarea.value.substring(cursorPos);
+            
+            textarea.value = textBefore + '\n• عنصر القائمة\n• عنصر آخر' + textAfter;
+            textarea.focus();
+        }
+
+        // حفظ المحتوى
+        function saveContent() {
+            const content = document.getElementById('editor-textarea').value;
+            const title = document.getElementById('content-title').value;
+            
+            localStorage.setItem('savedContent', content);
+            localStorage.setItem('savedTitle', title);
+            
+            showNotification('تم حفظ المحتوى بنجاح!');
+        }
+
+        // معاينة المحتوى
+        function previewContent() {
+            const content = document.getElementById('editor-textarea').value;
+            const title = document.getElementById('content-title').value;
+            
+            // تحويل Markdown البسيط إلى HTML
+            let htmlContent = content
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/_(.*?)_/g, '<u>$1</u>')
+                .replace(/\n• /g, '<br>• ')
+                .replace(/\n/g, '<br>');
+            
+            if (title) {
+                htmlContent = `<h2>${title}</h2>${htmlContent}`;
+            }
+            
+            document.getElementById('preview-content').innerHTML = htmlContent;
+            document.querySelector('.editor-area').classList.add('hidden');
+            document.getElementById('preview-area').classList.remove('hidden');
+        }
+
+        function closePreview() {
+            document.getElementById('preview-area').classList.add('hidden');
+            document.querySelector('.editor-area').classList.remove('hidden');
+        }
+
+        // تحسين المحتوى باستخدام AI
+        async function enhanceContent() {
+            const content = document.getElementById('editor-textarea').value;
+            const contentType = document.getElementById('content-type').value;
+            const generateBtn = document.getElementById('generate-btn');
+            
+            if (!content || content.trim() === '') {
+                showNotification('الرجاء كتابة بعض المحتوى أولاً', 'warning');
+                return;
+            }
+            
+            // تعطيل الزر وعرض حالة التحميل
+            generateBtn.textContent = 'جاري التحسين...';
+            generateBtn.disabled = true;
+            
+            try {
+                // تحضير الموجه حسب نوع المحتوى
+                let prompt = "أنت كاتب محترف. ";
+                
+                switch(contentType) {
+                    case 'article':
+                        prompt += `قم بتحسين هذا المقال مع الحفاظ على أسلوبه وأفكاره الرئيسية: ${content}`;
+                        break;
+                    case 'product':
+                        prompt += `قم بتحسين وصف المنتج التالي ليكون أكثر جاذبية وإقناعًا للمشترين: ${content}`;
+                        break;
+                    case 'social':
+                        prompt += `قم بتحسين هذا المنشور لوسائل التواصل الاجتماعي ليكون أكثر تفاعلًا: ${content}`;
+                        break;
+                    case 'email':
+                        prompt += `قم بتحسين هذا البريد الإلكتروني التسويقي ليكون أكثر إقناعًا: ${content}`;
+                        break;
+                    default:
+                        prompt += `قم بتحسين النص التالي: ${content}`;
+                }
+                
+                const response = await callGeminiAPI(prompt);
+                document.getElementById('editor-textarea').value = response;
+                
+                // طلب اقتراحات
+                const suggestionsPrompt = `قدم 3 اقتراحات قصيرة لتحسين النص التالي بشكل أكبر: ${content}`;
+                const suggestionsResponse = await callGeminiAPI(suggestionsPrompt);
+                displaySuggestions(parseSuggestions(suggestionsResponse));
+                
+                showNotification('تم تحسين المحتوى بنجاح!');
+                
+            } catch (error) {
+                console.error('خطأ في استدعاء API:', error);
+                showNotification('حدث خطأ أثناء تحسين المحتوى. يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.', 'error');
+            } finally {
+                // إعادة تفعيل الزر
+                generateBtn.textContent = 'تحسين المحتوى';
+                generateBtn.disabled = false;
+            }
+        }
+
+        // استدعاء واجهة برمجة Gemini
+        async function callGeminiAPI(prompt) {
+            const url = `${GEMINI_API_URL}?key=${GEMINI_API_KEY}`;
+            
+            const payload = {
+                contents: [{
+                    parts: [{ text: prompt }]
+                }]
+            };
+            
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload),
+                signal: AbortSignal.timeout(30000) // مهلة 30 ثانية
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.text();
+                throw new Error(`فشل طلب API (${response.status}): ${errorData}`);
+            }
+            
+            const data = await response.json();
+            
+            // استخراج النص من الاستجابة
+            if (data.candidates && data.candidates.length > 0) {
+                if (data.candidates[0].content && data.candidates[0].content.parts) {
+                    return data.candidates[0].content.parts[0].text;
+                }
+            }
+            
+            throw new Error('لم يتم العثور على نص في استجابة API');
+        }
+
+        // معالجة نص الاقتراحات
+        function parseSuggestions(suggestionsText) {
+            const lines = suggestionsText.split('\n');
+            const suggestions = [];
+            
+            for (let line of lines) {
+                line = line.trim();
+                // إزالة الأرقام والنقاط في بداية السطر
+                line = line.replace(/^[\d\.\-\*\•]+\s*/, '');
+                if (line && line.length > 5) {
+                    suggestions.push(line);
+                }
+            }
+            
+            return suggestions.slice(0, 3); // أول 3 اقتراحات
+        }
+
+        // عرض الاقتراحات
+        function displaySuggestions(suggestions) {
+            const suggestionsList = document.getElementById('suggestions-list');
+            suggestionsList.innerHTML = '';
+            
+            suggestions.forEach(suggestion => {
+                const li = document.createElement('li');
+                li.textContent = suggestion;
+                li.addEventListener('click', function() {
+                    const content = document.getElementById('editor-textarea').value;
+                    document.getElementById('editor-textarea').value = content + '\n\nملاحظة: ' + suggestion;
+                });
+                suggestionsList.appendChild(li);
+            });
+        }
+
+        // اقتراح الأفكار
+        function suggestIdeas() {
+            const contentType = document.getElementById('content-type').value;
+            let suggestions = [];
+            
+            switch(contentType) {
+                case 'article':
+                    suggestions = [
+                        "أضف مقدمة تجذب القراء",
+                        "اختم المقال بدعوة للتفاعل",
+                        "أضف عناوين فرعية لتقسيم المقال"
+                    ];
+                    break;
+                case 'product':
+                    suggestions = [
+                        "ركز على فوائد المنتج وليس مميزاته فقط",
+                        "أضف مراجعات إيجابية للمنتج",
+                        "اذكر عروضًا خاصة أو خصومات"
+                    ];
+                    break;
+                case 'social':
+                    suggestions = [
+                        "استخدم هاشتاجات ذات صلة",
+                        "اجعل المنشور قصيرًا ومباشرًا",
+                        "أضف دعوة للتفاعل"
+                    ];
+                    break;
+                case 'email':
+                    suggestions = [
+                        "استخدم عنوانًا جذابًا للبريد",
+                        "ابدأ برسالة شخصية",
+                        "اجعل الرسالة مختصرة وواضحة"
+                    ];
+                    break;
+            }
+            
+            displaySuggestions(suggestions);
+        }
+
+        // الحفظ التلقائي كل دقيقة
+        setInterval(function() {
+            const content = document.getElementById('editor-textarea').value;
+            const title = document.getElementById('content-title').value;
+            if (content || title) {
+                localStorage.setItem('autosave-content', content);
+                localStorage.setItem('autosave-title', title);
+            }
+        }, 60000);
+
+        // تأثيرات عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            // تأثير ظهور لبطاقات المميزات
+            const featureCards = document.querySelectorAll('.feature-card');
+            featureCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('visible');
+                }, 100 * index);
+            });
+        });
+    </script>
+</body>
+</html>
