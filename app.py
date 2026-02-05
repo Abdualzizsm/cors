@@ -21,6 +21,11 @@ def index():
 def editor():
     return render_template('editor.html')
 
+# صفحة المساعدة - كيف تستخدم المحرر
+@app.route('/help')
+def help_page():
+    return render_template('help.html')
+
 # واجهة برمجة لتلقي المحتوى المكتوب وإرساله للذكاء الاصطناعي
 @app.route('/api/generate-content', methods=['POST'])
 def generate_content():

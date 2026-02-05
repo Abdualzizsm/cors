@@ -41,6 +41,16 @@ header .nav-link {
     display: inline-block;
 }
 
+.header-links {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.header-links .nav-link {
+    margin-top: 0;
+}
+
 /* الأزرار */
 .btn-primary, .btn-secondary {
     display: inline-block;
@@ -139,6 +149,18 @@ header .nav-link {
 .cta .btn-secondary {
     margin-top: 20px;
     padding: 12px 30px;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.cta-buttons .btn-secondary {
+    margin-top: 0;
 }
 
 /* التذييل */
